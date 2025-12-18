@@ -55,8 +55,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void moveAndRotate()
     {
-        float Horizontal = Input.GetAxis("Horizontal"); //Defining Char X Axis.
-        float Vertical = Input.GetAxis("Vertical"); //Defining Char Z Axis.
+        float Horizontal = Input.GetAxisRaw("Horizontal"); //Defining Char X Axis.
+        float Vertical = Input.GetAxisRaw("Vertical"); //Defining Char Z Axis.
 
         _isWalking = (Horizontal != 0 || Vertical != 0); //Check if player is walking to play walkingSFX
 
