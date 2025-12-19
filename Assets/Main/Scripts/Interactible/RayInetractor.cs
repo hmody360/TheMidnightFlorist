@@ -24,6 +24,8 @@ public class RayInetractor : MonoBehaviour
             Outline currentOutlined = currentGameObject.GetComponent<Outline>();
             Iinteractable item = currentGameObject.transform.GetComponent<Iinteractable>();
 
+            UIManager.instance.ChangeCrossHair(1);
+
             if (currentOutlined != _lastHitOutline) //Disable outlines once not looking at the current item
             {
                 DisableCurrentOutline();
@@ -45,6 +47,7 @@ public class RayInetractor : MonoBehaviour
         }
         else
         {
+            UIManager.instance.ChangeCrossHair(0);
             DisableCurrentOutline();
         }
     }

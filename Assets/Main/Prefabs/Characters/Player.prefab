@@ -256,7 +256,6 @@ MonoBehaviour:
   _SFXSourceList:
   - {fileID: 5925050911917037149}
   - {fileID: 8066053556062412363}
-  - {fileID: 8066053556062412363}
   _SFXClipList:
   - {fileID: 8300000, guid: 5ee0269b13155d441aff264838836779, type: 3}
   - {fileID: 8300000, guid: f14732babb215b74b868c382bcfd4d43, type: 3}
