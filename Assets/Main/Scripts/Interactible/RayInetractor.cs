@@ -4,6 +4,8 @@ public class RayInetractor : MonoBehaviour
 {
     private Camera _camera;
     private Ray _rayToCast;
+    private UIManager _UIManagerInstance;
+
     [SerializeField] private Outline _lastHitOutline;
     [SerializeField] private float _maxDistance = 6f;
     [SerializeField] LayerMask _interactible;
@@ -11,6 +13,7 @@ public class RayInetractor : MonoBehaviour
     void Start()
     {
         _camera = Camera.main;
+        _UIManagerInstance = UIManager.instance;
     }
 
     // Update is called once per frame
@@ -24,7 +27,12 @@ public class RayInetractor : MonoBehaviour
             Outline currentOutlined = currentGameObject.GetComponent<Outline>();
             Iinteractable item = currentGameObject.transform.GetComponent<Iinteractable>();
 
-            UIManager.instance.ChangeCrossHair(1);
+            if(_UIManagerInstance != null && item != null)
+            {
+                UIManager.instance.ChangeCrossHair(1);
+                UIManager.instance.setPromptText(item.ActionName);
+            }
+
 
             if (currentOutlined != _lastHitOutline) //Disable outlines once not looking at the current item
             {
@@ -47,7 +55,12 @@ public class RayInetractor : MonoBehaviour
         }
         else
         {
-            UIManager.instance.ChangeCrossHair(0);
+            if (_UIManagerInstance != null)
+            {
+                UIManager.instance.ChangeCrossHair(0);
+                UIManager.instance.setPromptText(string.Empty);
+            }
+                
             DisableCurrentOutline();
         }
     }
