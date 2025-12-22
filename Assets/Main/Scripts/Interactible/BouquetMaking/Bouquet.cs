@@ -53,15 +53,51 @@ public class Bouquet : MonoBehaviour
 
     public bool AddWrapper(Wrapper wrapper)
     {
-        if(_wrapper != null)
+        if (_wrapper != null)
         {
             return false;
         }
         else
         {
+            currentPrice += wrapper.Price;
             Instantiate(wrapper, _WrapperPoint);
             _wrapper = wrapper;
             return true;
         }
+    }
+
+    public bool AddSpray(Spray spray)
+    {
+        if (_spray != null)
+        {
+            return false;
+        }
+        else
+        {
+            currentPrice += spray.Price;
+            Instantiate(spray, _sprayPoint);
+            _spray = spray;
+            return true;
+        }
+    }
+
+    public Wrapper GetWrapper()
+    {
+        return _wrapper;
+    }
+
+    public List<FlowerObj> GetFlowerList()
+    {
+        return _flowerList;
+    }
+
+    public Spray GetSpray()
+    {
+        return _spray;
+    }
+
+    public Card GetCard()
+    {
+        return _card;
     }
 }
