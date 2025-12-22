@@ -22,7 +22,7 @@ public class Bouquet : MonoBehaviour
 
     public bool AddFlower(FlowerObj flower)
     {
-        if(_flowerList.Count < 3)
+        if (_flowerList.Count < 3)
         {
             _flowerList.Add(flower);
             currentPrice += flower.Price;
@@ -30,13 +30,13 @@ public class Bouquet : MonoBehaviour
             switch (_flowerList.Count)
             {
                 case 1:
-                    Instantiate(flower.Prefab, _flowerPoints[0]);
+                    Instantiate(flower, _flowerPoints[0]);
                     break;
                 case 2:
-                    Instantiate(flower.Prefab, _flowerPoints[1]);
+                    Instantiate(flower, _flowerPoints[1]);
                     break;
                 case 3:
-                    Instantiate(flower.Prefab, _flowerPoints[2]);
+                    Instantiate(flower, _flowerPoints[2]);
                     break;
                 default:
                     break;
@@ -48,6 +48,20 @@ public class Bouquet : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+
+    public bool AddWrapper(Wrapper wrapper)
+    {
+        if(_wrapper != null)
+        {
+            return false;
+        }
+        else
+        {
+            Instantiate(wrapper, _WrapperPoint);
+            _wrapper = wrapper;
+            return true;
         }
     }
 }
