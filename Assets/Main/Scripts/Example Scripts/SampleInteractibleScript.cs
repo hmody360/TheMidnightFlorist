@@ -4,7 +4,12 @@ public class SampleInteractibleScript : MonoBehaviour, Iinteractable
 {
     private Collider _colldier;
     private Rigidbody _rigidBody;
-    public string ActionName => "I'm Cubie You Took Me!";
+    private string _actionName;
+    public string ActionName
+    {
+        get { return _actionName; }
+        set { _actionName = value; }
+    }
     [SerializeField] private bool isEqipped = false;
 
 
@@ -13,6 +18,11 @@ public class SampleInteractibleScript : MonoBehaviour, Iinteractable
     {
         _colldier = GetComponent<Collider>();
         _rigidBody = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        ActionName = "Pick Up Object";
     }
 
     private void Update()
