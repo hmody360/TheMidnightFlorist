@@ -5,7 +5,7 @@ public class SprayBottle : MonoBehaviour, Iinteractable
     private string _actionName;
     private AudioSource _audioSource;
     private Animator _animator;
-    private GameObject _itemSlot;
+    private ParticleSystem _sprayParticleSystem;
 
     [SerializeField] private Spray _containedSpray;
     [SerializeField] private AudioClip[] _audioClips;
@@ -23,8 +23,8 @@ public class SprayBottle : MonoBehaviour, Iinteractable
 
     private void Start()
     {
-        ActionName = "Spray " + _containedSpray.Name + " " +  _containedSpray.GetSprayType() + " Spray";
-        _itemSlot = GameObject.FindGameObjectWithTag("ItemSlot");
+        ActionName = "Spray " + _containedSpray.Name + " " + _containedSpray.GetSprayType() + " Spray";
+        _sprayParticleSystem = GetComponent<ParticleSystem>();
     }
 
     public void Interact()
@@ -33,6 +33,7 @@ public class SprayBottle : MonoBehaviour, Iinteractable
 
         if (currentBouquet == null || currentBouquet.GetComponent<Bouquet>().GetWrapper() == null || currentBouquet.GetComponent<Bouquet>().GetFlowerList().Count == 0)
         {
+            UIManager.instance.setPromptText("Add Wrapper and Flower First!", Color.red, true);
             _audioSource.PlayOneShot(_audioClips[1]);
             return;
         }
@@ -42,10 +43,12 @@ public class SprayBottle : MonoBehaviour, Iinteractable
         if (isSprayAdded)
         {
             _animator.SetTrigger("SprayTrigger");
+            _sprayParticleSystem.Play();
             _audioSource.PlayOneShot(_audioClips[0]);
         }
         else
         {
+            UIManager.instance.setPromptText("Spray Already Added", Color.red, true);
             _audioSource.PlayOneShot(_audioClips[1]);
         }
     }

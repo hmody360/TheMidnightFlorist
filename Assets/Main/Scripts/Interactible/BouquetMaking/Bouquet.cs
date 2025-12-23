@@ -81,6 +81,21 @@ public class Bouquet : MonoBehaviour
         }
     }
 
+    public bool AddCard(Card card)
+    {
+        if (_card != null)
+        {
+            return false;
+        }
+        else
+        {
+            currentPrice += card.Price;
+            Instantiate(card, _cardPoint);
+            _card = card;
+            return true;
+        }
+    }
+
     public Wrapper GetWrapper()
     {
         return _wrapper;

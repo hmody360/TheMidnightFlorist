@@ -511,7 +511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WrapperStack
   _bouquetPrefab: {fileID: 8492039219648795331, guid: 9e9fb8968efd9e84182f9a86023836d5, type: 3}
-  _containedWrapper: {fileID: 5957424226543400356, guid: b11556ac062e25e4b9a408ba1b09ab54, type: 3}
+  _containedWrapper: {fileID: -8806623414093354141, guid: 67e0d3b747270e944b5371c8b5a6a2f7, type: 3}
   _audioClips:
   - {fileID: 8300000, guid: 4864dc423ff45144eae8fb8284ef3472, type: 3}
   - {fileID: 8300000, guid: fbe34f5a710a0e14383575319f08185b, type: 3}

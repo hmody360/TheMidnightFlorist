@@ -30,7 +30,7 @@ public class RayInetractor : MonoBehaviour
             if(_UIManagerInstance != null && item != null)
             {
                 UIManager.instance.ChangeCrossHair(1);
-                UIManager.instance.setPromptText(item.ActionName);
+                UIManager.instance.setPromptText(item.ActionName, Color.white);
             }
 
 
@@ -58,7 +58,7 @@ public class RayInetractor : MonoBehaviour
             if (_UIManagerInstance != null)
             {
                 UIManager.instance.ChangeCrossHair(0);
-                UIManager.instance.setPromptText(string.Empty);
+                UIManager.instance.setPromptText(string.Empty, Color.white);
             }
                 
             DisableCurrentOutline();

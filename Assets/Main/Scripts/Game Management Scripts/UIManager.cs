@@ -10,11 +10,11 @@ public class UIManager : MonoBehaviour
     public Coroutine CrosshairCoroutine;
 
 
-
     [Header("HUD")]
     [SerializeField] private Image _crosshair;
     [SerializeField] private Sprite[] _crosshairSprites;
     [SerializeField] private TextMeshProUGUI _promptText;
+    [SerializeField] private bool isDenyPromptShowing;
 
     public static UIManager instance;
 
@@ -52,9 +52,25 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void setPromptText(string promptText)
+    public void setPromptText(string promptText, Color color, bool isDenyPrompt = false)
     {
+        if (isDenyPromptShowing)
+        {
+            return;
+        }
+        if (isDenyPrompt)
+        {
+            StartCoroutine(DelayDenyPrompt());
+        }
+        _promptText.color = color;
         _promptText.text = promptText;
+    }
+
+    IEnumerator DelayDenyPrompt()
+    {
+            isDenyPromptShowing = true;
+            yield return new WaitForSeconds(2f);
+            isDenyPromptShowing = false;
     }
 
 }

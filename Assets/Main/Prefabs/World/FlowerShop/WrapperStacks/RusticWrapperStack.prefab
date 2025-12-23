@@ -306,7 +306,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dba29faefe6eac44c81fd6143c3eed8b, type: 2}
+  - {fileID: 2100000, guid: bd9d16f2d0576e04fb012f2a2f8b7d49, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -511,7 +511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WrapperStack
   _bouquetPrefab: {fileID: 8492039219648795331, guid: 9e9fb8968efd9e84182f9a86023836d5, type: 3}
-  _containedWrapper: {fileID: 327914163704129839, guid: df390594b348e224387515f4b336c78d, type: 3}
+  _containedWrapper: {fileID: 4053198778702031799, guid: f8075f7bdf166114185544d176a15965, type: 3}
   _audioClips:
   - {fileID: 8300000, guid: 4864dc423ff45144eae8fb8284ef3472, type: 3}
   - {fileID: 8300000, guid: fbe34f5a710a0e14383575319f08185b, type: 3}
