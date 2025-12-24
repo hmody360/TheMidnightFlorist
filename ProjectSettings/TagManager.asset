@@ -7,6 +7,8 @@ TagManager:
   - ItemSlot
   - Enemy
   - CurrentBouquet
+  - WorkItem
+  - CounterDoor
   layers:
   - Default
   - TransparentFX

@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6639779663431382823}
   m_Layer: 6
   m_Name: PinkCardStack
-  m_TagString: Untagged
+  m_TagString: WorkItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

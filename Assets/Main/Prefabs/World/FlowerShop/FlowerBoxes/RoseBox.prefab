@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -851990492239258454}
   m_Layer: 6
   m_Name: RoseBox
-  m_TagString: Untagged
+  m_TagString: WorkItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

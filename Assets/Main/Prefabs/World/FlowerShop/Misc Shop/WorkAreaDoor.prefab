@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 2267700904585791519}
   m_Layer: 6
   m_Name: WorkAreaDoor
-  m_TagString: Untagged
+  m_TagString: CounterDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

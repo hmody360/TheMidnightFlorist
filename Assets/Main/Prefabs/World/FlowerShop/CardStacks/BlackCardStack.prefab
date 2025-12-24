@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6346967685189772704}
   m_Layer: 6
   m_Name: BlackCardStack
-  m_TagString: Untagged
+  m_TagString: WorkItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

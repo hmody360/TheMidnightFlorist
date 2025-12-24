@@ -52,21 +52,21 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void setPromptText(string promptText, Color color, bool isDenyPrompt = false)
+    public void setPromptText(string promptText, Color color, bool isTimedPrompt = false)
     {
         if (isDenyPromptShowing)
         {
             return;
         }
-        if (isDenyPrompt)
+        if (isTimedPrompt)
         {
-            StartCoroutine(DelayDenyPrompt());
+            StartCoroutine(DelayTimedPrompt());
         }
         _promptText.color = color;
         _promptText.text = promptText;
     }
 
-    IEnumerator DelayDenyPrompt()
+    IEnumerator DelayTimedPrompt()
     {
             isDenyPromptShowing = true;
             yield return new WaitForSeconds(2f);
