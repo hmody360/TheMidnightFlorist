@@ -21,7 +21,7 @@ public class RayInetractor : MonoBehaviour
     {
         _rayToCast = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f)); //Create a RayCast from the center of the camera
 
-        if (Physics.Raycast(_rayToCast, out RaycastHit hit, _maxDistance, _interactible)) //if the ray cast hits an interactible object display an outline, if the player interacts, do the interaction set for this item
+        if (Physics.Raycast(_rayToCast, out RaycastHit hit, _maxDistance, _interactible) && hit.collider.gameObject.layer == 6) //if the ray cast hits an interactible object display an outline, if the player interacts, do the interaction set for this item
         {
             GameObject currentGameObject = hit.collider.gameObject;
             Outline currentOutlined = currentGameObject.GetComponent<Outline>();

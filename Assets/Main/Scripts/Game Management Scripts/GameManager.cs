@@ -207,8 +207,8 @@ public class GameManager : MonoBehaviour
             if (CounterDoor != null && CounterDoor.GetComponent<DoorController>().getDoorStatus())
             {
                 CounterDoor.GetComponent<DoorController>().Interact();
-                CounterDoor.GetComponent<DoorController>().setDoorActivatible(false);
             }
+            CounterDoor.GetComponent<DoorController>().setDoorActivatible(false);
         }
         else
         {
