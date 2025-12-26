@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+    [Header("=== UI REFERENCE ===")]
+    public StaminaUI staminaUI;
+
     public float speed = 10;
     public float runSpeed = 15;
     public float maxStamina = 20;
@@ -131,14 +135,32 @@ public class PlayerMovement : MonoBehaviour
         if (currentStamina <= 0)
         {
             currentStamina = 0;
-            _canSprint = false;
-            _SFXSourceList[1].PlayOneShot(_SFXClipList[2]);
+            if (_canSprint) // Only trigger once when it changes
+            {
+                _canSprint = false;
+                _SFXSourceList[1].PlayOneShot(_SFXClipList[2]);
+
+                // NEW: Tell UI we're recharging
+                if (staminaUI != null)
+                {
+                    staminaUI.SetRecharging(true);
+                }
+            }
         }
 
         if (currentStamina >= maxStamina)
         {
             currentStamina = maxStamina;
-            _canSprint = true;
+            if (!_canSprint) // Only trigger once when it changes
+            {
+                _canSprint = true;
+
+                // NEW: Tell UI we're done recharging
+                if (staminaUI != null)
+                {
+                    staminaUI.SetRecharging(false);
+                }
+            }
         }
     }
 }
