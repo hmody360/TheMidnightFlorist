@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfab860a6a6b18f4b9a6090b69f7c3ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardStack
-  _containedCard: {fileID: 6297054390235207239, guid: 29481f194e9e897468de13cd82d7e674, type: 3}
+  _containedCard: {fileID: 4530663587310963468, guid: 1324fbfc28958b84386a3df53c41764e, type: 3}
   _audioClips:
   - {fileID: 8300000, guid: 50ed49486ebd5d14ba83a88a24e05240, type: 3}
   - {fileID: 8300000, guid: fbe34f5a710a0e14383575319f08185b, type: 3}

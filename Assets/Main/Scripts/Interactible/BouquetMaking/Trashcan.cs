@@ -33,6 +33,7 @@ public class Trashcan : MonoBehaviour, Iinteractable
         {
             _audioSource.PlayOneShot(_audioClips[0]);
             _animator.SetTrigger("YesTrigger");
+            GameManager.instance.removeCoins(_currentBouquet.GetComponent<BouquetHolder>().currentPrice);
             Destroy(_currentBouquet);
         }
         else

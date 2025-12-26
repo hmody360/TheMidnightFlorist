@@ -36,7 +36,7 @@ public class WrapperStack : MonoBehaviour, Iinteractable
             Instantiate(_bouquetPrefab, _itemSlot.transform);
         }
 
-        bool isWrapperAdded = GameObject.FindGameObjectWithTag("CurrentBouquet").GetComponent<Bouquet>().AddWrapper(_containedWrapper);
+        bool isWrapperAdded = GameObject.FindGameObjectWithTag("CurrentBouquet").GetComponent<BouquetHolder>().AddWrapper(_containedWrapper);
 
         if(isWrapperAdded)
         {

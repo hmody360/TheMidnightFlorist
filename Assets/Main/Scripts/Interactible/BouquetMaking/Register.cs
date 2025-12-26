@@ -39,10 +39,9 @@ public class Register : MonoBehaviour, Iinteractable
         {
             gameManager.OpenStore();
             UIManager.instance.setPromptText("The Shop has been Opened!", Color.green, true);
-            Material[] tempMatList = _screenRenderer.materials;
+            Material[] tempMatList = _screenRenderer.sharedMaterials;
             tempMatList[1] = _screenMatList[1];
-            _screenRenderer.materials = tempMatList;
-            _screenRenderer.sharedMaterials[0] = _screenMatList[1];
+            _screenRenderer.sharedMaterials = tempMatList;
             _audioSource.PlayOneShot(_audioClipList[0]);
             _animator.SetTrigger("SuccessTrigger");
             ActionName = "Close Flower Shop?";
@@ -53,9 +52,9 @@ public class Register : MonoBehaviour, Iinteractable
 
             if (canStoreClose)
             {
-                Material[] tempMatList = _screenRenderer.materials;
+                Material[] tempMatList = _screenRenderer.sharedMaterials;
                 tempMatList[1] = _screenMatList[2];
-                _screenRenderer.materials = tempMatList;
+                _screenRenderer.sharedMaterials = tempMatList;
                 UIManager.instance.setPromptText("The Shop has been Closed!", Color.red, true);
                 _audioSource.PlayOneShot(_audioClipList[1]);
                 _animator.SetTrigger("SuccessTrigger");

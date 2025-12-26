@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1929145866106946781}
   - component: {fileID: 4536769264197726152}
   m_Layer: 0
-  m_Name: UIManger
+  m_Name: UIManger_Day
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

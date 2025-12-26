@@ -29,14 +29,14 @@ public class CardStack : MonoBehaviour, Iinteractable
     {
         GameObject currentBouquet = GameObject.FindGameObjectWithTag("CurrentBouquet");
 
-        if (currentBouquet == null || currentBouquet.GetComponent<Bouquet>().GetWrapper() == null || currentBouquet.GetComponent<Bouquet>().GetFlowerList().Count == 0)
+        if (currentBouquet == null || currentBouquet.GetComponent<BouquetHolder>().GetWrapper() == null || currentBouquet.GetComponent<BouquetHolder>().GetFlowerList().Count == 0)
         {
             UIManager.instance.setPromptText("Add Wrapper and Flower First!", Color.red, true);
             _audioSource.PlayOneShot(_audioClips[1]);
             return;
         }
 
-        bool isCardAdded = GameObject.FindGameObjectWithTag("CurrentBouquet").GetComponent<Bouquet>().AddCard(_containedCard);
+        bool isCardAdded = GameObject.FindGameObjectWithTag("CurrentBouquet").GetComponent<BouquetHolder>().AddCard(_containedCard);
 
         if (isCardAdded)
         {

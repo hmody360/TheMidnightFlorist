@@ -1,3 +1,4 @@
+using Seagull.Interior_I1.SceneProps;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -22,9 +23,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool _isStoreOpen = false;
     [SerializeField] private bool _isDayFinished = false;
 
+    [Header("Day Mode Objects")]
+    [SerializeField] private RotatableObject _clock;
+
     [Header("Night Mode")]
     [SerializeField] private int _collectedFlowers = 0;
     [SerializeField] private int _totalFlowers;
+    [SerializeField] private float _currentTimer;
+    [SerializeField] private float _totalTimer;
 
 
     public static GameManager instance;
@@ -176,6 +182,9 @@ public class GameManager : MonoBehaviour
     {
         _isStoreOpen = true;
         initiateWorkItems();
+        OpenWorkItemLights();
+        ChangeClockTime(0.85f, 0.25f);
+        ChangeWorldSun(Color.white, 2f);
     }
 
     public bool CloseStore()
@@ -185,6 +194,10 @@ public class GameManager : MonoBehaviour
             _isStoreOpen = false;
             _isDayFinished = true;
             initiateWorkItems();
+            ChangeWorldSun(Color.darkSlateBlue, 10f);
+            OpenStoreLights();
+            CloseWorkItemLights();
+            ChangeClockTime(0.71f, 0.5f);
             return true;
         }
         else
@@ -223,4 +236,70 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    public void ChangeClockTime(float LongValue, float ShortValue)
+    {
+        if (LongValue > 1 || ShortValue > 1 || _clock == null)
+        {
+            Debug.Log("Clock Timer is Not Valid or Clock isn't included");
+            return;
+        }
+
+        _clock.rotatables[0].value.rotation = LongValue;
+        _clock.rotatables[1].value.rotation = ShortValue;
+    }
+
+    // Lighting Logic
+    private void ChangeWorldSun(Color sunColor, float sunIntensity)
+    {
+        Light sunLight = RenderSettings.sun;
+        if (sunLight != null)
+        {
+            sunLight.color = sunColor;
+            sunLight.intensity = sunIntensity;
+        }
+    }
+
+    private void OpenStoreLights()
+    {
+        GameObject[] storeLights = GameObject.FindGameObjectsWithTag("StoreLight");
+
+        foreach (GameObject storeLight in storeLights)
+        {
+            storeLight.GetComponent<LightSourceObject>().turnOnAll();
+        }
+    }
+
+    private void CloseStoreLights()
+    {
+        GameObject[] storeLights = GameObject.FindGameObjectsWithTag("StoreLight");
+
+        foreach (GameObject storeLight in storeLights)
+        {
+            storeLight.GetComponent<LightSourceObject>().turnOffAll();
+        }
+    }
+
+    private void OpenWorkItemLights()
+    {
+        GameObject[] workItemLights = GameObject.FindGameObjectsWithTag("WorkItemLight");
+
+        foreach (GameObject WorkItemLight in workItemLights)
+        {
+            WorkItemLight.GetComponent<Light>().enabled = true;
+        }
+    }
+
+    private void CloseWorkItemLights()
+    {
+        GameObject[] workItemLights = GameObject.FindGameObjectsWithTag("WorkItemLight");
+
+        foreach (GameObject WorkItemLight in workItemLights)
+        {
+            WorkItemLight.GetComponent<Light>().enabled = false;
+        }
+    }
+
+
+
 }

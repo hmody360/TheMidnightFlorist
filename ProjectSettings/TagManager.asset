@@ -9,6 +9,10 @@ TagManager:
   - CurrentBouquet
   - WorkItem
   - CounterDoor
+  - Stem
+  - StoreLight
+  - WorkItemLight
+  - Clock
   layers:
   - Default
   - TransparentFX
@@ -18,7 +22,7 @@ TagManager:
   - UI
   - Interactible
   - Blocker
-  - 
+  - HiddenObjects
   - 
   - 
   - 
