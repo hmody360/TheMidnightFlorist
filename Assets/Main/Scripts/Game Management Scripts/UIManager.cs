@@ -10,11 +10,26 @@ public class UIManager : MonoBehaviour
     public Coroutine CrosshairCoroutine;
 
 
-    [Header("HUD")]
+    [Header("HUD Main")]
+    [SerializeField] private GameObject _HUDPanel;
     [SerializeField] private Image _crosshair;
     [SerializeField] private Sprite[] _crosshairSprites;
     [SerializeField] private TextMeshProUGUI _promptText;
     [SerializeField] private bool isDenyPromptShowing;
+
+    [Header("Time Related")]
+    [SerializeField] private Text _dayCounterText;
+    [SerializeField] private GameObject _sunMoonImageObj;
+
+    [Header("Status Related")]
+    [SerializeField] private Text _currentTaskText;
+    [SerializeField] private Text _shopStatusText;
+
+    [Header("Stats Related")]
+    [SerializeField] private GameObject _statsPanel;
+    [SerializeField] private Text _currentNectarCoinsText;
+    [SerializeField] private Text _quotaText;
+    [SerializeField] private Text _customerCounterText;
 
     public static UIManager instance;
 

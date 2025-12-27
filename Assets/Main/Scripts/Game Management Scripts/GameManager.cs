@@ -193,6 +193,7 @@ public class GameManager : MonoBehaviour
         {
             _isStoreOpen = false;
             _isDayFinished = true;
+            _isCurrentlyDaytime = false;
             initiateWorkItems();
             ChangeWorldSun(Color.darkSlateBlue, 10f);
             OpenStoreLights();

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Customer : MonoBehaviour, Iinteractable
 {
@@ -41,6 +42,7 @@ public class Customer : MonoBehaviour, Iinteractable
     {
         ActionName = "Give Bouquet";
         _agent.stoppingDistance = stoppingDistance;
+        _audioSourceList[0].clip = _audioClipList[0];
         GoToCounter();
 
         _requestedBouquet = GenerateRandomBouquet();
@@ -64,13 +66,16 @@ public class Customer : MonoBehaviour, Iinteractable
             {
                 case 1:
                     Debug.Log("YAY");
+                    _audioSourceList[1].PlayOneShot(_audioClipList[2]);
                     Leave();
                     break;
                 case 2:
                     Debug.Log("Nooo");
+                    _audioSourceList[1].PlayOneShot(_audioClipList[3]);
                     Leave();
                     break;
                 case 3:
+                    _audioSourceList[1].PlayOneShot(_audioClipList[4]);
                     UIManager.instance.setPromptText("UHH...is it invisible or..?", Color.red, true);
                     break;
                 default:
@@ -103,7 +108,12 @@ public class Customer : MonoBehaviour, Iinteractable
 
         int randomCardIndex = Random.Range(0, _scentsToChoose.Length); // Card May Be Null
 
-        List<FlowerObj> generatedFlowerList = new List<FlowerObj> { _flowersToChoose[randomFlower1Index], _flowersToChoose[randomFlower2Index], _flowersToChoose[randomFlower3Index] };
+        List<FlowerObj> generatedFlowerList = new List<FlowerObj>() { _flowersToChoose[randomFlower1Index] };
+        if(randomFlower2Index != 0)
+            generatedFlowerList.Add(_flowersToChoose[randomFlower2Index]);
+
+        if(randomFlower3Index != 0)
+            generatedFlowerList.Add(_flowersToChoose[randomFlower3Index]);
 
         return new Bouquet(_wrappersToChoose[randomWrapperIndex], generatedFlowerList, _scentsToChoose[randomScentIndex], _cardsToChoose[randomCardIndex]);
     }
@@ -112,6 +122,7 @@ public class Customer : MonoBehaviour, Iinteractable
     {
 
         _agent.SetDestination(goLocations[0].position);
+        _audioSourceList[0].Play();
     }
 
     private void checkArrival()
@@ -125,13 +136,15 @@ public class Customer : MonoBehaviour, Iinteractable
         {
             Debug.Log(
                 "I have Ordered As Follows:\n"
-                + _requestedBouquet._wrapper.name + "\n"
-                + _requestedBouquet._flowerList[0].name + "\n"
-                + ((_requestedBouquet._flowerList[1] != null) ? _requestedBouquet._flowerList[1].name : "No Flower 2") + "\n"
-                + ((_requestedBouquet._flowerList[2] != null) ? _requestedBouquet._flowerList[2].name : "No Flower 3") + "\n"
-                + ((_requestedBouquet._spray != null) ? _requestedBouquet._spray.name : "No Spray") + "\n"
-                + ((_requestedBouquet._card != null) ? _requestedBouquet._card.name : "No Card")
+                + _requestedBouquet._wrapper.Name + "\n"
+                + _requestedBouquet._flowerList[0].Name + "\n"
+                + ((_requestedBouquet._flowerList[1] != null) ? _requestedBouquet._flowerList[1].Name : "No Flower 2") + "\n"
+                + ((_requestedBouquet._flowerList[2] != null) ? _requestedBouquet._flowerList[2].Name : "No Flower 3") + "\n"
+                + ((_requestedBouquet._spray != null) ? _requestedBouquet._spray.Name : "No Spray") + "\n"
+                + ((_requestedBouquet._card != null) ? _requestedBouquet._card.Name : "No Card")
                 );
+            _audioSourceList[1].PlayOneShot(_audioClipList[1]);
+            _audioSourceList[0].Stop();
             hasOrdered = true;
             gameObject.layer = 6;
         }
@@ -155,6 +168,7 @@ public class Customer : MonoBehaviour, Iinteractable
         isLeaving = true;
         gameObject.layer = 0;
         _agent.SetDestination(goLocations[1].position);
+        _audioSourceList[0].Play();
     }
 
     private void startTimer()
@@ -172,6 +186,7 @@ public class Customer : MonoBehaviour, Iinteractable
         if (_timer >= _waitingTime)
         {
             hasOrdered = false;
+            _audioSourceList[1].PlayOneShot(_audioClipList[5]);
             Leave();
         }
     }
@@ -184,10 +199,9 @@ public class Customer : MonoBehaviour, Iinteractable
         {
             BouquetHolder givenBouquet = givenBouquetObj.GetComponent<BouquetHolder>();
 
-
             if (
                 givenBouquet.GetWrapper() == _requestedBouquet._wrapper &&
-                CompareFlowerLists(givenBouquet.GetFlowerList() , _requestedBouquet._flowerList) &&
+                givenBouquet.GetFlowerList().SequenceEqual(_requestedBouquet._flowerList) && // Comparing using == dosen't work because it compares memory references
                 givenBouquet.GetSpray() == _requestedBouquet._spray &&
                 givenBouquet.GetCard() == _requestedBouquet._card
                 )
@@ -210,22 +224,5 @@ public class Customer : MonoBehaviour, Iinteractable
             Debug.Log("You Dont't have a bouquet!");
             return 3;
         }
-    }
-
-    private bool CompareFlowerLists(List<FlowerObj> List1, List<FlowerObj> List2)
-    {
-        for (int i = 0; i < List1.Count; i++)
-        {
-            if (List1[i] == List2[i])
-            {
-                continue;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        return true;
     }
 }
