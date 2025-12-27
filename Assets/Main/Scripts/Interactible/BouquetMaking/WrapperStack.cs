@@ -45,7 +45,7 @@ public class WrapperStack : MonoBehaviour, Iinteractable
         }
         else
         {
-            UIManager.instance.setPromptText("Wrapper Already Added!", Color.red, true);
+            UIManager_Day.instance.setPromptText("Wrapper Already Added!", Color.red, true);
             _audioSource.PlayOneShot(_audioClips[1]);
         }
     }

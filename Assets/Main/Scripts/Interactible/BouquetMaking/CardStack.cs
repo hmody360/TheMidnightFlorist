@@ -31,7 +31,7 @@ public class CardStack : MonoBehaviour, Iinteractable
 
         if (currentBouquet == null || currentBouquet.GetComponent<BouquetHolder>().GetWrapper() == null || currentBouquet.GetComponent<BouquetHolder>().GetFlowerList().Count == 0)
         {
-            UIManager.instance.setPromptText("Add Wrapper and Flower First!", Color.red, true);
+            UIManager_Day.instance.setPromptText("Add Wrapper and Flower First!", Color.red, true);
             _audioSource.PlayOneShot(_audioClips[1]);
             return;
         }
@@ -45,7 +45,7 @@ public class CardStack : MonoBehaviour, Iinteractable
         }
         else
         {
-            UIManager.instance.setPromptText("Card Already Added!", Color.red, true);
+            UIManager_Day.instance.setPromptText("Card Already Added!", Color.red, true);
             _audioSource.PlayOneShot(_audioClips[1]);
         }
     }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4256043451111653162}
   - component: {fileID: 6920324367808431162}
   - component: {fileID: 7393723892360831266}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TulipFlower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 6472017290578821782}
   - component: {fileID: 8763369612543392639}
   - component: {fileID: 2833800673277849468}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Flower_stem_1
   m_TagString: Stem
   m_Icon: {fileID: 0}

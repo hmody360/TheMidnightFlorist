@@ -45,7 +45,7 @@ public class FlowerBox : MonoBehaviour, Iinteractable
         }
         else
         {
-            UIManager.instance.setPromptText("Bouquet is Full!", Color.red, true);
+            UIManager_Day.instance.setPromptText("Bouquet is Full!", Color.red, true);
             _audioSource.PlayOneShot(_audioClips[1]);
         }
 

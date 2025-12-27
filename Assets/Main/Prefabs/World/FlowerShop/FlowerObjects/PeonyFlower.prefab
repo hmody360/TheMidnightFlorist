@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 338036763790394516}
   - component: {fileID: 674592436102217485}
   - component: {fileID: 1850771858958364662}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PeonyFlower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 5273606933952052224}
   - component: {fileID: 2248988640814654518}
   - component: {fileID: 8850597253622976425}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Flower_stem_2
   m_TagString: Stem
   m_Icon: {fileID: 0}

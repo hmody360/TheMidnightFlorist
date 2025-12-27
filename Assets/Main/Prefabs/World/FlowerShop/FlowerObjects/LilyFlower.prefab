@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5798773752743279322}
   - component: {fileID: 3400422802828525556}
   - component: {fileID: 8883737880472079569}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LilyFlower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 2046640676743701147}
   - component: {fileID: 8123133693593175079}
   - component: {fileID: 8675162933084799892}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Flower_stem_3
   m_TagString: Stem
   m_Icon: {fileID: 0}

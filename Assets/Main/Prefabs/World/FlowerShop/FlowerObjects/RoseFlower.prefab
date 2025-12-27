@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5941540428391684825}
   - component: {fileID: 5033433787023816087}
   - component: {fileID: 1891220863260854422}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Flower_stem_4
   m_TagString: Stem
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 1225388736438768646}
   - component: {fileID: 6477709334145948537}
   - component: {fileID: 3908877763318263800}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RoseFlower
   m_TagString: Untagged
   m_Icon: {fileID: 0}

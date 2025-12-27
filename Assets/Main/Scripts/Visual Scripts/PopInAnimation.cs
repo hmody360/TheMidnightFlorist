@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PopInAnimation : MonoBehaviour
@@ -25,6 +26,10 @@ public class PopInAnimation : MonoBehaviour
         {
             yield return new WaitForSeconds(PopInRate);
             obj.layer = 0;
+            if(obj.transform.childCount == 1)
+            {
+                obj.transform.GetChild(0).gameObject.layer = 0;
+            }
             _audioSource.PlayOneShot(_audioClip);
             Debug.Log("Flower Spawned");
         }

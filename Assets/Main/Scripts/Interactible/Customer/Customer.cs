@@ -46,6 +46,7 @@ public class Customer : MonoBehaviour, Iinteractable
         GoToCounter();
 
         _requestedBouquet = GenerateRandomBouquet();
+        GameManager.instance.customerEnter();
     }
 
     // Update is called once per frame
@@ -76,7 +77,7 @@ public class Customer : MonoBehaviour, Iinteractable
                     break;
                 case 3:
                     _audioSourceList[1].PlayOneShot(_audioClipList[4]);
-                    UIManager.instance.setPromptText("UHH...is it invisible or..?", Color.red, true);
+                    UIManager_Day.instance.setPromptText("UHH...is it invisible or..?", Color.red, true);
                     break;
                 default:
                     break;
@@ -86,7 +87,7 @@ public class Customer : MonoBehaviour, Iinteractable
         }
         else
         {
-            UIManager.instance.setPromptText("Customer hasn't Ordered Yet", Color.red, true);
+            UIManager_Day.instance.setPromptText("Customer hasn't Ordered Yet", Color.red, true);
         }
     }
 
@@ -138,8 +139,8 @@ public class Customer : MonoBehaviour, Iinteractable
                 "I have Ordered As Follows:\n"
                 + _requestedBouquet._wrapper.Name + "\n"
                 + _requestedBouquet._flowerList[0].Name + "\n"
-                + ((_requestedBouquet._flowerList[1] != null) ? _requestedBouquet._flowerList[1].Name : "No Flower 2") + "\n"
-                + ((_requestedBouquet._flowerList[2] != null) ? _requestedBouquet._flowerList[2].Name : "No Flower 3") + "\n"
+                + ((_requestedBouquet._flowerList.Count > 1) ? _requestedBouquet._flowerList[1].Name : "No Flower 2") + "\n"
+                + ((_requestedBouquet._flowerList.Count > 2) ? _requestedBouquet._flowerList[2].Name : "No Flower 3") + "\n"
                 + ((_requestedBouquet._spray != null) ? _requestedBouquet._spray.Name : "No Spray") + "\n"
                 + ((_requestedBouquet._card != null) ? _requestedBouquet._card.Name : "No Card")
                 );
@@ -159,6 +160,7 @@ public class Customer : MonoBehaviour, Iinteractable
 
         if (!_agent.pathPending && _agent.hasPath && _agent.remainingDistance <= _agent.stoppingDistance)
         {
+            GameManager.instance.customerLeave();
             Destroy(gameObject);
         }
     }

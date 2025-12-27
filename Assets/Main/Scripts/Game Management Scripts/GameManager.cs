@@ -1,5 +1,6 @@
 using Seagull.Interior_I1.SceneProps;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private bool _isStoreOpen = false;
     [SerializeField] private bool _isDayFinished = false;
+    [SerializeField] private bool _isDayUIInitialized = false;
 
     [Header("Day Mode Objects")]
     [SerializeField] private RotatableObject _clock;
@@ -50,15 +52,15 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        _currentDay = 1;
-        _currentNectarCoins = 0;
+        setDay(1);
         initiateWorkItems();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        initializeDayUI();
     }
     // ------------------------------------------------------------------
     // Day Logic
@@ -99,6 +101,7 @@ public class GameManager : MonoBehaviour
     public void addQuota(float coinAmount)
     {
         _currentQuota += coinAmount;
+        UIManager_Day.instance.UpdateQuoutaText(_currentQuota,_quotaToReach);
     }
 
     public void removeCoins(float coinAmount)
@@ -122,6 +125,8 @@ public class GameManager : MonoBehaviour
         {
             _currentNectarCoins = 0;
         }
+        UIManager_Day.instance.UpdateQuoutaText(_currentQuota, _quotaToReach);
+        UIManager_Day.instance.UpdateNectarCoinsText(_currentNectarCoins);
     }
 
     public void addNectarCoins()
@@ -132,6 +137,7 @@ public class GameManager : MonoBehaviour
         {
             _currentNectarCoins = _maxNectarCoins;
         }
+        UIManager_Day.instance.UpdateNectarCoinsText(_currentNectarCoins);
     }
     // ------------------------------------------------------------------
     // Customer Logic
@@ -154,6 +160,7 @@ public class GameManager : MonoBehaviour
         {
             _currentCustomers--;
             _customersLeaved++;
+            UIManager_Day.instance.UpdateCustomerCountText(_customersLeaved, _totalCustomer);
             return true;
         }
         else
@@ -185,6 +192,8 @@ public class GameManager : MonoBehaviour
         OpenWorkItemLights();
         ChangeClockTime(0.85f, 0.25f);
         ChangeWorldSun(Color.white, 2f);
+        UIManager_Day.instance.SetShopStatus(_isStoreOpen);
+        UIManager_Day.instance.SetTaskText("Make Flower Bouquets for Customers");
     }
 
     public bool CloseStore()
@@ -195,10 +204,12 @@ public class GameManager : MonoBehaviour
             _isDayFinished = true;
             _isCurrentlyDaytime = false;
             initiateWorkItems();
-            ChangeWorldSun(Color.darkSlateBlue, 10f);
+            ChangeWorldSun(Color.darkSlateBlue, 1f);
             OpenStoreLights();
             CloseWorkItemLights();
             ChangeClockTime(0.71f, 0.5f);
+            UIManager_Day.instance.SetShopStatus(_isStoreOpen);
+            UIManager_Day.instance.SetTaskText("Go To The Backyard");
             return true;
         }
         else
@@ -301,6 +312,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //UI Logic
 
+    private void initializeDayUI()
+    {
+        if (!_isDayUIInitialized)
+        {
+            UIManager_Day.instance.SetDayCounterText(_currentDay);
+            UIManager_Day.instance.SetTimeDisplayer(true);
+            UIManager_Day.instance.SetTaskText("Open The Shop (Register)");
+            UIManager_Day.instance.SetShopStatus(_isStoreOpen);
+            UIManager_Day.instance.UpdateNectarCoinsText(_currentNectarCoins);
+            UIManager_Day.instance.UpdateQuoutaText(_currentQuota, _quotaToReach);
+            UIManager_Day.instance.UpdateCustomerCountText(_customersLeaved, _totalCustomer);
+            _isDayUIInitialized = true;
+        }
+    }
 
 }

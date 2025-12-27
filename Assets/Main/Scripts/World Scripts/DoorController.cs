@@ -32,14 +32,14 @@ public class DoorController : MonoBehaviour, Iinteractable
     {
         if (!canOpen && GameManager.instance.getStoreStatus())
         {
-            
 
-            UIManager.instance.setPromptText("I'm Can't Leave Yet!", Color.red, true);
+
+            UIManager_Day.instance.setPromptText("I'm Can't Leave Yet!", Color.red, true);
             _doorAudioSource.PlayOneShot(_doorClipList[2]);
         }
         else if (isOpen && !canOpen)
         {
-            UIManager.instance.setPromptText("I'm in the way!", Color.red, true);
+            UIManager_Day.instance.setPromptText("I'm in the way!", Color.red, true);
             _doorAudioSource.PlayOneShot(_doorClipList[2]);
         }
         else if (!isOpen)

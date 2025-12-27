@@ -38,7 +38,7 @@ public class Trashcan : MonoBehaviour, Iinteractable
         }
         else
         {
-            UIManager.instance.setPromptText("No Wrapper In Hand!", Color.red, true);
+            UIManager_Day.instance.setPromptText("No Wrapper In Hand!", Color.red, true);
             _animator.SetTrigger("NoTrigger");
             _audioSource.PlayOneShot(_audioClips[1]);
         }
