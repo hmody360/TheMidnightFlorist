@@ -7,7 +7,12 @@ TagManager:
   - ItemSlot
   - Enemy
   - CurrentBouquet
-  - CollectFlower
+  - WorkItem
+  - CounterDoor
+  - Stem
+  - StoreLight
+  - WorkItemLight
+  - Clock
   layers:
   - Default
   - TransparentFX
@@ -16,8 +21,8 @@ TagManager:
   - Water
   - UI
   - Interactible
-  - 
-  - 
+  - Blocker
+  - HiddenObjects
   - 
   - 
   - 

@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 1446104615641369475}
   m_Layer: 6
   m_Name: BlackWrapperStack
-  m_TagString: Untagged
+  m_TagString: WorkItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -511,7 +511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WrapperStack
   _bouquetPrefab: {fileID: 8492039219648795331, guid: 9e9fb8968efd9e84182f9a86023836d5, type: 3}
-  _containedWrapper: {fileID: 4377980693664551778, guid: 2868ae4490ddd034bb439f324e1205af, type: 3}
+  _containedWrapper: {fileID: -3866561868753220418, guid: 01286c5a773c4be43ba79669ef26e0d2, type: 3}
   _audioClips:
   - {fileID: 8300000, guid: 4864dc423ff45144eae8fb8284ef3472, type: 3}
   - {fileID: 8300000, guid: fbe34f5a710a0e14383575319f08185b, type: 3}

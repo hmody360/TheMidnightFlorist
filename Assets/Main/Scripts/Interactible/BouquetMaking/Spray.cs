@@ -3,12 +3,12 @@ using static GameEnums;
 
 public class Spray : MonoBehaviour, ISellable
 {
-    [SerializeField] private GameObject _sprayPrefab;
+    [SerializeField] private GameObject[] _sprayPrefab;
     [SerializeField] private SprayType _type;
     [SerializeField] private string _name;
     [SerializeField] private int _price;
 
-    public GameObject Prefab
+    public GameObject[] Prefab
     {
         get { return _sprayPrefab; }
         set { _sprayPrefab = value; }

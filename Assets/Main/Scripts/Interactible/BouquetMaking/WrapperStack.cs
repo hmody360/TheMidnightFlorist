@@ -36,7 +36,7 @@ public class WrapperStack : MonoBehaviour, Iinteractable
             Instantiate(_bouquetPrefab, _itemSlot.transform);
         }
 
-        bool isWrapperAdded = GameObject.FindGameObjectWithTag("CurrentBouquet").GetComponent<Bouquet>().AddWrapper(_containedWrapper);
+        bool isWrapperAdded = GameObject.FindGameObjectWithTag("CurrentBouquet").GetComponent<BouquetHolder>().AddWrapper(_containedWrapper);
 
         if(isWrapperAdded)
         {
@@ -45,6 +45,7 @@ public class WrapperStack : MonoBehaviour, Iinteractable
         }
         else
         {
+            UIManager.instance.setPromptText("Wrapper Already Added!", Color.red, true);
             _audioSource.PlayOneShot(_audioClips[1]);
         }
     }

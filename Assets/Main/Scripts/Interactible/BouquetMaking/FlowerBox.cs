@@ -37,7 +37,7 @@ public class FlowerBox : MonoBehaviour, Iinteractable
             Instantiate(_bouquetPrefab, _itemSlot.transform);
         }
 
-        bool isFlowerAdded = GameObject.FindGameObjectWithTag("CurrentBouquet").GetComponent<Bouquet>().AddFlower(_containedFlower);
+        bool isFlowerAdded = GameObject.FindGameObjectWithTag("CurrentBouquet").GetComponent<BouquetHolder>().AddFlower(_containedFlower);
         if (isFlowerAdded)
         {
             _animator.SetTrigger("ShakeTrigger");
@@ -45,6 +45,7 @@ public class FlowerBox : MonoBehaviour, Iinteractable
         }
         else
         {
+            UIManager.instance.setPromptText("Bouquet is Full!", Color.red, true);
             _audioSource.PlayOneShot(_audioClips[1]);
         }
 

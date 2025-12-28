@@ -14,7 +14,7 @@ public class DoorController : MonoBehaviour, Iinteractable
 
 
     [SerializeField] private AudioClip[] _doorClipList;
-    [SerializeField] private bool isOpen = false;
+    [SerializeField] public bool isOpen = false;
     [SerializeField] private bool canOpen = true;
 
     private void Awake()
@@ -30,16 +30,24 @@ public class DoorController : MonoBehaviour, Iinteractable
 
     public void Interact()
     {
-        if (!isOpen)
+        if (!canOpen && GameManager.instance.getStoreStatus())
+        {
+
+
+            UIManager.instance.setPromptText("I'm Can't Leave Yet!", Color.red, true);
+            _doorAudioSource.PlayOneShot(_doorClipList[2]);
+        }
+        else if (isOpen && !canOpen)
+        {
+            UIManager.instance.setPromptText("I'm in the way!", Color.red, true);
+            _doorAudioSource.PlayOneShot(_doorClipList[2]);
+        }
+        else if (!isOpen)
         {
             _doorAudioSource.PlayOneShot(_doorClipList[0]);
             isOpen = true;
             ActionName = "Close Door";
             _doorAnimController.SetBool("isOpen", isOpen);
-        }
-        else if (isOpen && !canOpen)
-        {
-            _doorAudioSource.PlayOneShot(_doorClipList[2]);
         }
         else
         {
@@ -48,6 +56,16 @@ public class DoorController : MonoBehaviour, Iinteractable
             ActionName = "Open Door";
             _doorAnimController.SetBool("isOpen", isOpen);
         }
+    }
+
+    public bool getDoorStatus()
+    {
+        return isOpen;
+    }
+
+    public void setDoorActivatible(bool ability)
+    {
+        canOpen = ability;
     }
 
     private void OnTriggerEnter(Collider other)
