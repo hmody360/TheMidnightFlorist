@@ -35,12 +35,6 @@ public class RayInetractor : MonoBehaviour
                 UIManager.instance.setPromptText(item.ActionName);
             }
 
-            // Show interaction prompt
-            if (_interactionPromptUI != null && item != null)
-            {
-                _interactionPromptUI.ShowPrompt(item.ActionName);
-            }
-
             if (currentOutlined != _lastHitOutline) //Disable outlines once not looking at the current item
             {
                 DisableCurrentOutline();
@@ -66,12 +60,6 @@ public class RayInetractor : MonoBehaviour
             {
                 UIManager.instance.ChangeCrossHair(0);
                 UIManager.instance.setPromptText(string.Empty);
-            }
-
-            // Hide interaction prompt
-            if (_interactionPromptUI != null)
-            {
-                _interactionPromptUI.HidePrompt();
             }
 
             DisableCurrentOutline();

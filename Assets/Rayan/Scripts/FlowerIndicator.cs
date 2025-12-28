@@ -3,11 +3,6 @@ using UnityEngine;
 
 public class FlowerIndicator : MonoBehaviour
 {
-    // ==================== REFERENCES ====================
-    [Header("=== REFERENCES ===")]
-    [Tooltip("Reference to the interaction prompt UI")]
-    public InteractionPromptUI promptUI;
-
     // ==================== DISTANCE SETTINGS ====================
     [Header("=== DISTANCE SETTINGS ===")]
     [Tooltip("Minimum distance to show ring (closer = show prompt instead)")]
@@ -83,12 +78,6 @@ public class FlowerIndicator : MonoBehaviour
             Debug.LogWarning("FlowerIndicator: Player not found! Make sure player has 'Player' tag.");
         }
 
-        // Find prompt UI if not assigned
-        if (promptUI == null)
-        {
-            promptUI = FindObjectOfType<InteractionPromptUI>();
-        }
-
         // Create the ring
         CreateRing();
 
@@ -117,12 +106,6 @@ public class FlowerIndicator : MonoBehaviour
 
     void OnDestroy()
     {
-        // Hide prompt when flower is destroyed
-        if (playerInPromptRange && promptUI != null)
-        {
-            promptUI.HidePrompt();
-        }
-
         // Destroy ring object
         if (ringObject != null)
         {
