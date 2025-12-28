@@ -2,10 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-/// <summary>
-/// FlowerCounterUI - Displays how many flowers the player needs to collect
-/// Shows a flower image with a number in the bottom-left corner
-/// </summary>
 public class FlowerCounterUI : MonoBehaviour
 {
     // ==================== REFERENCES ====================

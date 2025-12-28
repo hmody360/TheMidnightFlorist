@@ -4,15 +4,7 @@ using TMPro;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-/// <summary>
-/// TimerUI - Countdown timer displayed as clock (12:00 AM to 6:00 AM)
-/// Features:
-/// - Shows time as AM clock format
-/// - Dark night from 12:00 AM until dawn starts
-/// - Gradual dawn effects (brightness, color, saturation, contrast, vignette)
-/// - Dawn start time adjustable from Inspector
-/// - Triggers loss screen when timer reaches 6:00 AM
-/// </summary>
+
 public class TimerUI : MonoBehaviour
 {
     // ==================== UI REFERENCES ====================

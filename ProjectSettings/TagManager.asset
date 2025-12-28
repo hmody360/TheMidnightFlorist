@@ -7,11 +7,12 @@ TagManager:
   - ItemSlot
   - Enemy
   - CurrentBouquet
+  - CollectFlower
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Wall
   - Water
   - UI
   - Interactible

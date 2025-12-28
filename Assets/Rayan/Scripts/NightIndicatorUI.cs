@@ -2,11 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-/// <summary>
-/// NightIndicatorUI - Shows which night it is (Night 1, Night 2, Night 3)
-/// Simple setup: Moon icon with "Night X" text below
-/// Your friend can call SetNight() from GameManager to change the night number
-/// </summary>
+
 public class NightIndicatorUI : MonoBehaviour
 {
     // ==================== REFERENCES ====================

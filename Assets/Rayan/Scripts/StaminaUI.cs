@@ -1,11 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// StaminaUI - Works with Unity 6 without requiring sprites!
-/// Uses RectTransform scaling for the fill effect instead of Image.fillAmount
-/// This approach works even when Source Image is empty (None)
-/// </summary>
 public class StaminaUI : MonoBehaviour
 {
     // ==================== REFERENCES ====================

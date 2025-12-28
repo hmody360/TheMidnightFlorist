@@ -3,9 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// GameOverUI - Handles Win and Loss screens
-/// 
+
 /// LOSS CONDITIONS:
 /// - Monster catches player - "You have been killed" + shows time
 /// - Time ran out + had all flowers - "You opened late"
@@ -13,7 +11,7 @@ using UnityEngine.SceneManagement;
 /// 
 /// WIN CONDITION:
 /// - Player reaches home with all flowers before 6:00 AM - "You Survived" + shows time
-/// </summary>
+
 public class GameOverUI : MonoBehaviour
 {
     // ==================== UI REFERENCES ====================
