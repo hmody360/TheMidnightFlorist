@@ -5,12 +5,13 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 /// <summary>
-/// TimerUI - Countdown timer with Volume-based darkness effects
+/// TimerUI - Countdown timer displayed as clock (12:00 AM to 6:00 AM)
 /// Features:
-/// - Customizable start time
-/// - Gradual darkness using Post-Processing Volume (after 25% time)
-/// - Vignette intensifies in last 10 seconds
-/// - Triggers loss screen when timer reaches 0
+/// - Shows time as AM clock format
+/// - Dark night from 12:00 AM until dawn starts
+/// - Gradual dawn effects (brightness, color, saturation, contrast, vignette)
+/// - Dawn start time adjustable from Inspector
+/// - Triggers loss screen when timer reaches 6:00 AM
 /// </summary>
 public class TimerUI : MonoBehaviour
 {
@@ -22,10 +23,16 @@ public class TimerUI : MonoBehaviour
     [Tooltip("The timer text display")]
     public TextMeshProUGUI timerText;
 
+    [Tooltip("Reference to call the loss screen")]
+    public GameOverUI gameOverUI;
+
+    [Tooltip("Reference to know what current night is")]
+    public NightIndicatorUI NightIndicatorUI;
+
     // ==================== TIMER SETTINGS ====================
     [Header("=== TIMER SETTINGS ===")]
-    [Tooltip("Starting time in seconds (e.g., 120 = 2 minutes, 180 = 3 minutes)")]
-    public float startTimeInSeconds = 120f;
+    [Tooltip("Total game time in seconds (how long from 12AM to 6AM in real time)")]
+    public float totalGameTimeSeconds = 360f; // 6 minutes = 6 hours in game
 
     [Tooltip("Is the timer currently running?")]
     public bool isRunning = false;
@@ -38,47 +45,77 @@ public class TimerUI : MonoBehaviour
     [Tooltip("The Global Volume in your scene")]
     public Volume postProcessVolume;
 
-    // ==================== DARKNESS EFFECT SETTINGS ====================
-    [Header("=== GRADUAL DARKNESS (Post Exposure) ===")]
-    [Tooltip("Enable gradual darkness as night progresses")]
-    public bool useGradualDarkness = true;
-
-    [Tooltip("When to start getting darker (0.25 = 25% time remaining)")]
+    // ==================== DAWN TIMING ====================
+    [Header("=== DAWN TIMING ===")]
+    [Tooltip("When dawn effects start (0.916 = 91.6% = 5:30 AM, 0.75 = 75% = 4:30 AM)")]
     [Range(0f, 1f)]
-    public float darknessStartPercent = 0.25f;
+    public float dawnStartPercent = 0.916f; // 5:30 AM = 5.5/6 = 91.6%
 
-    [Tooltip("Starting Post Exposure value (your normal night setting)")]
-    public float startPostExposure = -0.8f;
+    // ==================== POST EXPOSURE (BRIGHTNESS) ====================
+    [Header("=== BRIGHTNESS (Post Exposure) ===")]
+    [Tooltip("Enable brightness changes")]
+    public bool useBrightnessEffect = true;
 
-    [Tooltip("Ending Post Exposure value (very dark)")]
-    public float endPostExposure = -3f;
+    [Tooltip("Post Exposure at night (dark)")]
+    public float nightPostExposure = -0.8f;
 
-    [Header("=== VIGNETTE EFFECT (Last 10 Seconds) ===")]
-    [Tooltip("Enable vignette intensifying in last seconds")]
-    public bool useVignetteEffect = true;
+    [Tooltip("Post Exposure at 6:00 AM (dawn complete)")]
+    public float dawnPostExposure = 0.5f;
 
-    [Tooltip("Seconds remaining when vignette effect starts")]
-    public float vignetteEffectStartTime = 10f;
+    // ==================== COLOR FILTER ====================
+    [Header("=== COLOR FILTER (Tint) ===")]
+    [Tooltip("Enable color filter changes")]
+    public bool useColorFilter = true;
 
-    [Tooltip("Starting vignette intensity (your normal setting)")]
-    public float startVignetteIntensity = 0.4f;
+    [Tooltip("Color tint at night (dark blue #1A2A4A)")]
+    public Color nightColorFilter = new Color(0.102f, 0.165f, 0.290f, 1f); // #1A2A4A
 
-    [Tooltip("Maximum vignette intensity at 0 seconds")]
-    public float maxVignetteIntensity = 0.8f;
+    [Tooltip("Color tint at 6:00 AM (warm peach #FFE4C4)")]
+    public Color dawnColorFilter = new Color(1f, 0.894f, 0.769f, 1f); // #FFE4C4
 
-    [Tooltip("Starting vignette smoothness")]
-    public float startVignetteSmoothness = 0.5f;
+    // ==================== SATURATION ====================
+    [Header("=== SATURATION (Color Intensity) ===")]
+    [Tooltip("Enable saturation changes")]
+    public bool useSaturation = true;
 
-    [Tooltip("Ending vignette smoothness (tighter)")]
-    public float endVignetteSmoothness = 0.2f;
+    [Tooltip("Saturation at night (less colorful)")]
+    public float nightSaturation = -25f;
 
-    // ==================== STYLE SETTINGS ====================
+    [Tooltip("Saturation at 6:00 AM")]
+    public float dawnSaturation = 10f;
+
+    // ==================== CONTRAST ====================
+    [Header("=== CONTRAST ===")]
+    [Tooltip("Enable contrast changes")]
+    public bool useContrast = true;
+
+    [Tooltip("Contrast at night")]
+    public float nightContrast = 15f;
+
+    [Tooltip("Contrast at 6:00 AM")]
+    public float dawnContrast = 20f;
+
+    // ==================== VIGNETTE ====================
+    [Header("=== VIGNETTE (Edge Darkness) ===")]
+    [Tooltip("Enable vignette fading")]
+    public bool useVignetteFade = true;
+
+    [Tooltip("Vignette intensity at night")]
+    public float nightVignetteIntensity = 0.4f;
+
+    [Tooltip("Vignette intensity at 6:00 AM (0 = no vignette)")]
+    public float dawnVignetteIntensity = 0f;
+
+    [Tooltip("Vignette smoothness at night")]
+    public float nightVignetteSmoothness = 0.5f;
+
+    [Tooltip("Vignette smoothness at 6:00 AM")]
+    public float dawnVignetteSmoothness = 1f;
+
+    // ==================== TEXT STYLE ====================
     [Header("=== TEXT STYLE ===")]
-    [Tooltip("Normal timer text color")]
-    public Color normalTextColor = Color.white;
-
-    [Tooltip("Warning text color (last 10 seconds)")]
-    public Color warningTextColor = Color.red;
+    [Tooltip("Timer text color")]
+    public Color textColor = Color.white;
 
     [Tooltip("Frame tint color")]
     public Color frameTint = new Color(0.4f, 0.4f, 0.4f, 1f);
@@ -99,6 +136,9 @@ public class TimerUI : MonoBehaviour
 
     // Store original values to restore later
     private float originalPostExposure;
+    private Color originalColorFilter;
+    private float originalSaturation;
+    private float originalContrast;
     private float originalVignetteIntensity;
     private float originalVignetteSmoothness;
 
@@ -110,8 +150,8 @@ public class TimerUI : MonoBehaviour
     void Start()
     {
         // Initialize timer
-        currentTime = startTimeInSeconds;
-        initialTime = startTimeInSeconds;
+        currentTime = totalGameTimeSeconds;
+        initialTime = totalGameTimeSeconds;
         hasTriggeredLoss = false;
 
         // Apply frame tint
@@ -123,7 +163,7 @@ public class TimerUI : MonoBehaviour
         // Apply text color
         if (timerText != null)
         {
-            timerText.color = normalTextColor;
+            timerText.color = textColor;
         }
 
         // Get post-processing effects from Volume
@@ -139,7 +179,8 @@ public class TimerUI : MonoBehaviour
 
         if (showDebugLogs)
         {
-            Debug.Log($"TimerUI: Initialized with {startTimeInSeconds} seconds ({FormatTime(startTimeInSeconds)})");
+            float dawnStartHour = dawnStartPercent * 6f; // Convert to hours
+            Debug.Log($"TimerUI: Initialized. Dawn starts at {dawnStartHour:F1} hours ({dawnStartPercent:P0})");
         }
     }
 
@@ -154,8 +195,7 @@ public class TimerUI : MonoBehaviour
         UpdateDisplay();
 
         // Update effects
-        UpdateGradualDarkness();
-        UpdateVignetteEffect();
+        UpdateDawnEffects();
 
         // Check for timer end
         if (currentTime <= 0f && !hasTriggeredLoss)
@@ -175,7 +215,7 @@ public class TimerUI : MonoBehaviour
 
             if (postProcessVolume == null)
             {
-                Debug.LogWarning("TimerUI: No Post-Processing Volume found! Darkness effects will not work.");
+                Debug.LogWarning("TimerUI: No Post-Processing Volume found! Dawn effects will not work.");
                 return;
             }
         }
@@ -183,17 +223,20 @@ public class TimerUI : MonoBehaviour
         // Get Color Adjustments effect
         if (postProcessVolume.profile.TryGet(out colorAdjustments))
         {
-            // Store original value
+            // Store original values
             originalPostExposure = colorAdjustments.postExposure.value;
+            originalColorFilter = colorAdjustments.colorFilter.value;
+            originalSaturation = colorAdjustments.saturation.value;
+            originalContrast = colorAdjustments.contrast.value;
 
             if (showDebugLogs)
             {
-                Debug.Log($"TimerUI: Found Color Adjustments. Original Post Exposure: {originalPostExposure}");
+                Debug.Log($"TimerUI: Found Color Adjustments.");
             }
         }
         else
         {
-            Debug.LogWarning("TimerUI: Color Adjustments not found in Volume! Add it for darkness effect.");
+            Debug.LogWarning("TimerUI: Color Adjustments not found in Volume! Add it for dawn effects.");
         }
 
         // Get Vignette effect
@@ -205,93 +248,143 @@ public class TimerUI : MonoBehaviour
 
             if (showDebugLogs)
             {
-                Debug.Log($"TimerUI: Found Vignette. Original Intensity: {originalVignetteIntensity}");
+                Debug.Log($"TimerUI: Found Vignette.");
             }
         }
         else
         {
-            Debug.LogWarning("TimerUI: Vignette not found in Volume! Add it for edge darkness effect.");
+            Debug.LogWarning("TimerUI: Vignette not found in Volume! Add it for vignette fade effect.");
         }
     }
 
-    // ==================== DISPLAY ====================
+    // ==================== DISPLAY (12:00 AM to 6:00 AM) ====================
     private void UpdateDisplay()
     {
         if (timerText == null) return;
 
-        timerText.text = FormatTime(currentTime);
+        timerText.text = FormatAsClockTime(currentTime);
+    }
 
-        // Change color in last 10 seconds
-        if (currentTime <= vignetteEffectStartTime && currentTime > 0)
+    /// <summary>
+    /// Converts remaining time to clock format (12:00 AM to 6:00 AM)
+    /// </summary>
+    private string FormatAsClockTime(float remainingTime)
+    {
+        // Calculate how much time has passed (0 to 1)
+        float timePassed = 1f - (remainingTime / initialTime);
+
+        // Convert to hours (0 = 12:00 AM, 1 = 6:00 AM)
+        float totalHours = timePassed * 6f; // 0 to 6 hours
+
+        int hours = Mathf.FloorToInt(totalHours);
+        int minutes = Mathf.FloorToInt((totalHours - hours) * 60f);
+
+        // Convert to 12-hour format
+        int displayHour;
+        string ampm = "AM";
+
+        if (hours == 0)
         {
-            // Pulse between normal and warning color
-            float pulse = (Mathf.Sin(Time.time * 5f) + 1f) / 2f;
-            timerText.color = Color.Lerp(normalTextColor, warningTextColor, pulse);
+            displayHour = 12; // 12:00 AM (midnight)
         }
         else
         {
-            timerText.color = normalTextColor;
+            displayHour = hours; // 1 AM to 6 AM
         }
+
+        return string.Format("{0}:{1:00} {2}", displayHour, minutes, ampm);
     }
 
-    private string FormatTime(float timeInSeconds)
+    // ==================== DAWN EFFECTS ====================
+    private void UpdateDawnEffects()
     {
-        int minutes = Mathf.FloorToInt(timeInSeconds / 60f);
-        int seconds = Mathf.FloorToInt(timeInSeconds % 60f);
-        return string.Format("{0}:{1:00}", minutes, seconds);
-    }
+        // Calculate how much time has passed (0 to 1)
+        float timePassed = 1f - (currentTime / initialTime); // 0 = start, 1 = end
 
-    // ==================== GRADUAL DARKNESS (Post Exposure) ====================
-    private void UpdateGradualDarkness()
-    {
-        if (!useGradualDarkness || colorAdjustments == null) return;
-
-        float timePercent = currentTime / initialTime; // 1.0 = full time, 0.0 = no time
-
-        // Only start darkening after reaching the threshold (e.g., 25% remaining)
-        if (timePercent <= darknessStartPercent)
+        // ===== DAWN EFFECT (After dawn start percent) =====
+        if (timePassed >= dawnStartPercent)
         {
-            // Map from darknessStartPercent->0 to startPostExposure->endPostExposure
-            float darknessProgress = 1f - (timePercent / darknessStartPercent); // 0 to 1
-            float targetExposure = Mathf.Lerp(startPostExposure, endPostExposure, darknessProgress);
+            // Calculate dawn progress (0 at dawn start, 1 at 6:00 AM)
+            float dawnProgress = (timePassed - dawnStartPercent) / (1f - dawnStartPercent);
+            dawnProgress = Mathf.Clamp01(dawnProgress);
 
-            colorAdjustments.postExposure.value = targetExposure;
+            ApplyDawnEffects(dawnProgress);
 
             if (showDebugLogs && Time.frameCount % 60 == 0)
             {
-                Debug.Log($"TimerUI: Darkness Progress: {darknessProgress:F2}, Post Exposure: {targetExposure:F2}");
+                Debug.Log($"TimerUI: Dawn {dawnProgress:P0} - Exposure: {colorAdjustments?.postExposure.value:F2}");
             }
         }
+        // ===== NIGHT (Before dawn starts) =====
         else
         {
-            // Before darkness threshold, keep normal
-            colorAdjustments.postExposure.value = startPostExposure;
+            ApplyNightEffects();
         }
     }
 
-    // ==================== VIGNETTE EFFECT (Last 10 Seconds) ====================
-    private void UpdateVignetteEffect()
+    // ==================== APPLY NIGHT EFFECTS ====================
+    private void ApplyNightEffects()
     {
-        if (!useVignetteEffect || vignette == null) return;
-
-        if (currentTime <= vignetteEffectStartTime && currentTime > 0)
+        if (colorAdjustments != null)
         {
-            // Calculate progress (0 at 10 seconds, 1 at 0 seconds)
-            float progress = 1f - (currentTime / vignetteEffectStartTime);
+            if (useBrightnessEffect)
+            {
+                colorAdjustments.postExposure.value = nightPostExposure;
+            }
 
-            // Increase vignette intensity
-            float targetIntensity = Mathf.Lerp(startVignetteIntensity, maxVignetteIntensity, progress);
-            vignette.intensity.value = targetIntensity;
+            if (useColorFilter)
+            {
+                colorAdjustments.colorFilter.value = nightColorFilter;
+            }
 
-            // Decrease smoothness (tighter vignette)
-            float targetSmoothness = Mathf.Lerp(startVignetteSmoothness, endVignetteSmoothness, progress);
-            vignette.smoothness.value = targetSmoothness;
+            if (useSaturation)
+            {
+                colorAdjustments.saturation.value = nightSaturation;
+            }
+
+            if (useContrast)
+            {
+                colorAdjustments.contrast.value = nightContrast;
+            }
         }
-        else if (currentTime > vignetteEffectStartTime)
+
+        if (vignette != null && useVignetteFade)
         {
-            // Not in last 10 seconds, keep normal
-            vignette.intensity.value = startVignetteIntensity;
-            vignette.smoothness.value = startVignetteSmoothness;
+            vignette.intensity.value = nightVignetteIntensity;
+            vignette.smoothness.value = nightVignetteSmoothness;
+        }
+    }
+
+    // ==================== APPLY DAWN EFFECTS ====================
+    private void ApplyDawnEffects(float progress)
+    {
+        if (colorAdjustments != null)
+        {
+            if (useBrightnessEffect)
+            {
+                colorAdjustments.postExposure.value = Mathf.Lerp(nightPostExposure, dawnPostExposure, progress);
+            }
+
+            if (useColorFilter)
+            {
+                colorAdjustments.colorFilter.value = Color.Lerp(nightColorFilter, dawnColorFilter, progress);
+            }
+
+            if (useSaturation)
+            {
+                colorAdjustments.saturation.value = Mathf.Lerp(nightSaturation, dawnSaturation, progress);
+            }
+
+            if (useContrast)
+            {
+                colorAdjustments.contrast.value = Mathf.Lerp(nightContrast, dawnContrast, progress);
+            }
+        }
+
+        if (vignette != null && useVignetteFade)
+        {
+            vignette.intensity.value = Mathf.Lerp(nightVignetteIntensity, dawnVignetteIntensity, progress);
+            vignette.smoothness.value = Mathf.Lerp(nightVignetteSmoothness, dawnVignetteSmoothness, progress);
         }
     }
 
@@ -303,27 +396,20 @@ public class TimerUI : MonoBehaviour
 
         if (showDebugLogs)
         {
-            Debug.Log("TimerUI: TIME'S UP! Triggering loss...");
+            Debug.Log("TimerUI: 6:00 AM reached! LOSS triggered!");
         }
 
-        // Maximum darkness
-        if (colorAdjustments != null)
-        {
-            colorAdjustments.postExposure.value = endPostExposure;
-        }
-
-        // Maximum vignette
-        if (vignette != null)
-        {
-            vignette.intensity.value = maxVignetteIntensity;
-            vignette.smoothness.value = endVignetteSmoothness;
-        }
+        // Apply full dawn effects
+        ApplyDawnEffects(1f);
 
         // Trigger event (other scripts can listen to this)
         OnTimerEnded?.Invoke();
 
-        // TODO: Call your GameManager to show loss screen
-        // GameManager.Instance.ShowLossScreen();
+        // Find GameOverUI and show loss
+        if (gameOverUI != null)
+        {
+            gameOverUI.ShowLoss_TimeRanOut(NightIndicatorUI.GetNight());
+        }
     }
 
     // ==================== PUBLIC METHODS ====================
@@ -337,7 +423,7 @@ public class TimerUI : MonoBehaviour
 
         if (showDebugLogs)
         {
-            Debug.Log("TimerUI: Timer started!");
+            Debug.Log("TimerUI: Timer started! Time is 12:00 AM");
         }
     }
 
@@ -371,69 +457,75 @@ public class TimerUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Reset timer to starting time
+    /// Reset timer to 12:00 AM
     /// </summary>
     public void ResetTimer()
     {
-        currentTime = startTimeInSeconds;
-        initialTime = startTimeInSeconds;
+        currentTime = totalGameTimeSeconds;
+        initialTime = totalGameTimeSeconds;
         hasTriggeredLoss = false;
         isRunning = false;
 
-        // Reset post-processing to original values
-        if (colorAdjustments != null)
-        {
-            colorAdjustments.postExposure.value = startPostExposure;
-        }
-
-        if (vignette != null)
-        {
-            vignette.intensity.value = startVignetteIntensity;
-            vignette.smoothness.value = startVignetteSmoothness;
-        }
+        // Reset to night values
+        ApplyNightEffects();
 
         UpdateDisplay();
 
         if (showDebugLogs)
         {
-            Debug.Log($"TimerUI: Timer reset to {FormatTime(startTimeInSeconds)}");
+            Debug.Log("TimerUI: Timer reset to 12:00 AM");
         }
     }
 
     /// <summary>
-    /// Set a new starting time (in seconds) and reset
+    /// Set the total game time (real seconds for the 6 in-game hours)
     /// </summary>
-    public void SetStartTime(float seconds)
+    public void SetTotalGameTime(float seconds)
     {
-        startTimeInSeconds = seconds;
+        totalGameTimeSeconds = seconds;
         ResetTimer();
     }
 
     /// <summary>
-    /// Set starting time using minutes and seconds
+    /// Set total game time using minutes
     /// </summary>
-    public void SetStartTime(int minutes, int seconds)
+    public void SetTotalGameTimeMinutes(float minutes)
     {
-        startTimeInSeconds = (minutes * 60f) + seconds;
+        totalGameTimeSeconds = minutes * 60f;
         ResetTimer();
     }
 
     /// <summary>
-    /// Add time (can be negative to remove time)
+    /// Set when dawn starts (0.0 to 1.0)
+    /// Example: 0.916 = 5:30 AM, 0.75 = 4:30 AM
     /// </summary>
-    public void AddTime(float seconds)
+    public void SetDawnStartPercent(float percent)
     {
-        currentTime = Mathf.Max(0f, currentTime + seconds);
-        UpdateDisplay();
+        dawnStartPercent = Mathf.Clamp01(percent);
 
         if (showDebugLogs)
         {
-            Debug.Log($"TimerUI: Added {seconds} seconds. Current: {FormatTime(currentTime)}");
+            float dawnStartHour = dawnStartPercent * 6f;
+            Debug.Log($"TimerUI: Dawn now starts at {dawnStartHour:F1} hours ({dawnStartPercent:P0})");
         }
     }
 
     /// <summary>
-    /// Get current time remaining
+    /// Set dawn start time using game hour (0-6)
+    /// Example: 5.5 = 5:30 AM, 4.5 = 4:30 AM
+    /// </summary> 
+    public void SetDawnStartHour(float hour)
+    {
+        dawnStartPercent = Mathf.Clamp01(hour / 6f);
+
+        if (showDebugLogs)
+        {
+            Debug.Log($"TimerUI: Dawn now starts at {hour:F1}:00 AM ({dawnStartPercent:P0})");
+        }
+    }
+
+    /// <summary>
+    /// Get current time remaining in seconds
     /// </summary>
     public float GetTimeRemaining()
     {
@@ -441,15 +533,15 @@ public class TimerUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Get time remaining as formatted string
+    /// Get current clock time as string
     /// </summary>
-    public string GetTimeRemainingFormatted()
+    public string GetClockTime()
     {
-        return FormatTime(currentTime);
+        return FormatAsClockTime(currentTime);
     }
 
     /// <summary>
-    /// Check if time is up
+    /// Check if time is up (6:00 AM reached)
     /// </summary>
     public bool IsTimeUp()
     {
@@ -463,6 +555,9 @@ public class TimerUI : MonoBehaviour
         if (colorAdjustments != null)
         {
             colorAdjustments.postExposure.value = originalPostExposure;
+            colorAdjustments.colorFilter.value = originalColorFilter;
+            colorAdjustments.saturation.value = originalSaturation;
+            colorAdjustments.contrast.value = originalContrast;
         }
 
         if (vignette != null)
@@ -486,31 +581,63 @@ public class TimerUI : MonoBehaviour
         PauseTimer();
     }
 
-    [ContextMenu("Set to 15 Seconds (Test Warning)")]
-    public void TestSet15Seconds()
+    [ContextMenu("Set to Dawn Start Time")]
+    public void TestSetToDawnStart()
     {
-        currentTime = 15f;
-        initialTime = 60f; // So 25% threshold works
+        float remainingPercent = 1f - dawnStartPercent;
+        currentTime = initialTime * remainingPercent;
         isRunning = true;
+        Debug.Log($"TimerUI: Set to dawn start ({dawnStartPercent:P0} passed)");
     }
 
-    [ContextMenu("Set to 30 Seconds (Test 25% Darkness)")]
-    public void TestSet30Seconds()
+    [ContextMenu("Set to 5:45 AM")]
+    public void TestSet545AM()
     {
-        currentTime = 30f;
-        initialTime = 120f; // 30 is 25% of 120
+        // 5:45 AM = 5.75/6 = 95.8%
+        currentTime = initialTime * 0.042f; // 4.2% remaining
         isRunning = true;
+        Debug.Log("TimerUI: Set to 5:45 AM");
     }
 
-    [ContextMenu("Set to 3 Minutes")]
+    [ContextMenu("Set Game Time: 6 Minutes")]
+    public void TestSet6Minutes()
+    {
+        SetTotalGameTimeMinutes(6f);
+    }
+
+    [ContextMenu("Set Game Time: 3 Minutes")]
     public void TestSet3Minutes()
     {
-        SetStartTime(3, 0);
+        SetTotalGameTimeMinutes(3f);
     }
 
-    [ContextMenu("Set to 2 Minutes")]
-    public void TestSet2Minutes()
+    [ContextMenu("Set Game Time: 1 Minute (Fast Test)")]
+    public void TestSet1Minute()
     {
-        SetStartTime(2, 0);
+        SetTotalGameTimeMinutes(1f);
+    }
+
+    [ContextMenu("Preview: Night Settings")]
+    public void PreviewNight()
+    {
+        SetupPostProcessing();
+        ApplyNightEffects();
+        Debug.Log("TimerUI: Preview - Night settings applied");
+    }
+
+    [ContextMenu("Preview: Dawn 50%")]
+    public void PreviewDawn50()
+    {
+        SetupPostProcessing();
+        ApplyDawnEffects(0.5f);
+        Debug.Log("TimerUI: Preview - Dawn 50% applied");
+    }
+
+    [ContextMenu("Preview: Dawn 100% (6:00 AM)")]
+    public void PreviewDawn100()
+    {
+        SetupPostProcessing();
+        ApplyDawnEffects(1f);
+        Debug.Log("TimerUI: Preview - Dawn 100% (6:00 AM) applied");
     }
 }
