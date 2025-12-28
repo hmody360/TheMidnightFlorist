@@ -77,7 +77,7 @@ public class Customer : MonoBehaviour, Iinteractable
                     break;
                 case 3:
                     _audioSourceList[1].PlayOneShot(_audioClipList[4]);
-                    UIManager_Day.instance.setPromptText("UHH...is it invisible or..?", Color.red, true);
+                    UIManager.instance.setPromptText("UHH...is it invisible or..?", Color.red, true);
                     break;
                 default:
                     break;
@@ -87,7 +87,7 @@ public class Customer : MonoBehaviour, Iinteractable
         }
         else
         {
-            UIManager_Day.instance.setPromptText("Customer hasn't Ordered Yet", Color.red, true);
+            UIManager.instance.setPromptText("Customer hasn't Ordered Yet", Color.red, true);
         }
     }
 

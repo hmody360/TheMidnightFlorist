@@ -1,16 +1,18 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UIManager_Day : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
 
 
     public Coroutine CrosshairCoroutine;
 
-
+    [Header("DAY UI")]
     [Header("HUD Main")]
+    [SerializeField] private GameObject _DayUI;
     [SerializeField] private GameObject _HUDPanel;
     [SerializeField] private Image _crosshair;
     [SerializeField] private Sprite[] _crosshairSprites;
@@ -34,7 +36,10 @@ public class UIManager_Day : MonoBehaviour
     [Header("GameOver Related")]
     [SerializeField] private GameObject _gameOverPanel;
 
-    public static UIManager_Day instance;
+    [Header("Night UI")]
+    [SerializeField] private GameObject _NightUI;
+
+    public static UIManager instance;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -46,7 +51,7 @@ public class UIManager_Day : MonoBehaviour
         else
         {
             instance = this;
-            //DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
     }
 
@@ -54,6 +59,26 @@ public class UIManager_Day : MonoBehaviour
     {
         ChangeCrossHair(0);
         _promptText.text = "";
+    }
+
+    private void Update()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "FlowershopScene")
+        {
+            HideNightUI();
+            ShowDayUI();
+
+        }else if(scene.name == "BackyardScene")
+        {
+            HideDayUI();
+            ShowNightUI();
+        }
+
     }
 
     // Crosshair and Prompt
@@ -90,6 +115,38 @@ public class UIManager_Day : MonoBehaviour
         isDenyPromptShowing = true;
         yield return new WaitForSeconds(2f);
         isDenyPromptShowing = false;
+    }
+
+    public void ShowDayUI()
+    {
+        if (_DayUI != null)
+        {
+            _DayUI.SetActive(true);
+        }
+    }
+
+    public void HideDayUI()
+    {
+        if (_DayUI != null)
+        {
+            _DayUI.SetActive(false);
+        }
+    }
+
+    public void ShowNightUI()
+    {
+        if (_NightUI != null)
+        {
+            _NightUI.SetActive(true);
+        }
+    }
+
+    public void HideNightUI()
+    {
+        if (_NightUI != null)
+        {
+            _NightUI.SetActive(false);
+        }
     }
 
     // HUD

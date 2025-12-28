@@ -34,6 +34,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _currentTimer;
     [SerializeField] private float _totalTimer;
 
+    [Header("Soundtrack")]
+    [SerializeField] private AudioManager _gameSoundtrackManager;
+
 
     public static GameManager instance;
 
@@ -101,7 +104,7 @@ public class GameManager : MonoBehaviour
     public void addQuota(float coinAmount)
     {
         _currentQuota += coinAmount;
-        UIManager_Day.instance.UpdateQuoutaText(_currentQuota,_quotaToReach);
+        UIManager.instance.UpdateQuoutaText(_currentQuota,_quotaToReach);
     }
 
     public void removeCoins(float coinAmount)
@@ -125,8 +128,8 @@ public class GameManager : MonoBehaviour
         {
             _currentNectarCoins = 0;
         }
-        UIManager_Day.instance.UpdateQuoutaText(_currentQuota, _quotaToReach);
-        UIManager_Day.instance.UpdateNectarCoinsText(_currentNectarCoins);
+        UIManager.instance.UpdateQuoutaText(_currentQuota, _quotaToReach);
+        UIManager.instance.UpdateNectarCoinsText(_currentNectarCoins);
     }
 
     public void addNectarCoins()
@@ -137,7 +140,7 @@ public class GameManager : MonoBehaviour
         {
             _currentNectarCoins = _maxNectarCoins;
         }
-        UIManager_Day.instance.UpdateNectarCoinsText(_currentNectarCoins);
+        UIManager.instance.UpdateNectarCoinsText(_currentNectarCoins);
     }
     // ------------------------------------------------------------------
     // Customer Logic
@@ -160,7 +163,7 @@ public class GameManager : MonoBehaviour
         {
             _currentCustomers--;
             _customersLeaved++;
-            UIManager_Day.instance.UpdateCustomerCountText(_customersLeaved, _totalCustomer);
+            UIManager.instance.UpdateCustomerCountText(_customersLeaved, _totalCustomer);
             return true;
         }
         else
@@ -192,8 +195,11 @@ public class GameManager : MonoBehaviour
         OpenWorkItemLights();
         ChangeClockTime(0.85f, 0.25f);
         ChangeWorldSun(Color.white, 2f);
-        UIManager_Day.instance.SetShopStatus(_isStoreOpen);
-        UIManager_Day.instance.SetTaskText("Make Flower Bouquets for Customers");
+        UIManager.instance.SetShopStatus(_isStoreOpen);
+        UIManager.instance.SetTaskText("Make Flower Bouquets for Customers");
+        UIManager.instance.ShowStatsPanel();
+
+        _gameSoundtrackManager.ChangeGameMusic(2);
     }
 
     public bool CloseStore()
@@ -208,8 +214,12 @@ public class GameManager : MonoBehaviour
             OpenStoreLights();
             CloseWorkItemLights();
             ChangeClockTime(0.71f, 0.5f);
-            UIManager_Day.instance.SetShopStatus(_isStoreOpen);
-            UIManager_Day.instance.SetTaskText("Go To The Backyard");
+            UIManager.instance.SetShopStatus(_isStoreOpen);
+            UIManager.instance.SetTaskText("Go To The Backyard");
+            UIManager.instance.HideStatsPanel();
+
+            _gameSoundtrackManager.ChangeGameMusic(3);
+            _gameSoundtrackManager.ChangeAmbienceSounds(4);
             return true;
         }
         else
@@ -318,13 +328,13 @@ public class GameManager : MonoBehaviour
     {
         if (!_isDayUIInitialized)
         {
-            UIManager_Day.instance.SetDayCounterText(_currentDay);
-            UIManager_Day.instance.SetTimeDisplayer(true);
-            UIManager_Day.instance.SetTaskText("Open The Shop (Register)");
-            UIManager_Day.instance.SetShopStatus(_isStoreOpen);
-            UIManager_Day.instance.UpdateNectarCoinsText(_currentNectarCoins);
-            UIManager_Day.instance.UpdateQuoutaText(_currentQuota, _quotaToReach);
-            UIManager_Day.instance.UpdateCustomerCountText(_customersLeaved, _totalCustomer);
+            UIManager.instance.SetDayCounterText(_currentDay);
+            UIManager.instance.SetTimeDisplayer(true);
+            UIManager.instance.SetTaskText("Open The Shop (Register)");
+            UIManager.instance.SetShopStatus(_isStoreOpen);
+            UIManager.instance.UpdateNectarCoinsText(_currentNectarCoins);
+            UIManager.instance.UpdateQuoutaText(_currentQuota, _quotaToReach);
+            UIManager.instance.UpdateCustomerCountText(_customersLeaved, _totalCustomer);
             _isDayUIInitialized = true;
         }
     }

@@ -33,7 +33,7 @@ public class SprayBottle : MonoBehaviour, Iinteractable
 
         if (currentBouquet == null || currentBouquet.GetComponent<BouquetHolder>().GetWrapper() == null || currentBouquet.GetComponent<BouquetHolder>().GetFlowerList().Count == 0)
         {
-            UIManager_Day.instance.setPromptText("Add Wrapper and Flower First!", Color.red, true);
+            UIManager.instance.setPromptText("Add Wrapper and Flower First!", Color.red, true);
             _animator.SetTrigger("NoSprayTrigger");
             _audioSource.PlayOneShot(_audioClips[1]);
             return;
@@ -50,7 +50,7 @@ public class SprayBottle : MonoBehaviour, Iinteractable
         else
         {
             _animator.SetTrigger("NoSprayTrigger");
-            UIManager_Day.instance.setPromptText("Spray Already Added", Color.red, true);
+            UIManager.instance.setPromptText("Spray Already Added", Color.red, true);
             _audioSource.PlayOneShot(_audioClips[1]);
         }
     }

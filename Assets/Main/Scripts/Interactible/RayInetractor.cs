@@ -4,7 +4,7 @@ public class RayInetractor : MonoBehaviour
 {
     private Camera _camera;
     private Ray _rayToCast;
-    private UIManager_Day _UIManagerInstance;
+    private UIManager _UIManagerInstance;
 
     [SerializeField] private Outline _lastHitOutline;
     [SerializeField] private float _maxDistance = 6f;
@@ -13,7 +13,7 @@ public class RayInetractor : MonoBehaviour
     void Start()
     {
         _camera = Camera.main;
-        _UIManagerInstance = UIManager_Day.instance;
+        _UIManagerInstance = UIManager.instance;
     }
 
     // Update is called once per frame
@@ -29,8 +29,8 @@ public class RayInetractor : MonoBehaviour
 
             if(_UIManagerInstance != null && item != null)
             {
-                UIManager_Day.instance.ChangeCrossHair(1);
-                UIManager_Day.instance.setPromptText(item.ActionName, Color.white);
+                UIManager.instance.ChangeCrossHair(1);
+                UIManager.instance.setPromptText(item.ActionName, Color.white);
             }
 
 
@@ -57,8 +57,8 @@ public class RayInetractor : MonoBehaviour
         {
             if (_UIManagerInstance != null)
             {
-                UIManager_Day.instance.ChangeCrossHair(0);
-                UIManager_Day.instance.setPromptText(string.Empty, Color.white);
+                UIManager.instance.ChangeCrossHair(0);
+                UIManager.instance.setPromptText(string.Empty, Color.white);
             }
                 
             DisableCurrentOutline();
