@@ -34,6 +34,9 @@ public class MonsterPatrol : MonoBehaviour
     [Header("=== REFERENCES ===")]
     public Transform player; // Assign in inspector or find automatically
 
+    [Header("=== ATTACK SETTINGS ===")]
+    public float attackWindupTime = 0.3f; // Time before attack lands
+
     // ==================== PRIVATE VARIABLES ====================
     // Components
     private NavMeshAgent agent;
@@ -52,7 +55,8 @@ public class MonsterPatrol : MonoBehaviour
     private Vector3 lastKnownPlayerPosition;
     private float reactionTimer;
     private bool isReacting = false; // True during reaction delay
-
+    private bool isAttackWindup = false;
+    private float attackWindupTimer;
 
     // ==================== METHODS ====================
     void Start()
@@ -146,7 +150,9 @@ public class MonsterPatrol : MonoBehaviour
 
             case MonsterState.Attack:
                 agent.isStopped = true;
-                // Attack logic will be called in UpdateAttack
+                isAttackWindup = true;
+                attackWindupTimer = attackWindupTime;
+                // Play warning sound/animation here
                 break;
         }
     }
@@ -347,6 +353,7 @@ public class MonsterPatrol : MonoBehaviour
     }
 
     // ==================== ATTACK STATE ====================
+    // Modify UpdateAttack
     private void UpdateAttack()
     {
         // Look at player
@@ -364,9 +371,28 @@ public class MonsterPatrol : MonoBehaviour
             }
         }
 
-        // Trigger the attack/jumpscare
-        // This will be handled by a separate script or event
-        OnAttackPlayer();
+        // Attack windup - gives player a tiny chance to escape
+        if (isAttackWindup)
+        {
+            attackWindupTimer -= Time.deltaTime;
+
+            // Check if player escaped during windup!
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            if (distanceToPlayer > agent.stoppingDistance + 1.5f)
+            {
+                // Player escaped! Go back to chasing
+                isAttackWindup = false;
+                SetState(MonsterState.Chase);
+                return;
+            }
+
+            if (attackWindupTimer <= 0)
+            {
+                isAttackWindup = false;
+                OnAttackPlayer(); // NOW the attack happens
+            }
+            return;
+        }
     }
 
     /// <summary>

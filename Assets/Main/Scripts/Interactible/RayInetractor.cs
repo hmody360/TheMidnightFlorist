@@ -9,6 +9,8 @@ public class RayInetractor : MonoBehaviour
     [SerializeField] private Outline _lastHitOutline;
     [SerializeField] private float _maxDistance = 6f;
     [SerializeField] LayerMask _interactible;
+    [SerializeField] private InteractionPromptUI _interactionPromptUI;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -32,7 +34,6 @@ public class RayInetractor : MonoBehaviour
                 UIManager.instance.ChangeCrossHair(1);
                 UIManager.instance.setPromptText(item.ActionName, Color.white);
             }
-
 
             if (currentOutlined != _lastHitOutline) //Disable outlines once not looking at the current item
             {
@@ -60,7 +61,7 @@ public class RayInetractor : MonoBehaviour
                 UIManager.instance.ChangeCrossHair(0);
                 UIManager.instance.setPromptText(string.Empty, Color.white);
             }
-                
+
             DisableCurrentOutline();
         }
     }
