@@ -31666,6 +31666,7 @@ MonoBehaviour:
   _interactible:
     serializedVersion: 2
     m_Bits: 192
+  _interactionPromptUI: {fileID: 0}
 --- !u!1001 &1385022341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50584,6 +50585,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4536769264197726152, guid: 508fea20aac507f40907df431d2aa17a, type: 3}
+      propertyPath: _DayUI
+      value: 
+      objectReference: {fileID: 6018799833880274193}
+    - target: {fileID: 4536769264197726152, guid: 508fea20aac507f40907df431d2aa17a, type: 3}
+      propertyPath: _NightUI
+      value: 
+      objectReference: {fileID: 6018799833880274192}
+    - target: {fileID: 4536769264197726152, guid: 508fea20aac507f40907df431d2aa17a, type: 3}
       propertyPath: _HUDPanel
       value: 
       objectReference: {fileID: 1087764085}
@@ -50649,7 +50658,7 @@ PrefabInstance:
       objectReference: {fileID: 481871176, guid: 8b82c5f50836da2439e37a758e1d9266, type: 3}
     - target: {fileID: 7650538985992110711, guid: 508fea20aac507f40907df431d2aa17a, type: 3}
       propertyPath: m_Name
-      value: UIManger_Day
+      value: UIManger
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -50950,6 +50959,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &6018799833880274192 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6645101786543575303, guid: 44626da8f7a93e54380af43fb8c668c2, type: 3}
+  m_PrefabInstance: {fileID: 6018799833880274190}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6018799833880274193 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5184521688783185576, guid: 44626da8f7a93e54380af43fb8c668c2, type: 3}
+  m_PrefabInstance: {fileID: 6018799833880274190}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6134996406558776624
 PrefabInstance:
   m_ObjectHideFlags: 0
