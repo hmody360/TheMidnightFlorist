@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
 
     public Coroutine CrosshairCoroutine;
 
-    [Header("DAY UI")]
+    [Header("Day UI")]
     [Header("HUD Main")]
     [SerializeField] private GameObject _DayUI;
     [SerializeField] private GameObject _HUDPanel;
@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
 
     [Header("GameOver Related")]
     [SerializeField] private GameObject _gameOverPanel;
-
+    //==================================== Night UI ====================================
     [Header("Night UI")]
     [SerializeField] private GameObject _NightUI;
 
