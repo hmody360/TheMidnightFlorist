@@ -4631,7 +4631,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304478a314e56a0448cf98e1b528a304, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spray
-  _sprayPrefab: {fileID: 5041059218339816849}
+  _sprayPrefab:
+  - {fileID: 0}
   _type: 2
   _name: Sad
+  _icon: {fileID: 21300000, guid: e65ebd00fa63b1646b6ec2ba2f445281, type: 3}
   _price: 2

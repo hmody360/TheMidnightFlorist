@@ -50,4 +50,5 @@ MonoBehaviour:
   - {fileID: 3974248106679902313, guid: 0bdbfafc99f2f0a458394545562606c0, type: 3}
   _type: 3
   _color: Pink
+  _icon: {fileID: 21300000, guid: d05fffc2fe59ec34f806bcfd0bb1d15a, type: 3}
   _price: 6

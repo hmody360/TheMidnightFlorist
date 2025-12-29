@@ -139,6 +139,7 @@ MonoBehaviour:
   - {fileID: 0}
   _type: 1
   _name: '"Get Well Soon"'
+  _icon: {fileID: 21300000, guid: b0a45b0108c3f9d41aa70094e9a0ec93, type: 3}
   _price: 2
 --- !u!1 &7156989883197999869
 GameObject:

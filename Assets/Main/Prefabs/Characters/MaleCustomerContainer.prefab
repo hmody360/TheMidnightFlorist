@@ -1279,12 +1279,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 586a0a82f8cda6b4fa701a15cd719cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomerUI
-  TimerSlider: {fileID: 0}
-  WrapperTypeHolder: {fileID: 0}
-  FlowerList: []
-  SprayTypeHolder: {fileID: 0}
-  CardTypeHolder: {fileID: 0}
-  OrderStatsHolder: {fileID: 0}
+  TimerSlider: {fileID: 1982102736176674616}
+  WrapperTypeHolder: {fileID: 1882236752358149296}
+  FlowerTypeList:
+  - {fileID: 6801654693399796392}
+  - {fileID: 8720798600639206802}
+  - {fileID: 1009419718244256964}
+  SprayTypeHolder: {fileID: 1919125953663130182}
+  CardTypeHolder: {fileID: 5322121684046203873}
+  OrderStatsHolder: {fileID: 134463553199087865}
 --- !u!95 &7549092797210062138
 Animator:
   serializedVersion: 7
@@ -1935,7 +1938,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1786691266140986142
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5753,7 +5756,7 @@ RectTransform:
   m_Father: {fileID: 7242371407078828066}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -3.4393005, y: 0.055000305}
   m_SizeDelta: {x: 6.8785, y: -4.143}
   m_Pivot: {x: 0.5, y: 0.5}

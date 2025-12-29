@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class CustomerUI : MonoBehaviour
 {
     private Animator _animator;
+    private Camera _mainCamera;
 
     [SerializeField] private Slider TimerSlider;
     [SerializeField] private Image WrapperTypeHolder;
@@ -12,22 +14,43 @@ public class CustomerUI : MonoBehaviour
     [SerializeField] private Image CardTypeHolder;
     [SerializeField] private GameObject OrderStatsHolder;
 
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        _mainCamera = Camera.main;
+    }
+
+    private void Update()
+    {
+        transform.rotation = _mainCamera.transform.rotation;
+    }
     public void UpdateTimerSlider(float _timer, float _MaxTimer)
     {
         TimerSlider.value = _timer / _MaxTimer;
     }
 
-    public void setOrder(Sprite WrapperIcon, Sprite[] FlowerIconList, Sprite SprayIcon, Sprite CardIcon)
+    public void setOrder(Wrapper wrapper, List<FlowerObj> flowerIconList, Spray spray, Card card)
     {
-        WrapperTypeHolder.sprite = WrapperIcon;
+        WrapperTypeHolder.sprite = wrapper.Icon;
 
-        for (int i = 0; i < FlowerTypeList.Length; i++)
+        for (int i = 0; i < flowerIconList.Count; i++)
         {
-            FlowerTypeList[i].sprite = FlowerIconList[i];
+            FlowerTypeList[i].sprite = flowerIconList[i].Icon;
         }
-
-        SprayTypeHolder.sprite = SprayIcon;
-        CardTypeHolder.sprite = CardIcon;
+        if(spray != null)
+        {
+            SprayTypeHolder.sprite = spray.Icon;
+        }
+        
+        if(card != null)
+        {
+            CardTypeHolder.sprite = card.Icon;
+        }
+        
     }
 
     public void ChangeOrderStaus(bool isSatisfied)
@@ -45,11 +68,13 @@ public class CustomerUI : MonoBehaviour
 
     public void ShowOrderPanel()
     {
-        _animator.SetTrigger("ShowOrder");
+        _animator.SetTrigger("ShowTrigger");
+        TimerSlider.gameObject.SetActive(true);
     }
 
     public void HideOrderPanel()
     {
-        _animator.SetTrigger("HideOrder");
+        _animator.SetTrigger("HideTrigger");
+        TimerSlider.gameObject.SetActive(false);
     }
 }

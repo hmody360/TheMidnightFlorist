@@ -6,6 +6,7 @@ public class FlowerObj : MonoBehaviour, ISellable
     [SerializeField] private GameObject[] _flowerPrefab;
     [SerializeField] private FlowerType _type;
     [SerializeField] private string _color;
+    [SerializeField] private Sprite _icon;
     [SerializeField] private int _price;
 
 
@@ -20,6 +21,12 @@ public class FlowerObj : MonoBehaviour, ISellable
     {
         get { return _color; }
         set { _color = value; }
+    }
+
+    public Sprite Icon
+    {
+        get { return _icon; }
+        set { _icon = value; }
     }
 
     public int Price

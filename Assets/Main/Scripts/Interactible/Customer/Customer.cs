@@ -12,6 +12,7 @@ public class Customer : MonoBehaviour, Iinteractable
     private bool hasOrdered = false;
     private bool isBored;
     private bool isLeaving = false;
+    private CustomerUI _customerUI;
 
 
     [SerializeField] private AudioSource[] _audioSourceList;
@@ -41,6 +42,7 @@ public class Customer : MonoBehaviour, Iinteractable
     {
         _agent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
+        _customerUI = GetComponentInChildren<CustomerUI>();
 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -50,6 +52,7 @@ public class Customer : MonoBehaviour, Iinteractable
         _agent.stoppingDistance = stoppingDistance;
         _audioSourceList[0].clip = _audioClipList[0];
         _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _timer = _waitingTime;
         GoToCounter();
 
         _requestedBouquet = GenerateRandomBouquet();
@@ -78,12 +81,14 @@ public class Customer : MonoBehaviour, Iinteractable
                     Debug.Log("YAY");
                     _audioSourceList[1].PlayOneShot(_audioClipList[2]);
                     _animator.SetTrigger("HappyRecieve");
+                    _customerUI.ChangeOrderStaus(true);
                     Leave();
                     break;
                 case 2:
                     Debug.Log("Nooo");
                     _audioSourceList[1].PlayOneShot(_audioClipList[3]);
                     _animator.SetTrigger("SadRecieve");
+                    _customerUI.ChangeOrderStaus(false);
                     Leave();
                     break;
                 case 3:
@@ -127,6 +132,8 @@ public class Customer : MonoBehaviour, Iinteractable
         if (randomFlower3Index != 0)
             generatedFlowerList.Add(_flowersToChoose[randomFlower3Index]);
 
+        _customerUI.setOrder(_wrappersToChoose[randomWrapperIndex], generatedFlowerList, _scentsToChoose[randomScentIndex], _cardsToChoose[randomCardIndex]);
+
         return new Bouquet(_wrappersToChoose[randomWrapperIndex], generatedFlowerList, _scentsToChoose[randomScentIndex], _cardsToChoose[randomCardIndex]);
     }
 
@@ -160,6 +167,7 @@ public class Customer : MonoBehaviour, Iinteractable
             _animator.SetTrigger("OrderTrigger");
             _audioSourceList[1].PlayOneShot(_audioClipList[1]);
             _audioSourceList[0].Stop();
+            _customerUI.ShowOrderPanel();
             hasOrdered = true;
             _agent.updateRotation = false; // Stop Agent Rotation to look at player;
             gameObject.layer = 6;
@@ -188,6 +196,7 @@ public class Customer : MonoBehaviour, Iinteractable
         _agent.SetDestination(goLocations[1].position);
         _agent.updateRotation = true; // Start Agent Rotation to stop looking at player;
         _animator.SetBool("isWalking", true);
+        _customerUI.HideOrderPanel();
         _audioSourceList[0].Play();
     }
 
@@ -201,11 +210,13 @@ public class Customer : MonoBehaviour, Iinteractable
         if (hasOrdered)
         {
             _timer -= Time.deltaTime;
+            _customerUI.UpdateTimerSlider(_timer, _waitingTime);
             if (_timer / _waitingTime < 0.5f && isBored == false)
             {
                 isBored = true;
                 _animator.SetBool("isBored", isBored);
             }
+            
         }
 
         if (_timer <= 0f)

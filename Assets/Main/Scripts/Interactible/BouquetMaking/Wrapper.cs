@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.ProBuilder.Shapes;
 using static GameEnums;
 
 public class Wrapper : MonoBehaviour, ISellable
@@ -7,6 +6,7 @@ public class Wrapper : MonoBehaviour, ISellable
     [SerializeField] private GameObject[] _wrapperPrefab;
     [SerializeField] private WrapperType _type;
     [SerializeField] private string _name;
+    [SerializeField] private Sprite _icon;
     [SerializeField] private int _price;
 
     public GameObject[] Prefab
@@ -19,6 +19,12 @@ public class Wrapper : MonoBehaviour, ISellable
     {
         get { return _name; }
         set { _name = value; }
+    }
+
+    public Sprite Icon
+    {
+        get { return _icon; }
+        set { _icon = value; }
     }
 
     public int Price
