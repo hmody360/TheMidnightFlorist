@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
 
     public Coroutine CrosshairCoroutine;
 
+    public bool didSceneChange = true;
     [Header("Day UI")]
     [Header("HUD Main")]
     [SerializeField] private GameObject _DayUI;
@@ -59,11 +60,16 @@ public class UIManager : MonoBehaviour
     {
         ChangeCrossHair(0);
         _promptText.text = "";
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
     private void Update()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        if (didSceneChange)
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            didSceneChange = false;
+        }
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

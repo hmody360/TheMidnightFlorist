@@ -6,8 +6,11 @@ using System.Linq;
 public class Customer : MonoBehaviour, Iinteractable
 {
     private NavMeshAgent _agent;
+    private Animator _animator;
     private string _actionName;
+    private Transform _player;
     private bool hasOrdered = false;
+    private bool isBored;
     private bool isLeaving = false;
 
 
@@ -25,7 +28,9 @@ public class Customer : MonoBehaviour, Iinteractable
     [SerializeField] private float _waitingTime = 10;
 
     public List<Transform> goLocations;
-    public float stoppingDistance = 0.5f;
+
+    [SerializeField] private float stoppingDistance = 0.5f;
+    [SerializeField] private float lookRotationSpeed = 5f;
     public string ActionName
     {
         get { return _actionName; }
@@ -35,6 +40,7 @@ public class Customer : MonoBehaviour, Iinteractable
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
+        _animator = GetComponent<Animator>();
 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -43,6 +49,7 @@ public class Customer : MonoBehaviour, Iinteractable
         ActionName = "Give Bouquet";
         _agent.stoppingDistance = stoppingDistance;
         _audioSourceList[0].clip = _audioClipList[0];
+        _player = GameObject.FindGameObjectWithTag("Player").transform;
         GoToCounter();
 
         _requestedBouquet = GenerateRandomBouquet();
@@ -55,6 +62,8 @@ public class Customer : MonoBehaviour, Iinteractable
         checkArrival();
         checkLeaving();
         startTimer();
+        LookAtPlayer();
+
     }
 
     public void Interact()
@@ -110,10 +119,10 @@ public class Customer : MonoBehaviour, Iinteractable
         int randomCardIndex = Random.Range(0, _scentsToChoose.Length); // Card May Be Null
 
         List<FlowerObj> generatedFlowerList = new List<FlowerObj>() { _flowersToChoose[randomFlower1Index] };
-        if(randomFlower2Index != 0)
+        if (randomFlower2Index != 0)
             generatedFlowerList.Add(_flowersToChoose[randomFlower2Index]);
 
-        if(randomFlower3Index != 0)
+        if (randomFlower3Index != 0)
             generatedFlowerList.Add(_flowersToChoose[randomFlower3Index]);
 
         return new Bouquet(_wrappersToChoose[randomWrapperIndex], generatedFlowerList, _scentsToChoose[randomScentIndex], _cardsToChoose[randomCardIndex]);
@@ -123,6 +132,7 @@ public class Customer : MonoBehaviour, Iinteractable
     {
 
         _agent.SetDestination(goLocations[0].position);
+        _animator.SetBool("isWalking", true);
         _audioSourceList[0].Play();
     }
 
@@ -144,9 +154,11 @@ public class Customer : MonoBehaviour, Iinteractable
                 + ((_requestedBouquet._spray != null) ? _requestedBouquet._spray.Name : "No Spray") + "\n"
                 + ((_requestedBouquet._card != null) ? _requestedBouquet._card.Name : "No Card")
                 );
+            _animator.SetBool("isWalking", false);
             _audioSourceList[1].PlayOneShot(_audioClipList[1]);
             _audioSourceList[0].Stop();
             hasOrdered = true;
+            _agent.updateRotation = false; // Stop Agent Rotation to look at player;
             gameObject.layer = 6;
         }
     }
@@ -170,6 +182,8 @@ public class Customer : MonoBehaviour, Iinteractable
         isLeaving = true;
         gameObject.layer = 0;
         _agent.SetDestination(goLocations[1].position);
+        _agent.updateRotation = true; // Start Agent Rotation to stop looking at player;
+        _animator.SetBool("isWalking", true);
         _audioSourceList[0].Play();
     }
 
@@ -183,6 +197,11 @@ public class Customer : MonoBehaviour, Iinteractable
         if (hasOrdered)
         {
             _timer += Time.deltaTime;
+            if (_timer / _waitingTime > 0.5f && isBored == false)
+            {
+                isBored = true;
+                _animator.SetBool("isBored", isBored);
+            }
         }
 
         if (_timer >= _waitingTime)
@@ -226,5 +245,24 @@ public class Customer : MonoBehaviour, Iinteractable
             Debug.Log("You Dont't have a bouquet!");
             return 3;
         }
+    }
+
+    private void LookAtPlayer()
+    {
+        if (!hasOrdered || isLeaving)
+        {
+            return;
+        }
+
+        Vector3 direction = _player.position - transform.position;
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude < 0.01f)
+        {
+            return;
+        }
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lookRotationSpeed * Time.deltaTime);
     }
 }
