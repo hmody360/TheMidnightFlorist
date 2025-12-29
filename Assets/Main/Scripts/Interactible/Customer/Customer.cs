@@ -24,8 +24,8 @@ public class Customer : MonoBehaviour, Iinteractable
     [SerializeField] private Spray[] _scentsToChoose;
     [SerializeField] private Card[] _cardsToChoose;
 
-    [SerializeField] private float _timer = 0;
-    [SerializeField] private float _waitingTime = 10;
+    [SerializeField] private float _timer = 30;
+    [SerializeField] private float _waitingTime = 30;
 
     public List<Transform> goLocations;
 
@@ -200,17 +200,18 @@ public class Customer : MonoBehaviour, Iinteractable
 
         if (hasOrdered)
         {
-            _timer += Time.deltaTime;
-            if (_timer / _waitingTime > 0.5f && isBored == false)
+            _timer -= Time.deltaTime;
+            if (_timer / _waitingTime < 0.5f && isBored == false)
             {
                 isBored = true;
                 _animator.SetBool("isBored", isBored);
             }
         }
 
-        if (_timer >= _waitingTime)
+        if (_timer <= 0f)
         {
             hasOrdered = false;
+            _timer = 0f;
             _audioSourceList[1].PlayOneShot(_audioClipList[5]);
             _animator.SetTrigger("SadRecieve");
             Leave();
