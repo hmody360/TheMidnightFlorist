@@ -77,11 +77,13 @@ public class Customer : MonoBehaviour, Iinteractable
                 case 1:
                     Debug.Log("YAY");
                     _audioSourceList[1].PlayOneShot(_audioClipList[2]);
+                    _animator.SetTrigger("HappyRecieve");
                     Leave();
                     break;
                 case 2:
                     Debug.Log("Nooo");
                     _audioSourceList[1].PlayOneShot(_audioClipList[3]);
+                    _animator.SetTrigger("SadRecieve");
                     Leave();
                     break;
                 case 3:
@@ -155,6 +157,7 @@ public class Customer : MonoBehaviour, Iinteractable
                 + ((_requestedBouquet._card != null) ? _requestedBouquet._card.Name : "No Card")
                 );
             _animator.SetBool("isWalking", false);
+            _animator.SetTrigger("OrderTrigger");
             _audioSourceList[1].PlayOneShot(_audioClipList[1]);
             _audioSourceList[0].Stop();
             hasOrdered = true;
@@ -173,6 +176,7 @@ public class Customer : MonoBehaviour, Iinteractable
         if (!_agent.pathPending && _agent.hasPath && _agent.remainingDistance <= _agent.stoppingDistance)
         {
             GameManager.instance.customerLeave();
+            _animator.SetBool("isWalking", false);
             Destroy(gameObject);
         }
     }
@@ -208,6 +212,7 @@ public class Customer : MonoBehaviour, Iinteractable
         {
             hasOrdered = false;
             _audioSourceList[1].PlayOneShot(_audioClipList[5]);
+            _animator.SetTrigger("SadRecieve");
             Leave();
         }
     }
