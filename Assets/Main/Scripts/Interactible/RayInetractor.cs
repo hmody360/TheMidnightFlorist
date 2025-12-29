@@ -9,7 +9,6 @@ public class RayInetractor : MonoBehaviour
     [SerializeField] private Outline _lastHitOutline;
     [SerializeField] private float _maxDistance = 6f;
     [SerializeField] LayerMask _interactible;
-    [SerializeField] private InteractionPromptUI _interactionPromptUI;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

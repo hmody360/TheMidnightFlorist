@@ -15,23 +15,16 @@ public class FlowerSpawnManager : MonoBehaviour
     [Tooltip("List of all possible spawn points (empty GameObjects in the maze)")]
     public List<Transform> spawnPoints = new List<Transform>();
 
-    [Header("=== UI REFERENCE ===")]
-    [Tooltip("Reference to FlowerCounterUI to update flower count")]
-    public FlowerCounterUI flowerCounterUI;
+    // ===== REMOVED: Old UI References =====
+    // [Header("=== UI REFERENCE ===")]
+    // public FlowerCounterUI flowerCounterUI;  // <-- REMOVED, now uses GameManager
+    // public NightIndicatorUI nightIndicatorUI; // <-- REMOVED, now uses GameManager
 
-    [Header("=== NIGHT INDICATOR ===")]
-    [Tooltip("Reference to NightIndicatorUI to get current night")]
-    public NightIndicatorUI nightIndicatorUI;
-
-    [Header("=== FLOWERS PER NIGHT ===")]
-    [Tooltip("How many flowers spawn on Night 1")]
-    public int flowersNight1 = 2;
-
-    [Tooltip("How many flowers spawn on Night 2")]
-    public int flowersNight2 = 3;
-
-    [Tooltip("How many flowers spawn on Night 3")]
-    public int flowersNight3 = 4;
+    // ===== REMOVED: Flowers Per Night (GameManager handles this now) =====
+    // [Header("=== FLOWERS PER NIGHT ===")]
+    // public int flowersNight1 = 2;  // <-- REMOVED
+    // public int flowersNight2 = 3;  // <-- REMOVED
+    // public int flowersNight3 = 4;  // <-- REMOVED
 
     [Header("=== DEBUG ===")]
     [Tooltip("Show spawn point gizmos in editor")]
@@ -42,6 +35,9 @@ public class FlowerSpawnManager : MonoBehaviour
 
     [Tooltip("Gizmo size")]
     public float gizmoSize = 0.5f;
+
+    [Tooltip("Show debug logs")]
+    public bool showDebugLogs = true;
 
     // ==================== PRIVATE VARIABLES ====================
     private List<GameObject> spawnedFlowers = new List<GameObject>();
@@ -65,52 +61,46 @@ public class FlowerSpawnManager : MonoBehaviour
 
     void Start()
     {
-        // Auto-spawn flowers based on current night
-        if (nightIndicatorUI != null)
+        // ===== CHANGED: Don't auto-spawn - GameManager will call SpawnFlowersForNight() =====
+        // GameManager.StartNight() will call SpawnFlowersForNight() when ready
+
+        if (showDebugLogs)
         {
-            SpawnFlowersForNight(nightIndicatorUI.GetNight());
-        }
-        else
-        {
-            Debug.LogWarning("FlowerSpawnManager: NightIndicatorUI not assigned. Call SpawnFlowersForNight() manually.");
+            Debug.Log("FlowerSpawnManager: Initialized. Waiting for GameManager to spawn flowers.");
         }
     }
 
     // ==================== SPAWN METHODS ====================
     /// <summary>
     /// Spawns flowers based on the night number
+    /// Called by GameManager.StartNight()
     /// </summary>
     public void SpawnFlowersForNight(int nightNumber)
     {
         // Clear any existing flowers first
         ClearAllFlowers();
 
-        // Determine how many flowers to spawn
-        int flowerCount = GetFlowerCountForNight(nightNumber);
+        // Get flower count from GameManager
+        int flowerCount = 4; // Default fallback
+
+        if (NightGameManager.Instance != null)
+        {
+            flowerCount = NightGameManager.Instance.GetFlowerCountForNight(nightNumber);
+        }
+        else
+        {
+            Debug.LogWarning("FlowerSpawnManager: GameManager not found! Using default flower count.");
+        }
 
         // Spawn the flowers
         SpawnFlowers(flowerCount);
 
-        // Update the UI
-        if (flowerCounterUI != null)
-        {
-            flowerCounterUI.ResetForNewNight(flowerCount);
-        }
+        // ===== REMOVED: UI update - GameManager handles this now =====
+        // GameManager.StartNight() already calls UIManager.ResetFlowersForNewNight()
 
-        Debug.Log("FlowerSpawnManager: Spawned " + flowerCount + " flowers for Night " + nightNumber);
-    }
-
-    /// <summary>
-    /// Gets how many flowers should spawn for a given night
-    /// </summary>
-    private int GetFlowerCountForNight(int nightNumber)
-    {
-        switch (nightNumber)
+        if (showDebugLogs)
         {
-            case 1: return flowersNight1;
-            case 2: return flowersNight2;
-            case 3: return flowersNight3;
-            default: return flowersNight3; // Night 4+ uses same as night 3
+            Debug.Log($"FlowerSpawnManager: Spawned {flowerCount} flowers for Night {nightNumber}");
         }
     }
 
@@ -134,7 +124,7 @@ public class FlowerSpawnManager : MonoBehaviour
 
         if (count > spawnPoints.Count)
         {
-            Debug.LogWarning("FlowerSpawnManager: Not enough spawn points! Requested " + count + " but only have " + spawnPoints.Count);
+            Debug.LogWarning($"FlowerSpawnManager: Not enough spawn points! Requested {count} but only have {spawnPoints.Count}");
             count = spawnPoints.Count;
         }
 
@@ -184,13 +174,7 @@ public class FlowerSpawnManager : MonoBehaviour
     /// </summary>
     public void OnFlowerCollected(GameObject flower, Vector3 flowerPosition)
     {
-        // Update counter UI
-        if (flowerCounterUI != null)
-        {
-            flowerCounterUI.CollectFlower();
-        }
-
-        // Track collection
+        // Track collection locally
         flowersCollected++;
 
         // Remove from list
@@ -199,37 +183,28 @@ public class FlowerSpawnManager : MonoBehaviour
             spawnedFlowers.Remove(flower);
         }
 
-        // ============================================
-        // TODO: NOTIFY MONSTER HERE
-        // The monster should head to: flowerPosition
-        // Example: MonsterAI.Instance.InvestigatePosition(flowerPosition);
-        // ============================================
-
-        Debug.Log("FlowerSpawnManager: Flower collected at position " + flowerPosition + ". Total collected: " + flowersCollected + "/" + totalFlowersThisNight);
-
-        // Check if all flowers collected
-        if (flowersCollected >= totalFlowersThisNight)
+        // ===== UPDATED: Notify GameManager instead of UI directly =====
+        if (NightGameManager.Instance != null)
         {
-            OnAllFlowersCollected();
+            NightGameManager.Instance.OnFlowerCollected(flowerPosition);
         }
-    }
+        else
+        {
+            Debug.LogWarning("FlowerSpawnManager: GameManager not found! Flower collection not tracked.");
+        }
 
-    /// <summary>
-    /// Called when all flowers have been collected
-    /// </summary>
-    private void OnAllFlowersCollected()
-    {
-        Debug.Log("FlowerSpawnManager: ALL FLOWERS COLLECTED! Player can now return home.");
+        if (showDebugLogs)
+        {
+            Debug.Log($"FlowerSpawnManager: Flower collected at {flowerPosition}. Local count: {flowersCollected}/{totalFlowersThisNight}");
+        }
 
-        // ============================================
-        // TODO: Add any "all collected" effects here
-        // Example: Play special sound, show UI message, etc.
-        // ============================================
+        // ===== REMOVED: All flowers collected check - GameManager handles this now =====
+        // GameManager.OnFlowerCollected() will check and call OnAllFlowersCollected()
     }
 
     // ==================== PUBLIC HELPER METHODS ====================
     /// <summary>
-    /// Check if all flowers are collected this night
+    /// Check if all flowers are collected this night (local tracking)
     /// </summary>
     public bool AreAllFlowersCollected()
     {
@@ -237,7 +212,7 @@ public class FlowerSpawnManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Get how many flowers remain
+    /// Get how many flowers remain (local tracking)
     /// </summary>
     public int GetFlowersRemaining()
     {
@@ -250,6 +225,14 @@ public class FlowerSpawnManager : MonoBehaviour
     public int GetTotalFlowersThisNight()
     {
         return totalFlowersThisNight;
+    }
+
+    /// <summary>
+    /// Get list of currently spawned flowers
+    /// </summary>
+    public List<GameObject> GetSpawnedFlowers()
+    {
+        return spawnedFlowers;
     }
 
     // ==================== EDITOR GIZMOS ====================
