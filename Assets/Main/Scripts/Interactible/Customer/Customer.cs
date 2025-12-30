@@ -32,6 +32,9 @@ public class Customer : MonoBehaviour, Iinteractable
 
     [SerializeField] private float stoppingDistance = 0.5f;
     [SerializeField] private float lookRotationSpeed = 5f;
+
+    public static event System.Action<int> OnCustomerLeave;
+    public int CounterIndex = -1;
     public string ActionName
     {
         get { return _actionName; }
@@ -43,6 +46,7 @@ public class Customer : MonoBehaviour, Iinteractable
         _agent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
         _customerUI = GetComponentInChildren<CustomerUI>();
+        goLocations = new List<Transform>() { null, null };
 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -53,7 +57,6 @@ public class Customer : MonoBehaviour, Iinteractable
         _audioSourceList[0].clip = _audioClipList[0];
         _player = GameObject.FindGameObjectWithTag("Player").transform;
         _timer = _waitingTime;
-        GoToCounter();
 
         _requestedBouquet = GenerateRandomBouquet();
         GameManager.instance.customerEnter();
@@ -67,6 +70,22 @@ public class Customer : MonoBehaviour, Iinteractable
         startTimer();
         LookAtPlayer();
 
+    }
+
+    private void OnEnable()
+    {
+        GameManager.onStoreClosed += DestroySelf;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.onStoreClosed -= DestroySelf;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.onStoreClosed -= DestroySelf;
+        OnCustomerLeave?.Invoke(CounterIndex);
     }
 
     public void Interact()
@@ -137,6 +156,15 @@ public class Customer : MonoBehaviour, Iinteractable
         return new Bouquet(_wrappersToChoose[randomWrapperIndex], generatedFlowerList, _scentsToChoose[randomScentIndex], _cardsToChoose[randomCardIndex]);
     }
 
+    public void Initialize(Transform CounterPoint, Transform SpawnPoint, int counterIndex)
+    {
+        goLocations[0] = CounterPoint;
+        goLocations[1] = SpawnPoint;
+        CounterIndex = counterIndex;
+
+        GoToCounter();
+    }
+
     private void GoToCounter()
     {
 
@@ -183,6 +211,7 @@ public class Customer : MonoBehaviour, Iinteractable
 
         if (!_agent.pathPending && _agent.hasPath && _agent.remainingDistance <= _agent.stoppingDistance)
         {
+            OnCustomerLeave?.Invoke(CounterIndex);
             GameManager.instance.customerLeave();
             _animator.SetBool("isWalking", false);
             Destroy(gameObject);
@@ -216,7 +245,7 @@ public class Customer : MonoBehaviour, Iinteractable
                 isBored = true;
                 _animator.SetBool("isBored", isBored);
             }
-            
+
         }
 
         if (_timer <= 0f)
@@ -281,5 +310,10 @@ public class Customer : MonoBehaviour, Iinteractable
 
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lookRotationSpeed * Time.deltaTime);
+    }
+
+    private void DestroySelf()
+    {
+        Destroy(gameObject);
     }
 }

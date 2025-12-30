@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Respawner : MonoBehaviour
+public class PlayerRespawner : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
