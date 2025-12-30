@@ -1,4 +1,5 @@
 using Seagull.Interior_I1.SceneProps;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _currentDay;
     [SerializeField] private int _maxNumberOfdays;
     [SerializeField] private bool _isCurrentlyDaytime = true;
+
 
     [Header("Day Mode")]
     [SerializeField] private float _currentNectarCoins;
@@ -23,20 +25,22 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private bool _isStoreOpen = false;
     [SerializeField] private bool _isDayFinished = false;
-    [SerializeField] private bool _isDayUIInitialized = false;
 
     [Header("Day Mode Objects")]
     [SerializeField] private RotatableObject _clock;
 
     [Header("Night Mode")]
-    [SerializeField] private int _collectedFlowers = 0;
-    [SerializeField] private int _totalFlowers;
-    [SerializeField] private float _currentTimer;
-    [SerializeField] private float _totalTimer;
+    //[SerializeField] private int _collectedFlowers = 0;
+    //[SerializeField] private int _totalFlowers;
+    //[SerializeField] private float _currentTimer;
+    //[SerializeField] private float _totalTimer;
 
     [Header("Soundtrack")]
     [SerializeField] private AudioManager _gameSoundtrackManager;
 
+    //Events
+    public static event Action onStoreOpened;
+    public static event Action onStoreClosed;
 
     public static GameManager instance;
 
@@ -57,14 +61,20 @@ public class GameManager : MonoBehaviour
     {
         setDay(1);
         initiateWorkItems();
-        
+
+    }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += initializeDayUI;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= initializeDayUI;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        initializeDayUI();
-    }
+
     // ------------------------------------------------------------------
     // Day Logic
     public void setDay(int day)
@@ -104,7 +114,7 @@ public class GameManager : MonoBehaviour
     public void addQuota(float coinAmount)
     {
         _currentQuota += coinAmount;
-        UIManager.instance.UpdateQuoutaText(_currentQuota,_quotaToReach);
+        UIManager.instance.UpdateQuoutaText(_currentQuota, _quotaToReach);
     }
 
     public void removeCoins(float coinAmount)
@@ -161,15 +171,45 @@ public class GameManager : MonoBehaviour
     {
         if (_currentCustomers > 0 && _customersLeaved < _totalCustomer)
         {
-            _currentCustomers--;
-            _customersLeaved++;
-            UIManager.instance.UpdateCustomerCountText(_customersLeaved, _totalCustomer);
+            if (!_isDayFinished)
+            {
+                _currentCustomers--;
+                _customersLeaved++;
+                UIManager.instance.UpdateCustomerCountText(_customersLeaved, _totalCustomer);
+
+                if (_customersLeaved == _totalCustomer)
+                {
+                    checkDayWin();
+                }
+            }
+
+
             return true;
         }
         else
         {
             return false;
         }
+    }
+
+    public int getCurrentCustomers()
+    {
+        return _currentCustomers;
+    }
+
+    public int getCustomersAtATime()
+    {
+        return _customersAtATime;
+    }
+
+    public int getCustomersLeaved()
+    {
+        return _customersLeaved;
+    }
+
+    public int getTotalCustomers()
+    {
+        return _totalCustomer;
     }
     // ------------------------------------------------------------------
     //Store Management Logic
@@ -198,8 +238,8 @@ public class GameManager : MonoBehaviour
         UIManager.instance.SetShopStatus(_isStoreOpen);
         UIManager.instance.SetTaskText("Make Flower Bouquets for Customers");
         UIManager.instance.ShowStatsPanel();
-
         _gameSoundtrackManager.ChangeGameMusic(2);
+        onStoreOpened?.Invoke();
     }
 
     public bool CloseStore()
@@ -217,14 +257,31 @@ public class GameManager : MonoBehaviour
             UIManager.instance.SetShopStatus(_isStoreOpen);
             UIManager.instance.SetTaskText("Go To The Backyard");
             UIManager.instance.HideStatsPanel();
+            UIManager.instance.setPromptText("The Shop has been Closed!", Color.red, true);
 
             _gameSoundtrackManager.ChangeGameMusic(3);
             _gameSoundtrackManager.ChangeAmbienceSounds(4);
+            onStoreClosed?.Invoke();
             return true;
         }
         else
         {
             return false;
+        }
+    }
+
+    private void checkDayWin()
+    {
+        if (_currentQuota >= _quotaToReach)
+        {
+            CloseStore();
+        }
+        else
+        {
+            UIManager.instance.ShowGameOverPanel();
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = false;
+            Cursor.lockState = CursorLockMode.Confined;
+            Time.timeScale = 0f;
         }
     }
 
@@ -324,9 +381,9 @@ public class GameManager : MonoBehaviour
 
     //UI Logic
 
-    private void initializeDayUI()
+    private void initializeDayUI(Scene currentScene, LoadSceneMode loadSceneMode)
     {
-        if (!_isDayUIInitialized)
+        if (currentScene.name == "FlowershopScene")
         {
             UIManager.instance.SetDayCounterText(_currentDay);
             UIManager.instance.SetTimeDisplayer(true);
@@ -335,8 +392,36 @@ public class GameManager : MonoBehaviour
             UIManager.instance.UpdateNectarCoinsText(_currentNectarCoins);
             UIManager.instance.UpdateQuoutaText(_currentQuota, _quotaToReach);
             UIManager.instance.UpdateCustomerCountText(_customersLeaved, _totalCustomer);
-            _isDayUIInitialized = true;
         }
+    }
+
+    private void resetGameStats()
+    {
+        if (_currentDay != 1)
+        {
+            _currentDay = 1;
+        }
+        _isCurrentlyDaytime = true;
+        _currentNectarCoins = 0;
+        _currentQuota = 0;
+        _currentCustomers = 0;
+        _customersLeaved = 0;
+        _isStoreOpen = false;
+        _isDayFinished = false;
+    }
+
+    // GameOver Handiling
+
+    public void RestartGame()
+    {
+        resetGameStats();
+        SceneManager.LoadScene("FlowershopScene");
+    }
+
+    public void QuitToMainMenu()
+    {
+        resetGameStats();
+        SceneManager.LoadScene("MainMenu");
     }
 
 }

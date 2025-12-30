@@ -104,9 +104,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bde762721d62904d8b7b24945d53bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Wrapper
-  _wrapperPrefab: {fileID: 2292534972512878969, guid: b11556ac062e25e4b9a408ba1b09ab54, type: 3}
+  _wrapperPrefab:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _type: 1
   _name: Pink
+  _icon: {fileID: 21300000, guid: d9ccc402e41e89d45b5fd73a9b5a48e0, type: 3}
   _price: 1
 --- !u!1 &3538794788838746467
 GameObject:

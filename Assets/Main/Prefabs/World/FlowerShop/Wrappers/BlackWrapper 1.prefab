@@ -193,9 +193,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bde762721d62904d8b7b24945d53bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Wrapper
-  _wrapperPrefab: {fileID: 2381919948291624328, guid: 2868ae4490ddd034bb439f324e1205af, type: 3}
+  _wrapperPrefab:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _type: 3
   _name: Black
+  _icon: {fileID: 21300000, guid: 37dccff5f5ee0eb4f9e6307b6db56eea, type: 3}
   _price: 1
 --- !u!1 &8136197779714658163
 GameObject:

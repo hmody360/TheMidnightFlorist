@@ -6,6 +6,7 @@ public class Spray : MonoBehaviour, ISellable
     [SerializeField] private GameObject[] _sprayPrefab;
     [SerializeField] private SprayType _type;
     [SerializeField] private string _name;
+    [SerializeField] private Sprite _icon;
     [SerializeField] private int _price;
 
     public GameObject[] Prefab
@@ -18,6 +19,12 @@ public class Spray : MonoBehaviour, ISellable
     {
         get { return _name; }
         set { _name = value; }
+    }
+
+    public Sprite Icon
+    {
+        get { return _icon; }
+        set { _icon = value; }
     }
 
     public int Price

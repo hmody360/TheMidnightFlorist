@@ -50,6 +50,7 @@ MonoBehaviour:
   - {fileID: 0}
   _type: 2
   _name: '"Sorry For Your Loss"'
+  _icon: {fileID: 21300000, guid: 3331c08828e58344eafe51e232356089, type: 3}
   _price: 1
 --- !u!1 &782925386955001526
 GameObject:

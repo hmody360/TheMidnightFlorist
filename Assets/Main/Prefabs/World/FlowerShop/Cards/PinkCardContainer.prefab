@@ -229,6 +229,7 @@ MonoBehaviour:
   - {fileID: 0}
   _type: 0
   _name: '"Love You"'
+  _icon: {fileID: 21300000, guid: f7e0189d88800c541a4db1d2afeddafe, type: 3}
   _price: 2
 --- !u!1 &7417312521347036350
 GameObject:

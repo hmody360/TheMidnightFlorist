@@ -104,9 +104,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bde762721d62904d8b7b24945d53bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Wrapper
-  _wrapperPrefab: {fileID: 5979560127474894420, guid: df390594b348e224387515f4b336c78d, type: 3}
+  _wrapperPrefab:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _type: 0
   _name: Rustic
+  _icon: {fileID: 21300000, guid: 66113dfa85f054c43b443c7a583d02b6, type: 3}
   _price: 2
 --- !u!1 &6076290766175296649
 GameObject:

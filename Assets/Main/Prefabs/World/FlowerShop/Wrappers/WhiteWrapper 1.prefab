@@ -282,7 +282,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bde762721d62904d8b7b24945d53bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Wrapper
-  _wrapperPrefab: {fileID: 2653762665343276880, guid: ce9cff99c19249c4680b961b9b963a49, type: 3}
+  _wrapperPrefab:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _type: 2
   _name: White Newspaper
+  _icon: {fileID: 21300000, guid: 070d72aa96fa26a47a82e2413f195011, type: 3}
   _price: 2

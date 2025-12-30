@@ -3386,7 +3386,6 @@ GameObject:
   - component: {fileID: 5652275561293229439}
   - component: {fileID: 7354541694945427623}
   - component: {fileID: 6118478916605772063}
-  - component: {fileID: 7519713177326353076}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -3480,18 +3479,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &7519713177326353076
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5207402008912808550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f009e6310520c674da6a56a3d3fcf102, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DontDestroyOnLoad
 --- !u!1 &5232618750341111867
 GameObject:
   m_ObjectHideFlags: 0
