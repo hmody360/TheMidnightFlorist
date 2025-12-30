@@ -60,9 +60,7 @@ public class FlowerIndicator : MonoBehaviour
     private float targetAlpha = 0f;
     private float checkTimer = 0f;
     private float bobTimer = 0f;
-    private Vector3 basePosition;
     private bool isVisible = false;
-    private bool playerInPromptRange = false;
 
     // ==================== UNITY METHODS ====================
     void Start()
@@ -80,9 +78,6 @@ public class FlowerIndicator : MonoBehaviour
 
         // Create the ring
         CreateRing();
-
-        // Store base position
-        basePosition = transform.position + Vector3.up * heightOffset;
     }
 
     void Update()
@@ -164,11 +159,8 @@ public class FlowerIndicator : MonoBehaviour
             // Too close - hide ring, show prompt handled by RayInteractor
             targetAlpha = 0f;
             isVisible = false;
-            playerInPromptRange = true;
             return;
         }
-
-        playerInPromptRange = false;
 
         // Check if player is too far
         if (distance > maxDistance)

@@ -91,7 +91,34 @@ public class FlowerPickup : MonoBehaviour, Iinteractable
             );
         }
 
-        // Notify the spawn manager
+        // ============================================
+        // MONSTER NOTIFICATION (MUST BE BEFORE FlowerSpawnManager!)
+        // ============================================
+        if (MonsterAI.Instance != null)
+        {
+            // Check if this is the last flower BEFORE FlowerSpawnManager updates the count
+            bool isLastFlower = false;
+            if (FlowerSpawnManager.Instance != null)
+            {
+                int remaining = FlowerSpawnManager.Instance.GetFlowersRemaining();
+                // GetFlowersRemaining returns how many are LEFT (including this one)
+                // So if it's 1, this is the last one
+                isLastFlower = remaining <= 1;
+
+                Debug.Log($"FlowerPickup: GetFlowersRemaining() = {remaining}, IsLastFlower = {isLastFlower}");
+            }
+
+            MonsterAI.Instance.OnFlowerCollected(flowerPosition, isLastFlower);
+        }
+        else
+        {
+            Debug.LogWarning("FlowerPickup: MonsterAI.Instance not found!");
+        }
+
+        // ============================================
+        // FLOWER SPAWN MANAGER (AFTER Monster notification!)
+        // This updates the flower count
+        // ============================================
         if (FlowerSpawnManager.Instance != null)
         {
             FlowerSpawnManager.Instance.OnFlowerCollected(gameObject, flowerPosition);
@@ -100,11 +127,6 @@ public class FlowerPickup : MonoBehaviour, Iinteractable
         {
             Debug.LogWarning("FlowerPickup: FlowerSpawnManager.Instance not found!");
         }
-
-        // ============================================
-        // TODO: MONSTER NOTIFICATION POINT
-        // MonsterAI.Instance.InvestigatePosition(flowerPosition);
-        // ============================================
 
         Debug.Log("FlowerPickup: Flower collected at " + flowerPosition);
 

@@ -538,7 +538,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5009710392333107464}
-  - component: {fileID: 2862836940403110359}
   m_Layer: 5
   m_Name: GameOverPanel
   m_TagString: Untagged
@@ -568,51 +567,6 @@ RectTransform:
   m_AnchoredPosition: {x: 2.173523, y: 156.2059}
   m_SizeDelta: {x: 800, y: 450.12048}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2862836940403110359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1334179987604685453}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e21f5d3c7f798645ad540fda26212e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameOverUI
-  mainPanel: {fileID: 1334179987604685453}
-  stoneFrameImage: {fileID: 2659259380610433345}
-  backgroundOverlay: {fileID: 658079383708401743}
-  winBackgroundColor: {r: 0.74509805, g: 0.67058825, b: 0.39215687, a: 1}
-  lossBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
-  titleText: {fileID: 7766832231908268693}
-  nightStatusText: {fileID: 88815848639920702}
-  reasonText: {fileID: 923422561329397741}
-  timeText: {fileID: 2623190641156656239}
-  actionButton: {fileID: 4133059079473687558}
-  actionButtonText: {fileID: 868473883910504550}
-  menuButton: {fileID: 2512610093377303251}
-  menuButtonText: {fileID: 5276775552683669480}
-  daySceneName: DayScene
-  menuSceneName: MainMenu
-  winTitle: YOU SURVIVED
-  winNightStatus: Night {0} Complete!
-  winReason: You made it home safely!
-  winButtonText: Next Day
-  lossTitle: YOU LOST
-  lossNightStatus: Night {0} Failed
-  lossButtonText: Restart
-  lossReason_Monster: You have been killed
-  lossReason_TimeOut_HadFlowers: You opened late
-  lossReason_TimeOut_NoFlowers: You did not collect all flowers
-  menuButtonLabel: Menu
-  timeFormat: 'Time: {0}'
-  winTitleColor: {r: 0.2, g: 0.8, b: 0.2, a: 1}
-  lossTitleColor: {r: 0.8, g: 0.2, b: 0.2, a: 1}
-  normalTextColor: {r: 1, g: 1, b: 1, a: 1}
-  timerUI: {fileID: 8576242064640718533}
-  flowerCounterUI: {fileID: 1138860007894735773}
-  playerMovement: {fileID: 0}
 --- !u!1 &1611856691799957135
 GameObject:
   m_ObjectHideFlags: 0
@@ -1606,7 +1560,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3156949384821527421}
-  - component: {fileID: 8576242064640718533}
   m_Layer: 5
   m_Name: TimerContainer
   m_TagString: Untagged
@@ -1635,47 +1588,6 @@ RectTransform:
   m_AnchoredPosition: {x: 2.173523, y: 459.7684}
   m_SizeDelta: {x: 95, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8576242064640718533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5786274956892300046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f113fa6ac3dd5044a8da5db6855ed6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TimerUI
-  frameImage: {fileID: 4983519687633182198}
-  timerText: {fileID: 7281677300456494096}
-  gameOverUI: {fileID: 2862836940403110359}
-  NightIndicatorUI: {fileID: 0}
-  totalGameTimeSeconds: 360
-  isRunning: 0
-  autoStart: 1
-  postProcessVolume: {fileID: 0}
-  dawnStartPercent: 0.918
-  useBrightnessEffect: 1
-  nightPostExposure: -0.8
-  dawnPostExposure: 0.3
-  useColorFilter: 1
-  nightColorFilter: {r: 0.101960786, g: 0.16470589, b: 0.2901961, a: 1}
-  dawnColorFilter: {r: 0.7106918, g: 0.6372913, b: 0.5609548, a: 1}
-  useSaturation: 1
-  nightSaturation: -25
-  dawnSaturation: -10
-  useContrast: 1
-  nightContrast: 15
-  dawnContrast: 20
-  useVignetteFade: 1
-  nightVignetteIntensity: 0.25
-  dawnVignetteIntensity: 0
-  nightVignetteSmoothness: 0.716
-  dawnVignetteSmoothness: 1
-  textColor: {r: 1, g: 1, b: 1, a: 1}
-  frameTint: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  showDebugLogs: 1
 --- !u!1 &5907376468478176547
 GameObject:
   m_ObjectHideFlags: 0
@@ -2378,7 +2290,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7560048333970211358}
-  - component: {fileID: 1138860007894735773}
   m_Layer: 5
   m_Name: FlowerCounter
   m_TagString: Untagged
@@ -2408,29 +2319,6 @@ RectTransform:
   m_AnchoredPosition: {x: 609.111, y: 490.8934}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 1, y: 1}
---- !u!114 &1138860007894735773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8235772239479616797}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6f10244c3e9fde4b9b0c05a398c617d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FlowerCounterUI
-  flowerImage: {fileID: 0}
-  flowerCountText: {fileID: 4724019327812647515}
-  totalFlowers: 2
-  flowersRemaining: 2
-  textColor: {r: 1, g: 1, b: 1, a: 1}
-  useOutline: 1
-  outlineColor: {r: 0, g: 0, b: 0, a: 1}
-  outlineThickness: 0.2
-  usePulseEffect: 1
-  pulseSpeed: 5
-  pulseScale: 1.3
 --- !u!1 &8265540047088345626
 GameObject:
   m_ObjectHideFlags: 0
@@ -2440,7 +2328,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5171548328877852594}
-  - component: {fileID: 4877370306135341998}
   m_Layer: 5
   m_Name: NightIndicator
   m_TagString: Untagged
@@ -2469,24 +2356,6 @@ RectTransform:
   m_AnchoredPosition: {x: -635.889, y: 475.3309}
   m_SizeDelta: {x: 100, y: 80}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &4877370306135341998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8265540047088345626}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fc70b30c1998fc489c9527d9348e3ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NightIndicatorUI
-  moonIcon: {fileID: 3561270602651693847}
-  nightText: {fileID: 37279915299009012}
-  currentNight: 1
-  textFormat: Night {0}
-  textColor: {r: 1, g: 1, b: 1, a: 1}
-  moonTint: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &8473600041619455501
 GameObject:
   m_ObjectHideFlags: 0
@@ -2572,7 +2441,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5601693370871635015}
   - component: {fileID: 4269871794682217605}
-  - component: {fileID: 7121594560079302780}
   m_Layer: 5
   m_Name: StaminaBarContainer
   m_TagString: Untagged
@@ -2615,40 +2483,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &7121594560079302780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8501454740784609419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c91106d7252993b4691d56a27bd6193d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StaminaUI
-  playerMovement: {fileID: 0}
-  stoneFrame: {fileID: 872771859223816677}
-  fillBarLeftRect: {fileID: 1381559398283271004}
-  fillBarRightRect: {fileID: 8624100395001095254}
-  fillBarLeftImage: {fileID: 338375142615421335}
-  fillBarRightImage: {fileID: 7182200755513999295}
-  darkBackground: {fileID: 1607592751922747984}
-  staminaCanvasGroup: {fileID: 4269871794682217605}
-  maxFillWidth: 145
-  fillHeight: 5
-  showThreshold: 18
-  fadeSpeed: 3
-  useColorGradient: 1
-  fullStaminaColor: {r: 0.1, g: 0.4, b: 0.8, a: 1}
-  emptyStaminaColor: {r: 0.05, g: 0.1, b: 0.3, a: 1}
-  stoneFrameTint: {r: 0.6156863, g: 0.6156863, b: 0.6156863, a: 1}
-  backgroundColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.9}
-  useRechargeEffect: 1
-  pulseSpeed: 2
-  rechargeColorBright: {r: 0.3, g: 0.6, b: 1, a: 1}
-  rechargeColorDark: {r: 0.1, g: 0.2, b: 0.4, a: 1}
-  showDebugLogs: 1
 --- !u!1 &8605401300015732807
 GameObject:
   m_ObjectHideFlags: 0
