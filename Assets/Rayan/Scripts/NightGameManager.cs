@@ -107,7 +107,7 @@ public class NightGameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
 
             if (showDebugLogs)
             {
@@ -179,6 +179,8 @@ public class NightGameManager : MonoBehaviour
         {
             uiManager.OnTimerEnded += OnTimeUp;
         }
+
+        currentNight =  GameManager.instance.getDay();
     }
 
     // ????????????????????????????????????????????????????????????????????????????
@@ -685,7 +687,6 @@ public class NightGameManager : MonoBehaviour
     /// </summary>
     public void GoToNextNight()
     {
-        currentNight++;
 
         if (currentNight > maxNights)
         {
@@ -733,6 +734,8 @@ public class NightGameManager : MonoBehaviour
         isNightRunning = false;
         isPaused = false;
         Time.timeScale = 1f;
+
+        GameManager.instance.nextDay();
 
         SceneManager.LoadScene(daySceneName);
     }

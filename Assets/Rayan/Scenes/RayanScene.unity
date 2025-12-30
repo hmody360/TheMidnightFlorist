@@ -2552,8 +2552,8 @@ MonoBehaviour:
   staminaFillBarRightImage: {fileID: 437259395}
   staminaDarkBackground: {fileID: 74168969}
   staminaCanvasGroup: {fileID: 8435947162852923548}
-  staminaMaxFillWidth: 150
-  staminaFillHeight: 10
+  staminaMaxFillWidth: 145
+  staminaFillHeight: 5
   staminaShowThreshold: 18
   staminaFadeSpeed: 3
   useStaminaColorGradient: 1
@@ -4550,6 +4550,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a2afb8e4e8bc36044aa09a18814e4d8e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4560,6 +4564,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1279486176}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1279486178}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1279486177}
   m_SourcePrefab: {fileID: 100100000, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
 --- !u!1 &1279486173 stripped
 GameObject:
@@ -4637,6 +4647,69 @@ MonoBehaviour:
   player: {fileID: 1177011482}
   showDebugLogs: 1
   showGizmos: 1
+--- !u!114 &1279486177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279486173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b58c115cdefcb41a5934f8c9e46c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterAnimationHandler
+  animator: {fileID: 0}
+  agent: {fileID: 0}
+  monsterAI: {fileID: 0}
+  idleThreshold: 0.1
+  walkSpeed: 2
+  runSpeed: 5
+  speedSmoothTime: 0.1
+  speedParameter: Speed
+  isMovingParameter: IsMoving
+  screamTrigger: Scream
+  searchTrigger: Search
+  attackTrigger: Attack
+  showDebugLogs: 1
+--- !u!114 &1279486178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279486173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d39b7cfe27ff543b9f26395aa8292b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterAudioManager
+  walkFootsteps: []
+  runFootsteps: []
+  walkFootstepVolume: 0.5
+  runFootstepVolume: 0.7
+  alertScreamSound: {fileID: 0}
+  investigateScreamSound: {fileID: 0}
+  chaseStartScreamSound: {fileID: 0}
+  chaseLoopScreams: []
+  chaseScreamInterval: 5
+  chaseScreamIntervalVariation: 2
+  alertScreamVolume: 1
+  investigateScreamVolume: 1
+  chaseScreamVolume: 1
+  breathingSound: {fileID: 0}
+  breathingVolume: 0.3
+  proximityBreathing: 1
+  breathingFullVolumeDistance: 5
+  breathingFadeDistance: 20
+  searchSound: {fileID: 0}
+  searchVolume: 0.6
+  chaseMusic: {fileID: 0}
+  chaseMusicVolume: 0.8
+  musicFadeDuration: 1
+  sceneMusicSource: {fileID: 0}
+  sceneMusicChaseVolume: 0
+  showDebugLogs: 1
 --- !u!1 &1293591118
 GameObject:
   m_ObjectHideFlags: 0

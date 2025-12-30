@@ -256,12 +256,14 @@ public class MonsterAI : MonoBehaviour
     {
         if (currentState == newState) return;
 
+        // Save current state BEFORE changing (for stateBeforeChase)
+        MonsterState previousState = currentState;
+
         OnExitState(currentState);
 
-        MonsterState previousState = currentState;
         currentState = newState;
 
-        OnEnterState(newState);
+        OnEnterState(newState, previousState);
 
         if (showDebugLogs)
         {
@@ -269,7 +271,7 @@ public class MonsterAI : MonoBehaviour
         }
     }
 
-    private void OnEnterState(MonsterState state)
+    private void OnEnterState(MonsterState state, MonsterState previousState = MonsterState.Patrol)
     {
         switch (state)
         {
@@ -371,9 +373,9 @@ public class MonsterAI : MonoBehaviour
                 break;
 
             case MonsterState.Chase:
-                // FIX: Remember if we were in guard mode
-                stateBeforeChase = currentState;
-                if (currentState == MonsterState.Guard || wasInGuardMode)
+                // Remember what state we were in before chase
+                stateBeforeChase = previousState;
+                if (previousState == MonsterState.Guard || wasInGuardMode)
                 {
                     wasInGuardMode = true;
                 }
@@ -440,6 +442,8 @@ public class MonsterAI : MonoBehaviour
             case MonsterState.Chase:
                 isReacting = false;
                 agent.isStopped = false;
+                // Stop chase music when leaving chase state
+                OnChaseEnd();
                 break;
 
             case MonsterState.Guard:
@@ -1194,47 +1198,106 @@ public class MonsterAI : MonoBehaviour
         SetState(MonsterState.Alert);
     }
 
-    // ==================== ANIMATION/SOUND PLACEHOLDERS ====================
-    // These methods will be called by MonsterAnimationHandler and MonsterAudioManager
+    // ==================== ANIMATION/SOUND METHODS ====================
+    // These methods call MonsterAnimationHandler and MonsterAudioManager
 
     protected virtual void OnAlertScream()
     {
-        // TODO: MonsterAnimationHandler.Instance?.PlayScream();
-        // TODO: MonsterAudioManager.Instance?.PlayAlertScream();
-        if (showDebugLogs) Debug.Log("MonsterAI: [PLACEHOLDER] Alert scream");
+        // Play scream animation
+        if (MonsterAnimationHandler.Instance != null)
+        {
+            MonsterAnimationHandler.Instance.PlayScream();
+        }
+
+        // Play alert scream sound
+        if (MonsterAudioManager.Instance != null)
+        {
+            MonsterAudioManager.Instance.PlayAlertScream();
+        }
+
+        if (showDebugLogs) Debug.Log("MonsterAI: Alert scream triggered");
     }
 
     protected virtual void OnInvestigateScream()
     {
-        // TODO: MonsterAnimationHandler.Instance?.PlayInvestigateScream();
-        // TODO: MonsterAudioManager.Instance?.PlayInvestigateScream();
-        if (showDebugLogs) Debug.Log("MonsterAI: [PLACEHOLDER] Investigate scream");
+        // Play scream animation
+        if (MonsterAnimationHandler.Instance != null)
+        {
+            MonsterAnimationHandler.Instance.PlayScream();
+        }
+
+        // Play investigate scream sound
+        if (MonsterAudioManager.Instance != null)
+        {
+            MonsterAudioManager.Instance.PlayInvestigateScream();
+        }
+
+        if (showDebugLogs) Debug.Log("MonsterAI: Investigate scream triggered");
     }
 
     protected virtual void OnSearchStart()
     {
-        // TODO: MonsterAnimationHandler.Instance?.PlaySearch();
-        // TODO: MonsterAudioManager.Instance?.PlaySearchSound();
-        if (showDebugLogs) Debug.Log("MonsterAI: [PLACEHOLDER] Search animation");
+        // Play search animation
+        if (MonsterAnimationHandler.Instance != null)
+        {
+            MonsterAnimationHandler.Instance.PlaySearch();
+        }
+
+        // Play search sound
+        if (MonsterAudioManager.Instance != null)
+        {
+            MonsterAudioManager.Instance.PlaySearchSound();
+        }
+
+        if (showDebugLogs) Debug.Log("MonsterAI: Search started");
     }
 
     protected virtual void OnChaseStart()
     {
-        // TODO: MonsterAnimationHandler.Instance?.PlayChaseStart();
-        // TODO: MonsterAudioManager.Instance?.PlayChaseSound();
-        if (showDebugLogs) Debug.Log("MonsterAI: [PLACEHOLDER] Chase start");
+        // Animation is handled automatically by speed (walk -> run blend)
+
+        // Start chase music
+        if (MonsterAudioManager.Instance != null)
+        {
+            MonsterAudioManager.Instance.StartChaseMusic();
+        }
+
+        if (showDebugLogs) Debug.Log("MonsterAI: Chase started - music playing");
+    }
+
+    protected virtual void OnChaseEnd()
+    {
+        // Stop chase music
+        if (MonsterAudioManager.Instance != null)
+        {
+            MonsterAudioManager.Instance.StopChaseMusic();
+        }
+
+        if (showDebugLogs) Debug.Log("MonsterAI: Chase ended - music stopped");
     }
 
     protected virtual void OnAttackWindup()
     {
-        // TODO: MonsterAnimationHandler.Instance?.PlayAttackWindup();
-        // TODO: MonsterAudioManager.Instance?.PlayAttackWindup();
-        if (showDebugLogs) Debug.Log("MonsterAI: [PLACEHOLDER] Attack windup");
+        // Play attack animation
+        if (MonsterAnimationHandler.Instance != null)
+        {
+            MonsterAnimationHandler.Instance.PlayAttack();
+        }
+
+        // Attack sound will be played by JumpscareManager
+
+        if (showDebugLogs) Debug.Log("MonsterAI: Attack windup triggered");
     }
 
     protected virtual void OnAttackPlayer()
     {
         if (showDebugLogs) Debug.Log("MonsterAI: ATTACK! Triggering jumpscare...");
+
+        // Stop chase music before jumpscare
+        if (MonsterAudioManager.Instance != null)
+        {
+            MonsterAudioManager.Instance.StopChaseMusic();
+        }
 
         // Try to find and call GameManager
         GameObject gameManagerObj = GameObject.Find("GameManager");
