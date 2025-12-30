@@ -323,6 +323,21 @@ public class NightGameManager : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
+        // ----- Setup Monster AI -----
+        if (MonsterAI.Instance != null)
+        {
+            MonsterAI.Instance.SetupForNight(currentNight, flowersNeededThisNight);
+
+            if (showDebugLogs)
+            {
+                Debug.Log("GameManager: MonsterAI configured for night.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("GameManager: MonsterAI not found! Monster will not work.");
+        }
+
         if (showDebugLogs)
         {
             Debug.Log($"GameManager: Night {currentNight} started! Collect {flowersNeededThisNight} flowers before 6:00 AM.");
@@ -369,11 +384,8 @@ public class NightGameManager : MonoBehaviour
             Debug.Log($"GameManager: Flower collected! {flowersCollectedThisNight}/{flowersNeededThisNight}");
         }
 
-        // ============================================
-        // TODO: NOTIFY MONSTER HERE
-        // The monster should investigate the flower position
-        // Example: MonsterAI.Instance.InvestigatePosition(flowerPosition);
-        // ============================================
+        // NOTE: Monster is notified directly from FlowerPickup.cs
+        // Do not notify monster here to avoid double notification
 
         // Check if all flowers collected
         if (flowersCollectedThisNight >= flowersNeededThisNight)

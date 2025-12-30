@@ -203,7 +203,7 @@ public class TimerUI : MonoBehaviour
         if (postProcessVolume == null)
         {
             // Try to find Global Volume in scene
-            postProcessVolume = FindObjectOfType<Volume>();
+            postProcessVolume = FindFirstObjectByType<Volume>();
 
             if (postProcessVolume == null)
             {

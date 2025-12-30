@@ -716,7 +716,7 @@ public class NightUIManager : MonoBehaviour
         if (postProcessVolume == null)
         {
             // Try to find Global Volume in scene
-            postProcessVolume = FindObjectOfType<Volume>();
+            postProcessVolume = FindFirstObjectByType<Volume>();
 
             if (postProcessVolume == null)
             {
@@ -1153,7 +1153,7 @@ public class NightUIManager : MonoBehaviour
         // Auto-find player if not assigned
         if (playerMovement == null)
         {
-            playerMovement = FindObjectOfType<PlayerMovement>();
+            playerMovement = FindFirstObjectByType<PlayerMovement>();
             if (playerMovement == null)
             {
                 Debug.LogWarning("UIManager: No PlayerMovement found! Please assign it in the Inspector.");
