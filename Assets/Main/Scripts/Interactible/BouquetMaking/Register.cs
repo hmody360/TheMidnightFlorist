@@ -55,7 +55,6 @@ public class Register : MonoBehaviour, Iinteractable
                 Material[] tempMatList = _screenRenderer.sharedMaterials;
                 tempMatList[1] = _screenMatList[2];
                 _screenRenderer.sharedMaterials = tempMatList;
-                UIManager.instance.setPromptText("The Shop has been Closed!", Color.red, true);
                 _audioSource.PlayOneShot(_audioClipList[1]);
                 _animator.SetTrigger("SuccessTrigger");
                 ActionName = "Work More?";

@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _currentDay;
     [SerializeField] private int _maxNumberOfdays;
     [SerializeField] private bool _isCurrentlyDaytime = true;
-    
+
 
     [Header("Day Mode")]
     [SerializeField] private float _currentNectarCoins;
@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
     public void addQuota(float coinAmount)
     {
         _currentQuota += coinAmount;
-        UIManager.instance.UpdateQuoutaText(_currentQuota,_quotaToReach);
+        UIManager.instance.UpdateQuoutaText(_currentQuota, _quotaToReach);
     }
 
     public void removeCoins(float coinAmount)
@@ -171,9 +171,19 @@ public class GameManager : MonoBehaviour
     {
         if (_currentCustomers > 0 && _customersLeaved < _totalCustomer)
         {
-            _currentCustomers--;
-            _customersLeaved++;
-            UIManager.instance.UpdateCustomerCountText(_customersLeaved, _totalCustomer);
+            if (!_isDayFinished)
+            {
+                _currentCustomers--;
+                _customersLeaved++;
+                UIManager.instance.UpdateCustomerCountText(_customersLeaved, _totalCustomer);
+
+                if (_customersLeaved == _totalCustomer)
+                {
+                    checkDayWin();
+                }
+            }
+
+
             return true;
         }
         else
@@ -247,6 +257,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.SetShopStatus(_isStoreOpen);
             UIManager.instance.SetTaskText("Go To The Backyard");
             UIManager.instance.HideStatsPanel();
+            UIManager.instance.setPromptText("The Shop has been Closed!", Color.red, true);
 
             _gameSoundtrackManager.ChangeGameMusic(3);
             _gameSoundtrackManager.ChangeAmbienceSounds(4);
@@ -256,6 +267,21 @@ public class GameManager : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+
+    private void checkDayWin()
+    {
+        if (_currentQuota >= _quotaToReach)
+        {
+            CloseStore();
+        }
+        else
+        {
+            UIManager.instance.ShowGameOverPanel();
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = false;
+            Cursor.lockState = CursorLockMode.Confined;
+            Time.timeScale = 0f;
         }
     }
 
@@ -367,6 +393,35 @@ public class GameManager : MonoBehaviour
             UIManager.instance.UpdateQuoutaText(_currentQuota, _quotaToReach);
             UIManager.instance.UpdateCustomerCountText(_customersLeaved, _totalCustomer);
         }
+    }
+
+    private void resetGameStats()
+    {
+        if (_currentDay != 1)
+        {
+            _currentDay = 1;
+        }
+        _isCurrentlyDaytime = true;
+        _currentNectarCoins = 0;
+        _currentQuota = 0;
+        _currentCustomers = 0;
+        _customersLeaved = 0;
+        _isStoreOpen = false;
+        _isDayFinished = false;
+    }
+
+    // GameOver Handiling
+
+    public void RestartGame()
+    {
+        resetGameStats();
+        SceneManager.LoadScene("FlowershopScene");
+    }
+
+    public void QuitToMainMenu()
+    {
+        resetGameStats();
+        SceneManager.LoadScene("MainMenu");
     }
 
 }

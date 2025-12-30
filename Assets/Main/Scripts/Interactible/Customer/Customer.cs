@@ -74,12 +74,12 @@ public class Customer : MonoBehaviour, Iinteractable
 
     private void OnEnable()
     {
-        GameManager.onStoreClosed += DestroySelf;
+        GameManager.onStoreClosed += Leave;
     }
 
     private void OnDisable()
     {
-        GameManager.onStoreClosed -= DestroySelf;
+        GameManager.onStoreClosed -= Leave;
     }
 
     private void OnDestroy()
@@ -220,6 +220,8 @@ public class Customer : MonoBehaviour, Iinteractable
 
     private void Leave()
     {
+        if (isLeaving == true)
+            return;
         isLeaving = true;
         gameObject.layer = 0;
         _agent.SetDestination(goLocations[1].position);
