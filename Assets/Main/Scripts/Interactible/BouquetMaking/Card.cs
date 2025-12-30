@@ -4,12 +4,12 @@ using static GameEnums;
 
 public class Card : MonoBehaviour, ISellable
 {
-    [SerializeField] private GameObject _cardPrefab;
+    [SerializeField] private GameObject[] _cardPrefab;
     [SerializeField] private CardType _type;
     [SerializeField] private string _name;
     [SerializeField] private int _price;
 
-    public GameObject Prefab
+    public GameObject[] Prefab
     {
         get { return _cardPrefab; }
         set { _cardPrefab = value; }

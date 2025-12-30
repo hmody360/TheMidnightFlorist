@@ -7,16 +7,22 @@ TagManager:
   - ItemSlot
   - Enemy
   - CurrentBouquet
+  - WorkItem
+  - CounterDoor
+  - Stem
+  - StoreLight
+  - WorkItemLight
+  - Clock
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Wall
   - Water
   - UI
   - Interactible
-  - 
-  - 
+  - Blocker
+  - HiddenObjects
   - 
   - 
   - 

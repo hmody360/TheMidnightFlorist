@@ -3,14 +3,14 @@ using static GameEnums;
 
 public class FlowerObj : MonoBehaviour, ISellable
 {
-    [SerializeField] private GameObject _flowerPrefab;
+    [SerializeField] private GameObject[] _flowerPrefab;
     [SerializeField] private FlowerType _type;
     [SerializeField] private string _color;
     [SerializeField] private int _price;
 
 
 
-    public GameObject Prefab
+    public GameObject[] Prefab
     {
         get { return _flowerPrefab; }
         set { _flowerPrefab = value; }
