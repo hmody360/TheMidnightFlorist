@@ -65,12 +65,16 @@ public class GameManager : MonoBehaviour
     }
     private void OnEnable()
     {
+        SceneManager.sceneLoaded += SetDifficultyByDay;
         SceneManager.sceneLoaded += initializeDayUI;
+        SceneManager.sceneLoaded += FindDaySceneObjRefs;
     }
 
     private void OnDisable()
     {
+        SceneManager.sceneLoaded -= SetDifficultyByDay;
         SceneManager.sceneLoaded -= initializeDayUI;
+        SceneManager.sceneLoaded -= FindDaySceneObjRefs;
     }
 
     // Update is called once per frame
@@ -177,6 +181,16 @@ public class GameManager : MonoBehaviour
                 _customersLeaved++;
                 UIManager.instance.UpdateCustomerCountText(_customersLeaved, _totalCustomer);
 
+                if (_currentCustomers <= 0)
+                {
+                    _currentCustomers = 0;
+                }
+
+                if( _customersLeaved > _totalCustomer)
+                {
+                    _currentCustomers = _totalCustomer;
+                }
+
                 if (_customersLeaved == _totalCustomer)
                 {
                     checkDayWin();
@@ -257,6 +271,7 @@ public class GameManager : MonoBehaviour
             UIManager.instance.SetShopStatus(_isStoreOpen);
             UIManager.instance.SetTaskText("Go To The Backyard");
             UIManager.instance.HideStatsPanel();
+            UIManager.instance.SetTimeDisplayer(false);
             UIManager.instance.setPromptText("The Shop has been Closed!", Color.red, true);
 
             _gameSoundtrackManager.ChangeGameMusic(3);
@@ -278,10 +293,13 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            UIManager.instance.HideGameHUD();
             UIManager.instance.ShowGameOverPanel();
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = false;
             Cursor.lockState = CursorLockMode.Confined;
+            Camera.main.GetComponent<RayInetractor>().enabled = false;
             Time.timeScale = 0f;
+            
         }
     }
 
@@ -316,6 +334,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void FindDaySceneObjRefs(Scene scene, LoadSceneMode loadScene)
+    {
+        if(scene.name == "FlowershopScene")
+        {
+            _clock = GameObject.FindGameObjectWithTag("Clock").GetComponent<RotatableObject>();
+            _gameSoundtrackManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        }
+        
+    }
     public void ChangeClockTime(float LongValue, float ShortValue)
     {
         if (LongValue > 1 || ShortValue > 1 || _clock == null)
@@ -379,6 +406,31 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void SetDifficultyByDay(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if(scene.name == "FlowershopScene")
+        {
+            switch (_currentDay)
+            {
+                case 1:
+                    _quotaToReach = 60;
+                    _totalCustomer = 5;
+                    break;
+                case 2:
+                    _quotaToReach = 120;
+                    _totalCustomer = 12;
+                    break;
+                case 3:
+                    _quotaToReach = 180;
+                    _totalCustomer = 18;
+                    break;
+                default:
+                    _quotaToReach = 10;
+                    _totalCustomer = 5;
+                    break;
+            }
+        }
+    }
     //UI Logic
 
     private void initializeDayUI(Scene currentScene, LoadSceneMode loadSceneMode)
@@ -395,14 +447,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void resetGameStats()
+    public void resetGameStats(bool playerLost)
     {
-        if (_currentDay != 1)
+        if (playerLost)
         {
             _currentDay = 1;
+            Time.timeScale = 1f;
+            _currentNectarCoins = 0;
         }
         _isCurrentlyDaytime = true;
-        _currentNectarCoins = 0;
         _currentQuota = 0;
         _currentCustomers = 0;
         _customersLeaved = 0;
@@ -414,14 +467,16 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        resetGameStats();
+        instance.resetGameStats(true);
         SceneManager.LoadScene("FlowershopScene");
+        
     }
 
     public void QuitToMainMenu()
     {
-        resetGameStats();
+        instance.resetGameStats(true);
         SceneManager.LoadScene("MainMenu");
+        
     }
 
 }

@@ -82,7 +82,7 @@ public class CustomerRespawner : MonoBehaviour
 
         GameObject customerInstance = Instantiate(_customerPrefabs[rndNum], transform.position, transform.rotation);
         Customer customer = customerInstance.GetComponentInChildren<Customer>();
-
+        _audioSource.PlayOneShot(_audioSource.clip);
         if (customer == null)
         {
             Debug.LogError("Customer is missing the Customer Script");

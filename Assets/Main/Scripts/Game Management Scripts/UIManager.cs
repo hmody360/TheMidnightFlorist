@@ -36,9 +36,6 @@ public class UIManager : MonoBehaviour
 
     [Header("GameOver Related")]
     [SerializeField] private GameObject _gameOverPanel;
-    //==================================== Night UI ====================================
-    [Header("Night UI")]
-    [SerializeField] private GameObject _NightUI;
 
     public static UIManager instance;
 
@@ -52,7 +49,6 @@ public class UIManager : MonoBehaviour
         else
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
     }
 
@@ -76,13 +72,11 @@ public class UIManager : MonoBehaviour
     {
         if (scene.name == "FlowershopScene")
         {
-            HideNightUI();
             ShowDayUI();
 
         }else if(scene.name == "BackyardScene")
         {
             HideDayUI();
-            ShowNightUI();
         }
 
     }
@@ -136,22 +130,6 @@ public class UIManager : MonoBehaviour
         if (_DayUI != null)
         {
             _DayUI.SetActive(false);
-        }
-    }
-
-    public void ShowNightUI()
-    {
-        if (_NightUI != null)
-        {
-            _NightUI.SetActive(true);
-        }
-    }
-
-    public void HideNightUI()
-    {
-        if (_NightUI != null)
-        {
-            _NightUI.SetActive(false);
         }
     }
 
@@ -233,7 +211,7 @@ public class UIManager : MonoBehaviour
     {
         if (_statsPanel != null)
         {
-            _statsPanel.SetActive(true);
+            _statsPanel.SetActive(false);
         }
     }
 
