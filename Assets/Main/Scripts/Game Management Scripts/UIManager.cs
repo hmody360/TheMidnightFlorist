@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
@@ -28,11 +29,20 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _currentTaskText;
     [SerializeField] private TextMeshProUGUI _shopStatusText;
 
-    [Header("Stats Related")]
+    [Header("Game Stats Related")]
     [SerializeField] private GameObject _statsPanel;
     [SerializeField] private TextMeshProUGUI _currentNectarCoinsText;
     [SerializeField] private TextMeshProUGUI _quotaText;
     [SerializeField] private TextMeshProUGUI _customerCounterText;
+
+    [Header("Current Bouqet Related")]
+    [SerializeField] private Image _wrapperTypeHolder;
+    [SerializeField] private Image[] _flowerTypeList;
+    [SerializeField] private Image _sprayTypeHolder;
+    [SerializeField] private Image _cardTypeHolder;
+    [SerializeField] private GameObject _currentBouquetHolder;
+    [SerializeField] private TextMeshProUGUI _currentPriceHolder;
+    [SerializeField] private Sprite _noneImage;
 
     [Header("GameOver Related")]
     [SerializeField] private GameObject _gameOverPanel;
@@ -74,7 +84,8 @@ public class UIManager : MonoBehaviour
         {
             ShowDayUI();
 
-        }else if(scene.name == "BackyardScene")
+        }
+        else if (scene.name == "BackyardScene")
         {
             HideDayUI();
         }
@@ -241,10 +252,59 @@ public class UIManager : MonoBehaviour
 
     public void ShowGameOverPanel()
     {
-        if(_gameOverPanel  != null)
+        if (_gameOverPanel != null)
         {
             _gameOverPanel.SetActive(true);
         }
+    }
+
+    // Current Bouqet Related
+
+    public void ShowCurrentBouquetHolder()
+    {
+        _currentBouquetHolder.SetActive(true);
+    }
+
+    public void HideCurrentBouquetHolder()
+    {
+        _currentBouquetHolder.SetActive(false);
+    }
+
+    public void SetCurrentWrapper(Sprite icon)
+    {
+        _wrapperTypeHolder.sprite = icon;
+    }
+
+    public void SetCurrentFlowers(Sprite icon, int index)
+    {
+        _flowerTypeList[index].sprite = icon;
+    }
+
+    public void SetCurrentSpray(Sprite icon)
+    {
+        _sprayTypeHolder.sprite = icon;
+    }
+
+    public void SetCurrentCard(Sprite icon)
+    {
+        _cardTypeHolder.sprite = icon;
+    }
+
+    public void resetCurrentBouquetUI()
+    {
+        _wrapperTypeHolder.sprite = _noneImage;
+        foreach (Image img in _flowerTypeList)
+        {
+            img.sprite = _noneImage;
+        }
+        _sprayTypeHolder.sprite = _noneImage;
+        _cardTypeHolder.sprite = _noneImage;
+        _currentPriceHolder.text = "0";
+    }
+
+    public void setTotalBouquetPrice(float price)
+    {
+        _currentPriceHolder.text = price.ToString();
     }
 
 }
