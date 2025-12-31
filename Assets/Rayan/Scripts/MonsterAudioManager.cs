@@ -103,6 +103,15 @@ public class MonsterAudioManager : MonoBehaviour
     [Range(0f, 1f)]
     public float searchVolume = 0.6f;
 
+    // ==================== ATTACK SOUND ====================
+    [Header("=== ATTACK SOUND (Optional) ===")]
+    [Tooltip("Sound when monster swings attack (before hit check)")]
+    public AudioClip attackSwingSound;
+
+    [Tooltip("Attack swing sound volume")]
+    [Range(0f, 1f)]
+    public float attackSwingVolume = 0.8f;
+
     // ==================== CHASE MUSIC ====================
     [Header("=== CHASE MUSIC ===")]
     [Tooltip("Music that plays during chase")]
@@ -429,6 +438,27 @@ public class MonsterAudioManager : MonoBehaviour
         if (showDebugLogs)
         {
             Debug.Log("MonsterAudioManager: Playing Search Sound");
+        }
+    }
+
+    // ==================== ATTACK SOUND ====================
+
+    /// <summary>
+    /// Play attack swing sound (when monster attacks, before hit check)
+    /// </summary>
+    public void PlayAttackSwingSound()
+    {
+        if (attackSwingSound == null)
+        {
+            if (showDebugLogs) Debug.Log("MonsterAudioManager: Attack swing sound not assigned");
+            return;
+        }
+
+        sfxSource.PlayOneShot(attackSwingSound, attackSwingVolume);
+
+        if (showDebugLogs)
+        {
+            Debug.Log("MonsterAudioManager: Playing Attack Swing Sound");
         }
     }
 
