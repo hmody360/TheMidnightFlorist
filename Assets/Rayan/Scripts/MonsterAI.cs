@@ -77,7 +77,10 @@ public class MonsterAI : MonoBehaviour
 
     [Header("=== ATTACK SETTINGS ===")]
     public float attackRange = 1.5f;
-    public float attackWindupTime = 0.3f;
+    [Tooltip("Duration of attack animation (player can escape during this)")]
+    public float attackAnimationDuration = 0.867f;
+    [Tooltip("Range to check if player was hit after attack animation")]
+    public float attackHitRange = 2f;
 
     [Header("=== REFERENCES ===")]
     public Transform player;
@@ -133,8 +136,8 @@ public class MonsterAI : MonoBehaviour
     private Vector3 guardFlowerPosition;
 
     // Attack
-    private bool isAttackWindup = false;
-    private float attackWindupTimer;
+    private bool isAttacking = false;
+    private float attackTimer;
 
     // Night tracking
     private int currentNight = 1;
@@ -204,7 +207,7 @@ public class MonsterAI : MonoBehaviour
 
         // Always check vision (except during screaming/windup/alert rushing)
         // FIX: Don't check vision during Alert at all - monster should go to flower first
-        if (!isScreaming && !isAttackWindup && currentState != MonsterState.Alert)
+        if (!isScreaming && !isAttacking && currentState != MonsterState.Alert)
         {
             CheckVision();
         }
@@ -407,10 +410,10 @@ public class MonsterAI : MonoBehaviour
 
             case MonsterState.Attack:
                 agent.isStopped = true;
-                isAttackWindup = true;
-                attackWindupTimer = attackWindupTime;
-                // TODO: Play attack windup animation
-                OnAttackWindup();
+                isAttacking = true;
+                attackTimer = attackAnimationDuration;
+                // Play attack animation (swing)
+                OnAttackSwing();
                 break;
         }
     }
@@ -452,7 +455,7 @@ public class MonsterAI : MonoBehaviour
                 break;
 
             case MonsterState.Attack:
-                isAttackWindup = false;
+                isAttacking = false;
                 agent.isStopped = false;
                 break;
         }
@@ -1064,14 +1067,14 @@ public class MonsterAI : MonoBehaviour
     // ==================== ATTACK STATE ====================
     private void UpdateAttack()
     {
-        // FIX: Null check at the start
+        // Null check
         if (player == null)
         {
             SetState(MonsterState.Patrol);
             return;
         }
 
-        // Look at player
+        // Look at player during attack
         Vector3 lookDirection = player.position - transform.position;
         lookDirection.y = 0;
         if (lookDirection != Vector3.zero)
@@ -1083,23 +1086,34 @@ public class MonsterAI : MonoBehaviour
             );
         }
 
-        if (isAttackWindup)
+        if (isAttacking)
         {
-            attackWindupTimer -= Time.deltaTime;
+            attackTimer -= Time.deltaTime;
 
-            // Check if player escaped during windup
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-            if (distanceToPlayer > attackRange + 1f)
+            // Attack animation finished - check if player was hit
+            if (attackTimer <= 0)
             {
-                isAttackWindup = false;
-                SetState(MonsterState.Chase);
-                return;
-            }
+                isAttacking = false;
 
-            if (attackWindupTimer <= 0)
-            {
-                isAttackWindup = false;
-                OnAttackPlayer();
+                float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+                if (showDebugLogs)
+                {
+                    Debug.Log($"MonsterAI: Attack finished! Distance to player: {distanceToPlayer:F2}, Hit range: {attackHitRange}");
+                }
+
+                if (distanceToPlayer <= attackHitRange)
+                {
+                    // Player was hit! Trigger jumpscare
+                    if (showDebugLogs) Debug.Log("MonsterAI: Player HIT! Triggering jumpscare...");
+                    OnAttackHit();
+                }
+                else
+                {
+                    // Player escaped! Continue chase
+                    if (showDebugLogs) Debug.Log("MonsterAI: Player ESCAPED! Continuing chase...");
+                    SetState(MonsterState.Chase);
+                }
             }
         }
     }
@@ -1276,7 +1290,11 @@ public class MonsterAI : MonoBehaviour
         if (showDebugLogs) Debug.Log("MonsterAI: Chase ended - music stopped");
     }
 
-    protected virtual void OnAttackWindup()
+    /// <summary>
+    /// Called when monster starts attack swing animation
+    /// Player can still escape during this!
+    /// </summary>
+    protected virtual void OnAttackSwing()
     {
         // Play attack animation
         if (MonsterAnimationHandler.Instance != null)
@@ -1284,14 +1302,27 @@ public class MonsterAI : MonoBehaviour
             MonsterAnimationHandler.Instance.PlayAttack();
         }
 
-        // Attack sound will be played by JumpscareManager
+        // Play attack swing sound (optional - different from jumpscare sound)
+        if (MonsterAudioManager.Instance != null)
+        {
+            MonsterAudioManager.Instance.PlayAttackSwingSound();
+        }
 
-        if (showDebugLogs) Debug.Log("MonsterAI: Attack windup triggered");
+        if (showDebugLogs) Debug.Log("MonsterAI: Attack swing started - player can escape!");
     }
 
-    protected virtual void OnAttackPlayer()
+    /// <summary>
+    /// Called when attack hits the player (player didn't escape in time)
+    /// </summary>
+    protected virtual void OnAttackHit()
     {
-        if (showDebugLogs) Debug.Log("MonsterAI: ATTACK! Triggering jumpscare...");
+        // Prevent multiple calls
+        if (JumpscareManager.Instance != null && JumpscareManager.Instance.IsJumpscareActive())
+        {
+            return;
+        }
+
+        if (showDebugLogs) Debug.Log("MonsterAI: ATTACK HIT! Triggering jumpscare...");
 
         // Stop chase music before jumpscare
         if (MonsterAudioManager.Instance != null)
@@ -1299,18 +1330,33 @@ public class MonsterAI : MonoBehaviour
             MonsterAudioManager.Instance.StopChaseMusic();
         }
 
-        // Try to find and call GameManager
-        GameObject gameManagerObj = GameObject.Find("GameManager");
-        if (gameManagerObj != null)
+        // Trigger jumpscare sequence
+        if (JumpscareManager.Instance != null)
         {
-            gameManagerObj.SendMessage("OnPlayerCaughtByMonster", SendMessageOptions.DontRequireReceiver);
+            JumpscareManager.Instance.TriggerJumpscare();
         }
         else
         {
-            Debug.Log("MonsterAI: [TEST MODE] Player caught! GameManager not found - jumpscare would trigger here.");
-        }
+            // Fallback if JumpscareManager not found - call GameManager directly
+            Debug.LogWarning("MonsterAI: JumpscareManager not found! Calling GameManager directly.");
 
-        // TODO: JumpscareManager.Instance?.TriggerJumpscare();
+            if (NightGameManager.Instance != null)
+            {
+                NightGameManager.Instance.OnPlayerCaughtByMonster();
+            }
+            else
+            {
+                GameObject gameManagerObj = GameObject.Find("GameManager");
+                if (gameManagerObj != null)
+                {
+                    gameManagerObj.SendMessage("OnPlayerCaughtByMonster", SendMessageOptions.DontRequireReceiver);
+                }
+                else
+                {
+                    Debug.Log("MonsterAI: [TEST MODE] Player caught! No manager found.");
+                }
+            }
+        }
     }
 
     // ==================== DEBUG VISUALIZATION ====================

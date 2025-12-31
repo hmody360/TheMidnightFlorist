@@ -1,0 +1,238 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1582795738025580240
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -13
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0001001358
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_Name
+      value: Warrok W Kurniawan
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a2afb8e4e8bc36044aa09a18814e4d8e, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6191400325960744835}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2940157290570032046}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6865299471603601842}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2152392567583746916}
+  m_SourcePrefab: {fileID: 100100000, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+--- !u!1 &1816729142386322305 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c2eab00b60df51c44bdd8806e9189d9b, type: 3}
+  m_PrefabInstance: {fileID: 1582795738025580240}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &6191400325960744835
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816729142386322305}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0.5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &2940157290570032046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816729142386322305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76896a07e72200d4181cabad2b9c4847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterAI
+  patrolPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  patrolSpeed: 2
+  waitTimeAtPoint: 2
+  chaseSpeed: 5
+  reactionDelay: 0.5
+  rushSpeed: 4
+  alertScreamDuration: 1.5
+  investigateScreamDuration: 2
+  trailRecordDistance: 4
+  maxTraceSpeed: 12
+  traceSpeedUpTime: 60
+  searchDuration: 4
+  guardPointCount: 4
+  visionRange: 15
+  visionAngle: 90
+  eyeHeight: 1.5
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  losePlayerTime: 3
+  traceAfterLoseChase: 3
+  attackRange: 1.5
+  attackWindupTime: 0.3
+  player: {fileID: 0}
+  showDebugLogs: 1
+  showGizmos: 1
+--- !u!114 &6865299471603601842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816729142386322305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d39b7cfe27ff543b9f26395aa8292b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterAudioManager
+  walkFootsteps: []
+  runFootsteps: []
+  walkFootstepVolume: 0.5
+  runFootstepVolume: 0.7
+  alertScreamSound: {fileID: 0}
+  investigateScreamSound: {fileID: 0}
+  chaseStartScreamSound: {fileID: 0}
+  chaseLoopScreams: []
+  chaseScreamInterval: 5
+  chaseScreamIntervalVariation: 2
+  alertScreamVolume: 1
+  investigateScreamVolume: 1
+  chaseScreamVolume: 1
+  breathingSound: {fileID: 0}
+  breathingVolume: 0.3
+  proximityBreathing: 1
+  breathingFullVolumeDistance: 5
+  breathingFadeDistance: 20
+  searchSound: {fileID: 0}
+  searchVolume: 0.6
+  chaseMusic: {fileID: 0}
+  chaseMusicVolume: 0.8
+  musicFadeDuration: 1
+  sceneMusicSource: {fileID: 0}
+  sceneMusicChaseVolume: 0
+  showDebugLogs: 1
+--- !u!114 &2152392567583746916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816729142386322305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b58c115cdefcb41a5934f8c9e46c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterAnimationHandler
+  animator: {fileID: 0}
+  agent: {fileID: 0}
+  monsterAI: {fileID: 0}
+  idleThreshold: 0.1
+  walkSpeed: 2
+  runSpeed: 5
+  speedSmoothTime: 0.1
+  speedParameter: Speed
+  isMovingParameter: IsMoving
+  screamTrigger: Scream
+  searchTrigger: Search
+  attackTrigger: Attack
+  showDebugLogs: 1
