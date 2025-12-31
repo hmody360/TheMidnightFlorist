@@ -12,7 +12,15 @@ public class Register : MonoBehaviour, Iinteractable
     [SerializeField] private Renderer _screenRenderer;
     [SerializeField] private Material[] _screenMatList;
 
-    
+    private void OnEnable()
+    {
+        GameManager.onStoreClosed += changeActionName;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.onStoreClosed -= changeActionName;
+    }
 
     public string ActionName
     {
@@ -73,5 +81,10 @@ public class Register : MonoBehaviour, Iinteractable
             _audioSource.PlayOneShot(_audioClipList[3]); // Yawn Sound
             _animator.SetTrigger("FailTrigger");
         }
+    }
+
+    private void changeActionName()
+    {
+        ActionName = "Work More?";
     }
 }

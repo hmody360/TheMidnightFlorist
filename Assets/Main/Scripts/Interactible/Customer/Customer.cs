@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Analytics;
+using Unity.VisualScripting;
 
 public class Customer : MonoBehaviour, Iinteractable
 {
@@ -14,7 +16,7 @@ public class Customer : MonoBehaviour, Iinteractable
     private bool isLeaving = false;
     private CustomerUI _customerUI;
 
-
+    [SerializeField] private Gender _gender;
     [SerializeField] private AudioSource[] _audioSourceList;
     [SerializeField] private AudioClip[] _audioClipList;
 
@@ -25,6 +27,17 @@ public class Customer : MonoBehaviour, Iinteractable
     [SerializeField] private Spray[] _scentsToChoose;
     [SerializeField] private Card[] _cardsToChoose;
 
+    // Model Randoms
+    [SerializeField] private GameObject[] _BeardList;
+    [SerializeField] private GameObject[] _HairList;
+    [SerializeField] private GameObject[] _mustacheList;
+    [SerializeField] private GameObject[] _NoseList;
+    [SerializeField] private Material[] _clothesMaterialList;
+    [SerializeField] private Material[] _skinMaterialList;
+    [SerializeField] private SkinnedMeshRenderer _clothesMaterialToChange;
+    [SerializeField] private SkinnedMeshRenderer _WomanHandSkinToChange;
+
+    // Timer
     [SerializeField] private float _timer = 30;
     [SerializeField] private float _waitingTime = 30;
 
@@ -47,11 +60,11 @@ public class Customer : MonoBehaviour, Iinteractable
         _animator = GetComponent<Animator>();
         _customerUI = GetComponentInChildren<CustomerUI>();
         goLocations = new List<Transform>() { null, null };
-
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        GenerateLook();
         ActionName = "Give Bouquet";
         _agent.stoppingDistance = stoppingDistance;
         _audioSourceList[0].clip = _audioClipList[0];
@@ -312,6 +325,60 @@ public class Customer : MonoBehaviour, Iinteractable
 
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lookRotationSpeed * Time.deltaTime);
+    }
+
+    private void GenerateLook()
+    {
+        int randomNoseIndex = Random.Range(-1, _NoseList.Length);
+        int randomClothesIndex = Random.Range(-1, _clothesMaterialList.Length);
+        int randomSkinIndex = Random.Range(0, _skinMaterialList.Length);
+
+        if (randomNoseIndex != -1)
+        {
+            _NoseList[randomNoseIndex].SetActive(true);
+            _NoseList[randomNoseIndex].GetComponent<SkinnedMeshRenderer>().material = _skinMaterialList[randomSkinIndex];
+        }
+
+        if (randomClothesIndex != -1)
+        {
+            Material[] tempMatList = _clothesMaterialToChange.sharedMaterials;
+            tempMatList[0] = _clothesMaterialList[randomClothesIndex];
+            _clothesMaterialToChange.sharedMaterials = tempMatList;
+        }
+
+        Material[] tempSkinMatList = _clothesMaterialToChange.sharedMaterials;
+        tempSkinMatList[1] = _skinMaterialList[randomSkinIndex];
+        _clothesMaterialToChange.sharedMaterials = tempSkinMatList;
+
+
+
+
+        if (_gender ==  Gender.Male)
+        {
+            int randomBeardIndex = Random.Range(-1, _BeardList.Length);
+            int randomHairIndex = Random.Range(-1, _HairList.Length);
+            int randomMustacheIndex = Random.Range(-1, _mustacheList.Length);
+
+            if (randomBeardIndex != -1)
+            {
+                _BeardList[randomBeardIndex].SetActive(true);
+            }
+
+            if (randomHairIndex != -1)
+            {
+                _HairList[randomHairIndex].SetActive(true);
+            }
+
+            if (randomMustacheIndex != -1)
+            {
+                _mustacheList[randomMustacheIndex].SetActive(true);
+            }
+
+        }
+        else
+        {
+            _WomanHandSkinToChange.material = _skinMaterialList[randomSkinIndex];
+        }
     }
 
     private void DestroySelf()

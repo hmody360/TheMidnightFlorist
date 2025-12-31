@@ -22,16 +22,19 @@ public class BouquetHolder : MonoBehaviour
         {
             _flowerList.Add(flower);
             currentPrice += flower.Price;
-
+            UIManager.instance.setTotalBouquetPrice(currentPrice);
             switch (_flowerList.Count)
             {
                 case 1:
                     Instantiate(flower.Prefab[0], _WrapperPoint);
+                    UIManager.instance.SetCurrentFlowers(flower.Icon, 0);
                     break;
                 case 2:
                     Instantiate(flower.Prefab[1], _WrapperPoint);
+                    UIManager.instance.SetCurrentFlowers(flower.Icon, 1);
                     break;
                 case 3:
+                    UIManager.instance.SetCurrentFlowers(flower.Icon, 2);
                     Instantiate(flower.Prefab[2], _WrapperPoint);
                     break;
                 default:
@@ -41,7 +44,7 @@ public class BouquetHolder : MonoBehaviour
             {
                 HideFlowerStems();
             }
-
+            UIManager.instance.ShowCurrentBouquetHolder();
             return true;
         }
         else
@@ -61,6 +64,9 @@ public class BouquetHolder : MonoBehaviour
             currentPrice += wrapper.Price;
             Instantiate(wrapper, _WrapperPoint);
             _wrapper = wrapper;
+            UIManager.instance.setTotalBouquetPrice(currentPrice);
+            UIManager.instance.SetCurrentWrapper(wrapper.Icon);
+            UIManager.instance.ShowCurrentBouquetHolder();
             HideFlowerStems();
             return true;
         }
@@ -77,6 +83,8 @@ public class BouquetHolder : MonoBehaviour
             currentPrice += spray.Price;
             Instantiate(spray, _sprayPoint);
             _spray = spray;
+            UIManager.instance.setTotalBouquetPrice(currentPrice);
+            UIManager.instance.SetCurrentSpray(spray.Icon);
             return true;
         }
     }
@@ -91,6 +99,8 @@ public class BouquetHolder : MonoBehaviour
         {
             currentPrice += card.Price;
             Instantiate(card, _cardPoint);
+            UIManager.instance.setTotalBouquetPrice(currentPrice);
+            UIManager.instance.SetCurrentCard(card.Icon);
             _card = card;
             return true;
         }

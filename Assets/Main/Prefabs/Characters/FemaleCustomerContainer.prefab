@@ -95,8 +95,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.4
-  m_fontSizeBase: 0.4
+  m_fontSize: 0.3
+  m_fontSizeBase: 0.3
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2197,7 +2197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2409889985726440360
 Transform:
   m_ObjectHideFlags: 0
@@ -2452,7 +2452,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -2674,6 +2674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fac526cfb4ad8084fbeeb239338665bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Customer
+  _gender: 1
   _audioSourceList:
   - {fileID: 3844873471116578274}
   - {fileID: 6739534826840381638}
@@ -2707,6 +2708,26 @@ MonoBehaviour:
   - {fileID: 4530663587310963468, guid: 1324fbfc28958b84386a3df53c41764e, type: 3}
   - {fileID: 2610589358324257314, guid: 6ae2eb2a7b948404c9955219ec7cafcf, type: 3}
   - {fileID: 3783137279869687412, guid: 563cc2b91280f2c499711bedf33e1262, type: 3}
+  _BeardList: []
+  _HairList: []
+  _mustacheList: []
+  _NoseList:
+  - {fileID: 3533574281951569208}
+  - {fileID: 7214321958312540417}
+  - {fileID: 8376614652437704901}
+  _clothesMaterialList:
+  - {fileID: 2100000, guid: 1bcfd9d39163dc54f9e5b45f7c60299d, type: 2}
+  - {fileID: 2100000, guid: cc6b8cc82b23d664faa5f44c52ba0eb0, type: 2}
+  - {fileID: 2100000, guid: 9b8bd6d8a481df14b8112430527e0196, type: 2}
+  - {fileID: 2100000, guid: 0acaf900fe934dc4aa8258dcb7bf01af, type: 2}
+  - {fileID: 2100000, guid: 9e4b09ddd70e4334cacea630540fb89b, type: 2}
+  _skinMaterialList:
+  - {fileID: 2100000, guid: f000c314ea41de340b9ddffcd8369e73, type: 2}
+  - {fileID: 2100000, guid: 2c6a3410892a2c44a94011cb3808e988, type: 2}
+  - {fileID: 2100000, guid: 95b16917e15048148a97aac30cb91634, type: 2}
+  - {fileID: 2100000, guid: ed65428935a81264d9e14d5e853efe66, type: 2}
+  _clothesMaterialToChange: {fileID: 234454724179379904}
+  _WomanHandSkinToChange: {fileID: 7200315303644310650}
   _timer: 0
   _waitingTime: 30
   goLocations:
@@ -2714,6 +2735,7 @@ MonoBehaviour:
   - {fileID: 0}
   stoppingDistance: 0.1
   lookRotationSpeed: 5
+  CounterIndex: -1
 --- !u!1 &3751129429298205900
 GameObject:
   m_ObjectHideFlags: 0
@@ -5195,7 +5217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6640006442468052958
 Transform:
   m_ObjectHideFlags: 0
@@ -5820,7 +5842,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8195167611947268785
 Transform:
   m_ObjectHideFlags: 0

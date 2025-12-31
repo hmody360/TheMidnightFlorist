@@ -14,6 +14,7 @@ TagManager:
   - WorkItemLight
   - Clock
   - CollectFlower
+  - AudioManager
   layers:
   - Default
   - TransparentFX

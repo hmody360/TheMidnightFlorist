@@ -33,4 +33,10 @@ public static class GameEnums
         Black,
         White
     }
+
+    public enum Gender
+    {
+        Male,
+        Female
+    }
 }
