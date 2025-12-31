@@ -243,6 +243,8 @@ MonoBehaviour:
   _customerPrefabs:
   - {fileID: 6919289647526967895, guid: d226c96a505048b4a8eed1c9d56a9a8d, type: 3}
   - {fileID: 6919289647526967895, guid: 2cab745afc113804e884c1e765968ec1, type: 3}
+  - {fileID: 6705451283960211369, guid: 6f9c74964af93c14090399095257e9f4, type: 3}
+  - {fileID: 6825533958891992987, guid: 054f82eb5924b334cb80255ef56f5d88, type: 3}
   _customerPoints:
   - {fileID: 4147920093306122440}
   - {fileID: 3652867392534282276}

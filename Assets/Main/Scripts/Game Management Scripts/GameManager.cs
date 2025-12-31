@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        setDay(1);
+        setDay(2);
         initiateWorkItems();
 
     }
@@ -438,7 +438,6 @@ public class GameManager : MonoBehaviour
         if (currentScene.name == "FlowershopScene")
         {
             UIManager.instance.SetDayCounterText(_currentDay);
-            UIManager.instance.SetTimeDisplayer(true);
             UIManager.instance.SetTaskText("Open The Shop (Register)");
             UIManager.instance.SetShopStatus(_isStoreOpen);
             UIManager.instance.UpdateNectarCoinsText(_currentNectarCoins);
