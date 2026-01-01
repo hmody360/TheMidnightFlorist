@@ -67,6 +67,36 @@ public class MainMenuUI : MonoBehaviour
         HideSettings();
     }
 
+    public void OpenHowToPlayDay()
+    {
+        HideMainMenu();
+        ShowHowToPlayDay();
+    }
+
+    public void CloseHowToPlayDay()
+    {
+        ShowMainMenu();
+        HideHowToPlayDay();
+    }
+
+    public void OpenHowToPlayNight()
+    {
+        HideHowToPlayDay();
+        ShowHowToPlayNight();
+    }
+
+    public void CloseHowToPlayNight()
+    {
+        ShowMainMenu();
+        HideHowToPlayNight();
+    }
+
+    public void GoBackToHowToPlayDay()
+    {
+        HideHowToPlayNight();
+        ShowHowToPlayDay();
+    }
+
     public void StartGame()
     {
         SceneManager.LoadScene("FlowershopScene");

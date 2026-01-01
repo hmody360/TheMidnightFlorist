@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        setDay(2);
+        setDay(1);
         initiateWorkItems();
 
     }
@@ -263,6 +263,7 @@ public class GameManager : MonoBehaviour
             _isStoreOpen = false;
             _isDayFinished = true;
             _isCurrentlyDaytime = false;
+            _currentNectarCoins += _currentQuota;
             initiateWorkItems();
             ChangeWorldSun(Color.darkSlateBlue, 1f);
             OpenStoreLights();

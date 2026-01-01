@@ -9,8 +9,14 @@ EditorBuildSettings:
     path: Assets/Main/Scenes/Preload.unity
     guid: 7fe1b21f536ab20429e1a536d34a52cc
   - enabled: 1
+    path: Assets/Main/Scenes/MainMenu.unity
+    guid: ded415314fa8f7b499119aea1c8ce5f2
+  - enabled: 1
     path: Assets/Mohammed/Scenes/FlowershopScene.unity
     guid: 48a17f3bdff19204492bf5ffacab53dd
+  - enabled: 1
+    path: Assets/Rayan/Scenes/BackyardScene.unity
+    guid: f01e6831ce5c3d646a7f6117e59fd7a8
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

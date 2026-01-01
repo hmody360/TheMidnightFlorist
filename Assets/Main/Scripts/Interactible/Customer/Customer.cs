@@ -114,6 +114,8 @@ public class Customer : MonoBehaviour, Iinteractable
                     _audioSourceList[1].PlayOneShot(_audioClipList[2]);
                     _animator.SetTrigger("HappyRecieve");
                     _customerUI.ChangeOrderStaus(true);
+                    UIManager.instance.HideCurrentBouquetHolder();
+                    UIManager.instance.resetCurrentBouquetUI();
                     Leave();
                     break;
                 case 2:
@@ -121,6 +123,8 @@ public class Customer : MonoBehaviour, Iinteractable
                     _audioSourceList[1].PlayOneShot(_audioClipList[3]);
                     _animator.SetTrigger("SadRecieve");
                     _customerUI.ChangeOrderStaus(false);
+                    UIManager.instance.HideCurrentBouquetHolder();
+                    UIManager.instance.resetCurrentBouquetUI();
                     Leave();
                     break;
                 case 3:
