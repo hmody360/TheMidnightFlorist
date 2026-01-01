@@ -54,7 +54,7 @@ public class DoorToBackyard : MonoBehaviour, Iinteractable
     private IEnumerator WaitBeforeExit()
     {
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene("CopyM");
+        SceneManager.LoadScene("BackyardScene");
     }
 
 }
