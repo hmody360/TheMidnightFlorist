@@ -175,6 +175,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eddc1dd7cdf7d4449f8333e59dbb8da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  audioMixer: {fileID: 24100000, guid: 86da07045c296bf4b8437723c0ec8fed, type: 2}
+  _MasterSider: {fileID: 0}
+  _MusicSider: {fileID: 0}
+  _SFXSider: {fileID: 0}
   _audioSourceList:
   - {fileID: 7143131632181332499}
   - {fileID: 9191540834378833099}
