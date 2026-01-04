@@ -28,7 +28,7 @@ public class NightGameManager : MonoBehaviour
     // ===== MERGE SECTION: SCENE NAMES =====
     [Header("=== SCENE NAMES ===")]
     [Tooltip("Name of the Day Scene")]
-    public string daySceneName = "DayScene";
+    public string daySceneName = "FlowershopScene";
 
     [Tooltip("Name of the Night Scene")]
     public string nightSceneName = "NightScene";
@@ -180,7 +180,7 @@ public class NightGameManager : MonoBehaviour
             uiManager.OnTimerEnded += OnTimeUp;
         }
 
-        currentNight =  GameManager.instance.getDay();
+        SetNight(GameManager.instance.getDay());
     }
 
     // ????????????????????????????????????????????????????????????????????????????
@@ -677,8 +677,9 @@ public class NightGameManager : MonoBehaviour
         isPaused = false;
         Time.timeScale = 1f;
 
-        // Reload the night scene
-        SceneManager.LoadScene(nightSceneName);
+        GameManager.instance.setDay(1);
+        // Reload the game scene
+        SceneManager.LoadScene(daySceneName);
     }
 
     // ===== MERGE SECTION: GO TO NEXT NIGHT =====
