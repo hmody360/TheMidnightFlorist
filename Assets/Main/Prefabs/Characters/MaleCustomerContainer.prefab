@@ -2893,8 +2893,9 @@ MonoBehaviour:
   - {fileID: 2100000, guid: ed65428935a81264d9e14d5e853efe66, type: 2}
   _clothesMaterialToChange: {fileID: 4746847533409169119}
   _WomanHandSkinToChange: {fileID: 0}
+  _WomanFeetColorToChange: {fileID: 0}
   _timer: 0
-  _waitingTime: 30
+  _waitingTime: 60
   goLocations:
   - {fileID: 0}
   - {fileID: 0}

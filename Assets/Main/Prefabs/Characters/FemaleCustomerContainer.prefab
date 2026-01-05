@@ -2730,7 +2730,7 @@ MonoBehaviour:
   _WomanHandSkinToChange: {fileID: 7200315303644310650}
   _WomanFeetColorToChange: {fileID: 3557578763164571553}
   _timer: 0
-  _waitingTime: 30
+  _waitingTime: 60
   goLocations:
   - {fileID: 0}
   - {fileID: 0}

@@ -4532,6 +4532,7 @@ GameObject:
   - component: {fileID: 7127225449093974732}
   - component: {fileID: 2789790633537797852}
   - component: {fileID: 8653910905649722235}
+  - component: {fileID: 3351862383690129491}
   m_Layer: 6
   m_Name: SecurityGuard
   m_TagString: Untagged
@@ -4613,6 +4614,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1961a55fb510de479a6a538b9615f1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SecurityGuard
+  securityDialouge:
+    Name: 
+    sentences:
+    - Hey There! I',m Theeb your new Security Guard.
+    - 'I''ll '
+    - 
   _stoppingDistance: 0.5
   _audioSourceList:
   - {fileID: 7099434883534466167}
@@ -4801,6 +4808,29 @@ MonoBehaviour:
     - {x: 0.57735026, y: -0.57735026, z: 0.57735026}
   outlineMaskMaterial: {fileID: 2100000, guid: 106f3ff43a17d4967a2b64c7a92e49ec, type: 2}
   outlineFillMaterial: {fileID: 2100000, guid: 311313efa011949e98b6761d652ad13c, type: 2}
+--- !u!136 &3351862383690129491
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904383673006252704}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.4851556
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.1893711, z: 0}
 --- !u!1 &7971864064663859806
 GameObject:
   m_ObjectHideFlags: 0

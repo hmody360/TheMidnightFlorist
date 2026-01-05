@@ -14,6 +14,8 @@ public class SecurityGuard : MonoBehaviour, Iinteractable
 
     [SerializeField] private Transform[] _goToList;
 
+    [SerializeField] Dialogue[] securityDialogues;
+
     public string ActionName
     {
         get { return _actionName; }
