@@ -466,7 +466,7 @@ public class NightGameManager : MonoBehaviour
     /// <summary>
     /// Triggers the win condition
     /// </summary>
-    private void TriggerWin()
+    public void TriggerWin()
     {
         if (isGameOver) return;
 
