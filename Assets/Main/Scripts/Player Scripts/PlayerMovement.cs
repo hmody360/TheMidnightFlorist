@@ -158,4 +158,13 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+    // Called by JumpscareManager to stop walking sounds
+    public void StopMovementAudio()
+    {
+        if (_SFXSourceList != null && _SFXSourceList.Length > 0 && _SFXSourceList[0] != null)
+        {
+            _SFXSourceList[0].Stop();
+        }
+    }
 }

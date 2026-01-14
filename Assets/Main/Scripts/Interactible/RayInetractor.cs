@@ -26,10 +26,20 @@ public class RayInetractor : MonoBehaviour
             Outline currentOutlined = currentGameObject.GetComponent<Outline>();
             Iinteractable item = currentGameObject.transform.GetComponent<Iinteractable>();
 
-            if(UIManager.instance != null && item != null)
+            if (item != null)
             {
-                UIManager.instance.ChangeCrossHair(1);
-                UIManager.instance.setPromptText(item.ActionName, Color.white);
+                if (UIManager.instance != null)
+                {
+                    // Day scene - use UIManager
+                    UIManager.instance.ChangeCrossHair(1);
+                    UIManager.instance.setPromptText(item.ActionName, Color.white);
+                }
+                else if (NightUIManager.instance != null)
+                {
+                    // Night scene - use NightUIManager
+                    NightUIManager.instance.ChangeCrossHair(1);
+                    NightUIManager.instance.setPromptText(item.ActionName, Color.white);
+                }
             }
 
             if (currentOutlined != _lastHitOutline) //Disable outlines once not looking at the current item
@@ -42,7 +52,7 @@ public class RayInetractor : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                
+
 
                 if (item != null)
                 {
@@ -53,10 +63,16 @@ public class RayInetractor : MonoBehaviour
         }
         else
         {
+            // ===== UPDATED: Check for UIManager first, then NightUIManager =====
             if (UIManager.instance != null)
             {
                 UIManager.instance.ChangeCrossHair(0);
                 UIManager.instance.setPromptText(string.Empty, Color.white);
+            }
+            else if (NightUIManager.instance != null)
+            {
+                NightUIManager.instance.ChangeCrossHair(0);
+                NightUIManager.instance.setPromptText(string.Empty, Color.white);
             }
 
             DisableCurrentOutline();
@@ -65,7 +81,7 @@ public class RayInetractor : MonoBehaviour
 
     private void DisableCurrentOutline()
     {
-        if(_lastHitOutline != null)
+        if (_lastHitOutline != null)
         {
             _lastHitOutline.enabled = false;
             _lastHitOutline = null;
@@ -74,7 +90,7 @@ public class RayInetractor : MonoBehaviour
 
     private void EnableCurrentOutline()
     {
-        if(_lastHitOutline != null)
+        if (_lastHitOutline != null)
         {
             _lastHitOutline.enabled = true;
         }
