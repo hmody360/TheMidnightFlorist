@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private bool _isStoreOpen = false;
     [SerializeField] private bool _isDayFinished = false;
+    [SerializeField] private bool _isGamePaused = false;
 
     [Header("Day Mode Objects")]
     [SerializeField] private RotatableObject _clock;
@@ -78,7 +79,22 @@ public class GameManager : MonoBehaviour
     }
 
     // Update is called once per frame
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!_isGamePaused)
+            {
+                PauseGame();
+                _isGamePaused = true;
+            }
+            else
+            {
+                ResumeGame();
+                _isGamePaused = false;
+            }
+        }
+    }
     // ------------------------------------------------------------------
     // Day Logic
     public void setDay(int day)
@@ -186,7 +202,7 @@ public class GameManager : MonoBehaviour
                     _currentCustomers = 0;
                 }
 
-                if( _customersLeaved > _totalCustomer)
+                if (_customersLeaved > _totalCustomer)
                 {
                     _currentCustomers = _totalCustomer;
                 }
@@ -294,13 +310,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            UIManager.instance.HideGameHUD();
-            UIManager.instance.ShowGameOverPanel();
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = false;
-            Cursor.lockState = CursorLockMode.Confined;
-            Camera.main.GetComponent<RayInetractor>().enabled = false;
-            Time.timeScale = 0f;
-            
+            OnGameOver();
         }
     }
 
@@ -337,12 +347,12 @@ public class GameManager : MonoBehaviour
 
     private void FindDaySceneObjRefs(Scene scene, LoadSceneMode loadScene)
     {
-        if(scene.name == "FlowershopScene")
+        if (scene.name == "FlowershopScene")
         {
             _clock = GameObject.FindGameObjectWithTag("Clock").GetComponent<RotatableObject>();
             _gameSoundtrackManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         }
-        
+
     }
     public void ChangeClockTime(float LongValue, float ShortValue)
     {
@@ -409,7 +419,7 @@ public class GameManager : MonoBehaviour
 
     private void SetDifficultyByDay(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if(scene.name == "FlowershopScene")
+        if (scene.name == "FlowershopScene")
         {
             switch (_currentDay)
             {
@@ -465,18 +475,90 @@ public class GameManager : MonoBehaviour
 
     // GameOver Handiling
 
+    private void OnGameOver()
+    {
+        UIManager.instance.HideGameHUD();
+        UIManager.instance.ShowGameOverPanel();
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        Camera.main.GetComponent<RayInetractor>().enabled = false;
+        Time.timeScale = 0f;
+    }
+
     public void RestartGame()
     {
         instance.resetGameStats(true);
         SceneManager.LoadScene("FlowershopScene");
-        
+
+    }
+
+    public void PauseGame()
+    {
+        UIManager.instance.HideGameHUD();
+        UIManager.instance.ShowPauseMenu();
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        Camera.main.GetComponent<RayInetractor>().enabled = false;
+        Time.timeScale = 0f;
+    }
+
+    public void ResumeGame()
+    {
+        UIManager.instance.ShowGameHUD();
+        UIManager.instance.HidePauseMenu();
+        UIManager.instance.HideSettingsMenu();
+        UIManager.instance.HideHowToPlayDayPanel();
+        UIManager.instance.HideHowToPlayNightPanel();
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Camera.main.GetComponent<RayInetractor>().enabled = true;
+        Time.timeScale = 1f;
+    }
+
+    public void OpenSettings()
+    {
+        UIManager.instance.HidePauseMenu();
+        UIManager.instance.ShowSettingsMenu();
+    }
+
+    public void CloseSettings()
+    {
+        UIManager.instance.ShowPauseMenu();
+        UIManager.instance.HideSettingsMenu();
+    }
+
+    public void OpenHowToPlayDay()
+    {
+        UIManager.instance.HidePauseMenu();
+        UIManager.instance.ShowHowToPlayDayPanel();
+        UIManager.instance.HideHowToPlayNightPanel();
+    }
+
+    public void OpenHowToPlayNight()
+    {
+        UIManager.instance.HidePauseMenu();
+        UIManager.instance.ShowHowToPlayNightPanel();
+        UIManager.instance.HideHowToPlayDayPanel();
+    }
+
+    public void CloseHowToPlay()
+    {
+        UIManager.instance.ShowPauseMenu();
+        UIManager.instance.HideHowToPlayDayPanel();
+        UIManager.instance.HideHowToPlayNightPanel();
     }
 
     public void QuitToMainMenu()
     {
         instance.resetGameStats(true);
         SceneManager.LoadScene("MainMenu");
-        
+
+    }
+
+    //Dialogue Handling
+    public void onContinueClicked()
+    {
+        DialogueManager.instance.DisplayNextSentecne();
     }
 
 }

@@ -383,7 +383,11 @@ public class Customer : MonoBehaviour, Iinteractable
         else
         {
             _WomanHandSkinToChange.material = _skinMaterialList[randomSkinIndex];
-            _WomanFeetColorToChange.material = _clothesMaterialList[randomClothesIndex];
+            if(randomClothesIndex != -1)
+            {
+                _WomanFeetColorToChange.material = _clothesMaterialList[randomClothesIndex];
+            }
+            
         }
     }
 
