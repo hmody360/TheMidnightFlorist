@@ -465,6 +465,7 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1f;
             _currentNectarCoins = 0;
         }
+        _isGamePaused = false;
         _isCurrentlyDaytime = true;
         _currentQuota = 0;
         _currentCustomers = 0;
@@ -481,12 +482,14 @@ public class GameManager : MonoBehaviour
         UIManager.instance.ShowGameOverPanel();
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = false;
         Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
         Camera.main.GetComponent<RayInetractor>().enabled = false;
         Time.timeScale = 0f;
     }
 
     public void RestartGame()
     {
+
         instance.resetGameStats(true);
         SceneManager.LoadScene("FlowershopScene");
 
@@ -494,25 +497,35 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        UIManager.instance.HideGameHUD();
-        UIManager.instance.ShowPauseMenu();
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = false;
-        Cursor.lockState = CursorLockMode.Confined;
-        Camera.main.GetComponent<RayInetractor>().enabled = false;
-        Time.timeScale = 0f;
+        if(UIManager.instance != null)
+        {
+            UIManager.instance.HideGameHUD();
+            UIManager.instance.ShowPauseMenu();
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = false;
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+            Camera.main.GetComponent<RayInetractor>().enabled = false;
+            Time.timeScale = 0f;
+        }
+        
     }
 
     public void ResumeGame()
     {
-        UIManager.instance.ShowGameHUD();
-        UIManager.instance.HidePauseMenu();
-        UIManager.instance.HideSettingsMenu();
-        UIManager.instance.HideHowToPlayDayPanel();
-        UIManager.instance.HideHowToPlayNightPanel();
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = true;
-        Cursor.lockState = CursorLockMode.Locked;
-        Camera.main.GetComponent<RayInetractor>().enabled = true;
-        Time.timeScale = 1f;
+        if (UIManager.instance != null)
+        {
+            UIManager.instance.ShowGameHUD();
+            UIManager.instance.HidePauseMenu();
+            UIManager.instance.HideSettingsMenu();
+            UIManager.instance.HideHowToPlayDayPanel();
+            UIManager.instance.HideHowToPlayNightPanel();
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().canMove = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Camera.main.GetComponent<RayInetractor>().enabled = true;
+            Time.timeScale = 1f;
+        }
+            
     }
 
     public void OpenSettings()
@@ -550,6 +563,7 @@ public class GameManager : MonoBehaviour
 
     public void QuitToMainMenu()
     {
+        _isGamePaused = false;
         instance.resetGameStats(true);
         SceneManager.LoadScene("MainMenu");
 

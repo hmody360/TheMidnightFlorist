@@ -21,5 +21,6 @@ public class GameLeaver : MonoBehaviour, Iinteractable
     {
         GameManager.instance.QuitToMainMenu();
         Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
 }
