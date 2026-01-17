@@ -14,11 +14,13 @@ public class GameLeaver : MonoBehaviour, Iinteractable
 
     private void Start()
     {
-        ActionName = "Leave? (Exit Game)";
+        ActionName = "Leave? (Go To Main Menu)";
     }
 
     public void Interact()
     {
-        Application.Quit();
+        GameManager.instance.QuitToMainMenu();
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
 }

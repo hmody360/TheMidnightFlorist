@@ -7,8 +7,6 @@ using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
-
-
     public Coroutine CrosshairCoroutine;
 
     public bool didSceneChange = true;
@@ -46,6 +44,17 @@ public class UIManager : MonoBehaviour
 
     [Header("GameOver Related")]
     [SerializeField] private GameObject _gameOverPanel;
+
+    [Header("Dialogue Related")]
+    [SerializeField] private GameObject _DialogueBox;
+    [SerializeField] private TextMeshProUGUI _nameText;
+    [SerializeField] private TextMeshProUGUI _dialogueText;
+
+    [Header("Pause Game Related")]
+    [SerializeField] private GameObject _PauseMenuHolder;
+    [SerializeField] private GameObject _SettingsHolder;
+    [SerializeField] private GameObject _HowToPlayDayHolder;
+    [SerializeField] private GameObject _HowToPlayNightHolder;
 
     public static UIManager instance;
 
@@ -305,6 +314,74 @@ public class UIManager : MonoBehaviour
     public void setTotalBouquetPrice(float price)
     {
         _currentPriceHolder.text = price.ToString();
+    }
+
+    // Dialogue Management
+
+    public void ShowDialogueBox()
+    {
+        _DialogueBox.SetActive(true);
+    }
+
+    public void HideDialogueBox()
+    {
+        _DialogueBox.SetActive(false);
+    }
+
+    public void SetDialogueName(string name)
+    {
+        _nameText.text = name;
+    }
+
+    public void SetDialogueText(string text)
+    {
+        _dialogueText.text = text;
+    }
+
+    public TextMeshProUGUI GetDialougeTextObj()
+    {
+        return _dialogueText;
+    }
+
+    // Pause Game Management
+
+    public void ShowPauseMenu()
+    {
+        _PauseMenuHolder.SetActive(true);
+    }
+
+    public void HidePauseMenu()
+    {
+        _PauseMenuHolder.SetActive(false);
+    }
+
+    public void ShowSettingsMenu()
+    {
+        _SettingsHolder.SetActive(true);
+    }
+    public void HideSettingsMenu()
+    {
+        _SettingsHolder.SetActive(false);
+    }
+
+    public void ShowHowToPlayDayPanel()
+    {
+        _HowToPlayDayHolder.SetActive(true);
+    }
+
+    public void HideHowToPlayDayPanel()
+    {
+        _HowToPlayDayHolder.SetActive(false);
+    }
+
+    public void ShowHowToPlayNightPanel()
+    {
+        _HowToPlayNightHolder.SetActive(true);
+    }
+
+    public void HideHowToPlayNightPanel()
+    {
+        _HowToPlayNightHolder.SetActive(false);
     }
 
 }

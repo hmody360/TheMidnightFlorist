@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8353789000022985229}
   - component: {fileID: 465657331645455599}
-  - component: {fileID: 8897767981811511082}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -60,15 +59,3 @@ MonoBehaviour:
   _isDayFinished: 0
   _clock: {fileID: 0}
   _gameSoundtrackManager: {fileID: 0}
---- !u!114 &8897767981811511082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5881892107372675858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eeb5ae33679172a49a9f83ebcbea7c83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Preloader
