@@ -80,6 +80,9 @@ public class NightGameManager : MonoBehaviour
     [Tooltip("Total flowers needed this night")]
     [SerializeField] private int flowersNeededThisNight = 0;
 
+    [Header("=== Game Status ===")]
+    [SerializeField] private bool hasPlayerLost = false;
+
     // ????????????????????????????????????????????????????????????????????????????
     // ?                         DEBUG SETTINGS                                    ?
     // ????????????????????????????????????????????????????????????????????????????
@@ -537,7 +540,7 @@ public class NightGameManager : MonoBehaviour
 
         isGameOver = true;
         isNightRunning = false;
-
+        hasPlayerLost = true;
         if (showDebugLogs)
         {
             Debug.Log($"GameManager: Player caught by monster on Night {currentNight}!");
@@ -573,6 +576,7 @@ public class NightGameManager : MonoBehaviour
 
         isGameOver = true;
         isNightRunning = false;
+        hasPlayerLost = true;
 
         if (showDebugLogs)
         {
@@ -779,9 +783,17 @@ public class NightGameManager : MonoBehaviour
         isPaused = false;
         Time.timeScale = 1f;
 
-        GameManager.instance.nextDay();
+        if (hasPlayerLost)
+        {
+            GameManager.instance.resetGameStats(true);
+        }
+        else
+        {
+            GameManager.instance.nextDay();
+        }
 
-        SceneManager.LoadScene(daySceneName);
+
+            SceneManager.LoadScene(daySceneName);
     }
 
     // ===== MERGE SECTION: GO TO NIGHT SCENE =====
@@ -820,6 +832,16 @@ public class NightGameManager : MonoBehaviour
         isGameOver = false;
         isPaused = false;
         Time.timeScale = 1f;
+
+        if (hasPlayerLost)
+        {
+            GameManager.instance.resetGameStats(true);
+        }
+        else
+        {
+            GameManager.instance.nextDay();
+        }
+
 
         // Show cursor for menu
         Cursor.visible = true;

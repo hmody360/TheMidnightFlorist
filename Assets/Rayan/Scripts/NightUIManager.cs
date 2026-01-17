@@ -1633,7 +1633,7 @@ public class NightUIManager : MonoBehaviour
             {
                 Debug.Log("UIManager: Loading " + daySceneName);
             }
-            SceneManager.LoadScene(daySceneName);
+            NightGameManager.Instance.GoToDayScene();
         }
         else
         {
