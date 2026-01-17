@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &702246806052525025
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5428801147477143820}
+  - component: {fileID: 1285239315247737177}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5428801147477143820
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702246806052525025}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 30.65447, y: 0, z: -10.92896}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1285239315247737177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702246806052525025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73af8afee21871048a4d17ab65573040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NightUIManager
+  playerMovement: {fileID: 0}
+  flowerImage: {fileID: 0}
+  flowerCountText: {fileID: 0}
+  totalFlowers: 4
+  flowersRemaining: 4
+  flowerTextColor: {r: 1, g: 1, b: 1, a: 1}
+  useFlowerOutline: 1
+  flowerOutlineColor: {r: 0, g: 0, b: 0, a: 1}
+  flowerOutlineThickness: 0.2
+  useFlowerPulseEffect: 1
+  flowerPulseSpeed: 5
+  flowerPulseScale: 1.3
+  timerFrameImage: {fileID: 0}
+  timerText: {fileID: 0}
+  totalGameTimeSeconds: 360
+  isTimerRunning: 0
+  autoStartTimer: 0
+  timerTextColor: {r: 1, g: 1, b: 1, a: 1}
+  timerFrameTint: {r: 0.4, g: 0.4, b: 0.4, a: 1}
+  postProcessVolume: {fileID: 0}
+  dawnStartPercent: 0.916
+  useBrightnessEffect: 1
+  nightPostExposure: -0.8
+  dawnPostExposure: 0.5
+  useColorFilter: 1
+  nightColorFilter: {r: 0.102, g: 0.165, b: 0.29, a: 1}
+  dawnColorFilter: {r: 1, g: 0.894, b: 0.769, a: 1}
+  useSaturation: 1
+  nightSaturation: -25
+  dawnSaturation: 10
+  useContrast: 1
+  nightContrast: 15
+  dawnContrast: 20
+  useVignetteFade: 1
+  nightVignetteIntensity: 0.25
+  dawnVignetteIntensity: 0
+  nightVignetteSmoothness: 0.716
+  dawnVignetteSmoothness: 1
+  moonIcon: {fileID: 0}
+  nightText: {fileID: 0}
+  currentNight: 1
+  nightTextFormat: Night {0}
+  nightTextColor: {r: 1, g: 1, b: 1, a: 1}
+  moonTint: {r: 1, g: 1, b: 1, a: 1}
+  staminaStoneFrame: {fileID: 0}
+  staminaFillBarLeftRect: {fileID: 0}
+  staminaFillBarRightRect: {fileID: 0}
+  staminaFillBarLeftImage: {fileID: 0}
+  staminaFillBarRightImage: {fileID: 0}
+  staminaDarkBackground: {fileID: 0}
+  staminaCanvasGroup: {fileID: 0}
+  staminaMaxFillWidth: 145
+  staminaFillHeight: 5
+  staminaShowThreshold: 18
+  staminaFadeSpeed: 3
+  useStaminaColorGradient: 1
+  staminaFullColor: {r: 0.1, g: 0.3, b: 0.6, a: 1}
+  staminaEmptyColor: {r: 0.05, g: 0.1, b: 0.25, a: 1}
+  staminaStoneFrameTint: {r: 0.4, g: 0.4, b: 0.4, a: 1}
+  staminaBackgroundColor: {r: 0.08, g: 0.08, b: 0.1, a: 0.95}
+  useStaminaRechargeEffect: 1
+  staminaPulseSpeed: 3
+  staminaRechargeColorBright: {r: 0.2, g: 0.4, b: 0.7, a: 1}
+  staminaRechargeColorDark: {r: 0.05, g: 0.1, b: 0.25, a: 1}
+  gameOverMainPanel: {fileID: 0}
+  gameOverStoneFrameImage: {fileID: 0}
+  gameOverBackgroundOverlay: {fileID: 0}
+  winBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  lossBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  gameOverTitleText: {fileID: 0}
+  gameOverNightStatusText: {fileID: 0}
+  gameOverReasonText: {fileID: 0}
+  gameOverTimeText: {fileID: 0}
+  gameOverActionButton: {fileID: 0}
+  gameOverActionButtonText: {fileID: 0}
+  gameOverMenuButton: {fileID: 0}
+  gameOverMenuButtonText: {fileID: 0}
+  daySceneName: DayScene
+  menuSceneName: MainMenu
+  winTitle: YOU SURVIVED
+  winNightStatus: Night {0} Complete!
+  winReason: You made it to the store safely!
+  winButtonText: Next Day
+  lossTitle: YOU LOST
+  lossNightStatus: Night {0} Failed
+  lossButtonText: Restart
+  lossReason_Monster: You have been killed
+  lossReason_TimeOut_HadFlowers: You opened late
+  lossReason_TimeOut_NoFlowers: You did not collect all flowers
+  menuButtonLabel: Menu
+  timeFormat: 'Time: {0}'
+  winTitleColor: {r: 0.2, g: 0.8, b: 0.2, a: 1}
+  lossTitleColor: {r: 0.8, g: 0.2, b: 0.2, a: 1}
+  gameOverNormalTextColor: {r: 1, g: 1, b: 1, a: 1}
+  showDebugLogs: 1

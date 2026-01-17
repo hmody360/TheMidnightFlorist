@@ -34,6 +34,32 @@ public class NightUIManager : MonoBehaviour
     [Tooltip("Reference to PlayerMovement for stamina and movement control")]
     public PlayerMovement playerMovement;
 
+
+    // 
+    //                          PROMPT & CROSSHAIR UI                            
+    // 
+
+    [Header("=== CROSSHAIR UI ===")]
+    [Tooltip("The crosshair image")]
+    [SerializeField] private Image crosshairImage;
+
+    [Tooltip("Array of crosshair sprites (0 = normal, 1 = interaction)")]
+    [SerializeField] private Sprite[] crosshairSprites;
+
+    [Tooltip("Normal crosshair size")]
+    [SerializeField] private Vector2 normalCrosshairSize = new Vector2(5f, 5f);
+
+    [Tooltip("Interaction crosshair size")]
+    [SerializeField] private Vector2 interactionCrosshairSize = new Vector2(20f, 25f);
+
+    [Header("=== PROMPT TEXT UI ===")]
+    [Tooltip("The prompt text (shows action like 'Pick Up Flower')")]
+    [SerializeField] private TextMeshProUGUI promptText;
+
+    [Tooltip("Is a timed/deny prompt currently showing?")]
+    private bool isDenyPromptShowing = false;
+
+
     // ????????????????????????????????????????????????????????????????????????????
     // ?                    FLOWER COUNTER UI ELEMENTS                             ?
     // ????????????????????????????????????????????????????????????????????????????
@@ -1658,38 +1684,84 @@ public class NightUIManager : MonoBehaviour
         return isWin;
     }
 
-    // ????????????????????????????????????????????????????????????????????????????
-    // ?                    PLACEHOLDER METHODS FOR FRIEND                         ?
-    // ?         (These are called by RayInteractor - friend will implement)       ?
-    // ????????????????????????????????????????????????????????????????????????????
 
-    // ===== MERGE SECTION: CROSSHAIR (Friend will implement) =====
+    // ===== CROSSHAIR =====
     /// <summary>
-    /// Change crosshair state (0 = normal, 1 = interaction)
-    /// TODO: Friend will implement this
+    /// Change crosshair state (0 = normal dot, 1 = interaction icon)
     /// </summary>
-    public void ChangeCrossHair(int state)
+    public void ChangeCrossHair(int spriteIndex)
     {
-        // Placeholder - Friend will implement crosshair system
-        // if (showDebugLogs)
-        // {
-        //     Debug.Log($"UIManager: ChangeCrossHair called with state {state} - NOT IMPLEMENTED");
-        // }
+        if (crosshairImage == null || crosshairSprites == null || crosshairSprites.Length == 0)
+        {
+            return;
+        }
+
+        // Clamp index to valid range
+        spriteIndex = Mathf.Clamp(spriteIndex, 0, crosshairSprites.Length - 1);
+
+        // Change sprite
+        crosshairImage.sprite = crosshairSprites[spriteIndex];
+
+        // Change size based on state
+        if (spriteIndex == 0)
+        {
+            crosshairImage.rectTransform.sizeDelta = normalCrosshairSize;
+        }
+        else
+        {
+            crosshairImage.rectTransform.sizeDelta = interactionCrosshairSize;
+        }
     }
 
-    // ===== MERGE SECTION: PROMPT TEXT (Friend will implement) =====
+    // ===== PROMPT TEXT =====
     /// <summary>
-    /// Set interaction prompt text
-    /// TODO: Friend will implement this
+    /// Set interaction prompt text (shows what action player can do)
     /// </summary>
-    public void setPromptText(string text, Color color)
+    public void setPromptText(string text, Color color, bool isTimedPrompt = false)
     {
-        // Placeholder - Friend will implement prompt system
-        // if (showDebugLogs)
-        // {
-        //     Debug.Log($"UIManager: setPromptText called with '{text}' - NOT IMPLEMENTED");
-        // }
+        if (promptText == null)
+        {
+            return;
+        }
+
+        // If a deny/timed prompt is showing, don't override it
+        if (isDenyPromptShowing && !isTimedPrompt)
+        {
+            return;
+        }
+
+        // Start timed prompt coroutine if needed
+        if (isTimedPrompt)
+        {
+            StartCoroutine(TimedPromptCoroutine());
+        }
+
+        // Set the text and color
+        promptText.color = color;
+        promptText.text = text;
     }
+
+    /// <summary>
+    /// Coroutine for timed prompts (shows for 2 seconds, blocks other prompts)
+    /// </summary>
+    private System.Collections.IEnumerator TimedPromptCoroutine()
+    {
+        isDenyPromptShowing = true;
+        yield return new WaitForSeconds(2f);
+        isDenyPromptShowing = false;
+    }
+
+    /// <summary>
+    /// Clear the prompt text
+    /// </summary>
+    public void ClearPromptText()
+    {
+        if (promptText != null)
+        {
+            promptText.text = string.Empty;
+        }
+    }
+
 
     // ????????????????????????????????????????????????????????????????????????????
     // ?                         EDITOR TESTING                                    ?

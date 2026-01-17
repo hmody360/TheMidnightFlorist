@@ -407,6 +407,7 @@ public class JumpscareManager : MonoBehaviour
         if (playerMovement != null)
         {
             playerMovement.canMove = false;
+            playerMovement.StopMovementAudio(); // Stop walking sound
         }
 
         // Disable Cinemachine Virtual Camera (so it stops controlling the main camera)
