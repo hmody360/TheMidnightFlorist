@@ -138,7 +138,8 @@ public class MonsterAudioManager : MonoBehaviour
     public bool showDebugLogs = true;
 
     // ==================== PRIVATE VARIABLES ====================
-    private AudioSource sfxSource;          // For one-shot sounds (screams, footsteps)
+    private AudioSource sfxSource;          // For one-shot sounds (footsteps)
+    private AudioSource screamSource;       // For screams (long range)
     private AudioSource breathingSource;    // For looped breathing
     private AudioSource chaseMusicSource;   // For chase music
 
@@ -217,7 +218,15 @@ public class MonsterAudioManager : MonoBehaviour
         sfxSource.spatialBlend = 1f; // 3D sound
         sfxSource.rolloffMode = AudioRolloffMode.Linear;
         sfxSource.minDistance = 1f;
-        sfxSource.maxDistance = 30f;
+        sfxSource.maxDistance = 60f;
+
+        // Scream Source (long range - heard from far but still 3D directional)
+        screamSource = gameObject.AddComponent<AudioSource>();
+        screamSource.playOnAwake = false;
+        screamSource.spatialBlend = 1f;           // 3D sound (directional)
+        screamSource.rolloffMode = AudioRolloffMode.Linear;
+        screamSource.minDistance = 5f;            // Full volume up to 5 units
+        screamSource.maxDistance = 150f;          // Can hear from 150 units away!
 
         // Breathing Source (looped)
         breathingSource = gameObject.AddComponent<AudioSource>();
@@ -262,7 +271,10 @@ public class MonsterAudioManager : MonoBehaviour
         AudioClip clip = GetRandomClip(runFootsteps, ref lastRunFootstepIndex);
         if (clip != null)
         {
+            // Pitch up slightly for running (1.5 = 50% faster)
+            sfxSource.pitch = 1.5f;
             sfxSource.PlayOneShot(clip, runFootstepVolume);
+            sfxSource.pitch = 1.0f; // Reset pitch
         }
     }
 
@@ -295,7 +307,7 @@ public class MonsterAudioManager : MonoBehaviour
             return;
         }
 
-        sfxSource.PlayOneShot(alertScreamSound, alertScreamVolume);
+        screamSource.PlayOneShot(alertScreamSound, alertScreamVolume);
 
         if (showDebugLogs)
         {
@@ -314,7 +326,7 @@ public class MonsterAudioManager : MonoBehaviour
             return;
         }
 
-        sfxSource.PlayOneShot(investigateScreamSound, investigateScreamVolume);
+        screamSource.PlayOneShot(investigateScreamSound, investigateScreamVolume);
 
         if (showDebugLogs)
         {
@@ -335,7 +347,7 @@ public class MonsterAudioManager : MonoBehaviour
             return;
         }
 
-        sfxSource.PlayOneShot(chaseStartScreamSound, chaseScreamVolume);
+        screamSource.PlayOneShot(chaseStartScreamSound, chaseScreamVolume);
 
         if (showDebugLogs)
         {
@@ -411,7 +423,7 @@ public class MonsterAudioManager : MonoBehaviour
         // Play the clip if we have one
         if (clipToPlay != null)
         {
-            sfxSource.PlayOneShot(clipToPlay, chaseScreamVolume);
+            screamSource.PlayOneShot(clipToPlay, chaseScreamVolume);
 
             if (showDebugLogs)
             {

@@ -304,6 +304,28 @@ public class FlowerSpawnManager : MonoBehaviour
 
     // ==================== PUBLIC HELPER METHODS ====================
     /// <summary>
+    /// Get list of flower zone names that were spawned this night
+    /// Used by TaskUIManager to show objectives
+    /// </summary>
+    public List<string> GetSpawnedFlowerNames()
+    {
+        List<string> names = new List<string>();
+        foreach (GameObject flower in spawnedFlowers)
+        {
+            if (flower != null)
+            {
+                // Extract zone name from flower name (format: "Flower_ZoneName_PrefabName")
+                string[] parts = flower.name.Split('_');
+                if (parts.Length >= 2)
+                {
+                    names.Add(parts[1]); // Zone name (e.g., "Red Rose")
+                }
+            }
+        }
+        return names;
+    }
+
+    /// <summary>
     /// Check if all flowers are collected this night
     /// </summary>
     public bool AreAllFlowersCollected()

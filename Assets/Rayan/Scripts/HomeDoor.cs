@@ -16,6 +16,7 @@ using UnityEngine;
 // - Player looks at door ? ActionName shows based on flower status
 // - All flowers collected ? Shows "readyActionName" ? Click to win
 // - Flowers remaining ? Shows "notReadyActionName" ? Click plays error sound
+// - Night not started ? Shows "nightNotStartedActionName" ? Click plays error sound
 // ================================================================================
 
 [RequireComponent(typeof(Collider))]
@@ -27,6 +28,12 @@ public class HomeDoor : MonoBehaviour, Iinteractable
     {
         get
         {
+            // Check if night has started
+            if (!IsNightRunning())
+            {
+                return nightNotStartedActionName;
+            }
+
             // Change prompt based on whether all flowers are collected
             if (AreAllFlowersCollected())
             {
@@ -43,10 +50,23 @@ public class HomeDoor : MonoBehaviour, Iinteractable
     // ==================== SETTINGS ====================
     [Header("=== ACTION NAMES (Shown as UI Prompt) ===")]
     [Tooltip("Prompt shown when all flowers are collected")]
-    public string readyActionName = "Go Home";
+    public string readyActionName = "Go In";
 
     [Tooltip("Prompt shown when flowers are still remaining")]
-    public string notReadyActionName = "Collect all flowers first!";
+    public string notReadyActionName = "You need to collect all flowers";
+
+    [Tooltip("Prompt shown when night hasn't started yet")]
+    public string nightNotStartedActionName = "Collect all flowers";
+
+    [Header("=== PROMPT COLORS ===")]
+    [Tooltip("Color for ready prompt (all flowers collected)")]
+    public Color readyColor = Color.green;
+
+    [Tooltip("Color for not ready prompt (flowers remaining)")]
+    public Color notReadyColor = new Color(0.8f, 0.2f, 0.2f, 1f); // Dark red
+
+    [Tooltip("Color for night not started prompt")]
+    public Color nightNotStartedColor = new Color(0.5f, 0.5f, 0.5f, 1f); // Gray
 
     [Header("=== AUDIO (Optional) ===")]
     [Tooltip("Sound played when trying to enter without all flowers")]
@@ -191,6 +211,13 @@ public class HomeDoor : MonoBehaviour, Iinteractable
             return;
         }
 
+        // Check if night has started
+        if (!IsNightRunning())
+        {
+            OnNightNotStarted();
+            return;
+        }
+
         // Check if all flowers are collected
         if (AreAllFlowersCollected())
         {
@@ -204,12 +231,50 @@ public class HomeDoor : MonoBehaviour, Iinteractable
         }
     }
 
+    // ==================== PROMPT COLOR ====================
+    /// <summary>
+    /// Gets the current prompt color based on game state
+    /// Can be used by RayInteractor to color the prompt text
+    /// </summary>
+    public Color GetPromptColor()
+    {
+        if (!IsNightRunning())
+        {
+            return nightNotStartedColor;
+        }
+
+        if (AreAllFlowersCollected())
+        {
+            return readyColor;
+        }
+
+        return notReadyColor;
+    }
+
     // ==================== WIN CONDITION ====================
+    /// <summary>
+    /// Checks if the night is currently running
+    /// </summary>
+    private bool IsNightRunning()
+    {
+        if (NightGameManager.Instance != null)
+        {
+            return NightGameManager.Instance.IsNightRunning();
+        }
+        return false;
+    }
+
     /// <summary>
     /// Checks if all flowers have been collected
     /// </summary>
     private bool AreAllFlowersCollected()
     {
+        // First check if night is running - if not, can't have collected flowers
+        if (!IsNightRunning())
+        {
+            return false;
+        }
+
         // Check FlowerSpawnManager first
         if (FlowerSpawnManager.Instance != null)
         {
@@ -225,6 +290,23 @@ public class HomeDoor : MonoBehaviour, Iinteractable
         // If neither exists, log warning and return false
         Debug.LogWarning("HomeDoor: Neither FlowerSpawnManager nor NightGameManager found!");
         return false;
+    }
+
+    /// <summary>
+    /// Called when player tries to enter before starting the night
+    /// </summary>
+    private void OnNightNotStarted()
+    {
+        if (showDebugLogs)
+        {
+            Debug.Log("HomeDoor: Night hasn't started! Player needs to enter the maze first.");
+        }
+
+        // Play error sound
+        if (errorSound != null)
+        {
+            AudioSource.PlayClipAtPoint(errorSound, transform.position, soundVolume);
+        }
     }
 
     /// <summary>
@@ -362,10 +444,12 @@ public class HomeDoor : MonoBehaviour, Iinteractable
     [ContextMenu("Debug: Check Flower Status")]
     public void DebugCheckFlowerStatus()
     {
+        bool nightRunning = IsNightRunning();
         bool allCollected = AreAllFlowersCollected();
         int remaining = GetFlowersRemaining();
 
         Debug.Log("===== HOME DOOR STATUS =====");
+        Debug.Log($"Night Running: {nightRunning}");
         Debug.Log($"All Flowers Collected: {allCollected}");
         Debug.Log($"Flowers Remaining: {remaining}");
         Debug.Log($"Current Action Name: {ActionName}");

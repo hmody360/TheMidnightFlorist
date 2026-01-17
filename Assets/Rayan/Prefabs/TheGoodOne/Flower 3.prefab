@@ -146,8 +146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c1ceb6fbb0a10499de3dd2670d1cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlowerAudioManager
-  pickupSound: {fileID: 0}
-  allCollectedSound: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 1199ddc9279351540a940fccd8502ede, type: 3}
+  allCollectedSound: {fileID: 8300000, guid: 4e4525436d28e7d4a92cdbf00fb8e0a0, type: 3}
   pickupVolume: 1
   allCollectedVolume: 1
 --- !u!114 &7633484736366248146

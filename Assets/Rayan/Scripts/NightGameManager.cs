@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -31,7 +32,7 @@ public class NightGameManager : MonoBehaviour
     public string daySceneName = "FlowershopScene";
 
     [Tooltip("Name of the Night Scene")]
-    public string nightSceneName = "NightScene";
+    public string nightSceneName = "BackyardScene";
 
     [Tooltip("Name of the Main Menu Scene")]
     public string mainMenuSceneName = "MainMenu";
@@ -315,6 +316,18 @@ public class NightGameManager : MonoBehaviour
             Debug.LogWarning("GameManager: FlowerSpawnManager not found! Flowers will not spawn.");
         }
 
+        // ----- Setup Task UI -----
+        if (TaskUIManager.Instance != null && flowerSpawnManager != null)
+        {
+            List<string> flowerNames = flowerSpawnManager.GetSpawnedFlowerNames();
+            TaskUIManager.Instance.InitializeTasksForNight(flowerNames);
+
+            if (showDebugLogs)
+            {
+                Debug.Log("GameManager: Task UI initialized with flower names.");
+            }
+        }
+
         // ----- Enable Player Movement -----
         if (playerMovement != null)
         {
@@ -381,6 +394,12 @@ public class NightGameManager : MonoBehaviour
             uiManager.CollectFlower();
         }
 
+        // Update Task UI - mark task as complete
+        if (TaskUIManager.Instance != null)
+        {
+            TaskUIManager.Instance.MarkNextTaskComplete();
+        }
+
         if (showDebugLogs)
         {
             Debug.Log($"GameManager: Flower collected! {flowersCollectedThisNight}/{flowersNeededThisNight}");
@@ -407,10 +426,11 @@ public class NightGameManager : MonoBehaviour
             Debug.Log("GameManager: ALL FLOWERS COLLECTED! Player can now return home to win.");
         }
 
-        // ============================================
-        // TODO: Add any "all collected" effects here
-        // Example: Play special sound, show UI message, etc.
-        // ============================================
+        // Update Task UI to show return message
+        if (TaskUIManager.Instance != null)
+        {
+            TaskUIManager.Instance.ShowReturnMessage();
+        }
     }
 
     // ===== MERGE SECTION: CHECK ALL FLOWERS COLLECTED =====
@@ -419,6 +439,11 @@ public class NightGameManager : MonoBehaviour
     /// </summary>
     public bool AreAllFlowersCollected()
     {
+        // Must have night running AND flowers needed > 0 AND collected all
+        if (!isNightRunning || flowersNeededThisNight <= 0)
+        {
+            return false;
+        }
         return flowersCollectedThisNight >= flowersNeededThisNight;
     }
 
@@ -490,6 +515,12 @@ public class NightGameManager : MonoBehaviour
         {
             playerMovement.canMove = false;
         }
+
+        // Hide Task UI
+        if (TaskUIManager.Instance != null)
+        {
+            TaskUIManager.Instance.HideTaskPanel();
+        }
     }
 
     // ????????????????????????????????????????????????????????????????????????????
@@ -524,6 +555,12 @@ public class NightGameManager : MonoBehaviour
         {
             playerMovement.canMove = false;
         }
+
+        // Hide Task UI
+        if (TaskUIManager.Instance != null)
+        {
+            TaskUIManager.Instance.HideTaskPanel();
+        }
     }
 
     // ===== MERGE SECTION: ON TIME UP =====
@@ -552,6 +589,12 @@ public class NightGameManager : MonoBehaviour
         if (playerMovement != null)
         {
             playerMovement.canMove = false;
+        }
+
+        // Hide Task UI
+        if (TaskUIManager.Instance != null)
+        {
+            TaskUIManager.Instance.HideTaskPanel();
         }
     }
 
