@@ -191963,15 +191963,15 @@ PrefabInstance:
       objectReference: {fileID: 923422561304369526}
     - target: {fileID: 1285239315247737177, guid: b2c1b8a0197363e4581239079bdedfe4, type: 3}
       propertyPath: nightColorFilter.b
-      value: 1.4088049
+      value: 0.7058824
       objectReference: {fileID: 0}
     - target: {fileID: 1285239315247737177, guid: b2c1b8a0197363e4581239079bdedfe4, type: 3}
       propertyPath: nightColorFilter.g
-      value: 0.78562295
+      value: 0.39215687
       objectReference: {fileID: 0}
     - target: {fileID: 1285239315247737177, guid: b2c1b8a0197363e4581239079bdedfe4, type: 3}
       propertyPath: nightColorFilter.r
-      value: 0.47403178
+      value: 0.23529412
       objectReference: {fileID: 0}
     - target: {fileID: 1285239315247737177, guid: b2c1b8a0197363e4581239079bdedfe4, type: 3}
       propertyPath: staminaCanvasGroup
@@ -233461,6 +233461,7 @@ MonoBehaviour:
   isGameOver: 0
   flowersCollectedThisNight: 0
   flowersNeededThisNight: 4
+  hasPlayerLost: 0
   showDebugLogs: 1
 --- !u!33 &3465083056498508498
 MeshFilter:
